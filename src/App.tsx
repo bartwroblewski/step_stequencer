@@ -1,5 +1,6 @@
 import React from 'react';
 import NewItemModal from './components/NewItemModal'
+import Test from './components/Test'
 
 const App = () => {
 
@@ -9,10 +10,6 @@ const App = () => {
     setModalVisible(prev => !prev)
   }
 
-  React.useEffect(() => {
-    console.log(modalVisible)
-  }, [modalVisible])
-
   return (
     <div>
       {modalVisible 
@@ -20,6 +17,7 @@ const App = () => {
         : null
       }
       <button onClick={toggleModal}>Toggle modal</button>
+      <Test />
     </div>
   );
 }

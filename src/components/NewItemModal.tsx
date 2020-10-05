@@ -7,7 +7,6 @@ const NewItemModal = () => {
       <NameInput />
       <MileageInput />
       <BikeInput />
-      
     </div>
   )
 }
