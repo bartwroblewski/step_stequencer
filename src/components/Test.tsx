@@ -12,8 +12,6 @@ const Input = ({type, label}: {type: string, label?: string}) => {
     )
 }
 
-
-
 const TextInput = ({label}: {label?: string}) => <Input type="text" label={label} />
 const NumberInput = ({label}: {label?: string}) => <Input type="number" label={label} />
 
@@ -31,7 +29,10 @@ const Inputs = () => {
 
 const Test = () => {
     return (
-        <Inputs />
+        <div>
+            Test inputs:
+            <Inputs />
+        </div>
     )
 }
 
