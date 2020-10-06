@@ -4,18 +4,32 @@ import '../css/NewItemModal.css'
 
 interface NewItemModalProps {
   toggleModal: (e: any) => void,
+  inputs: JSX.Element[],
 }
 
-const NewItemModal = ({toggleModal}: NewItemModalProps) => {
+const NewItemModal = ({toggleModal, inputs}: NewItemModalProps) => {
   return (
     <div className="modal" onClick={toggleModal}>
       <div className="modal-content" onClick={e => e.stopPropagation()}> {/*  prevent hiding modal on modal content click */}
-        <NameInput />
-        <MileageInput />
-        <BikeInput bikes={['bikeA', 'bikeB', 'bikeC']} />
+        {inputs}
       </div>
     </div>
   )
 }
 
-export default NewItemModal
+interface NewBikeModalProps {
+  toggleModal: (e: any) => void,
+  bikeNames: string[],
+}
+
+const NewBikeModal = ({toggleModal, bikeNames}: NewBikeModalProps) => {
+  const inputs = [
+    <NameInput />,
+    <MileageInput />,
+    <BikeInput bikeNames={bikeNames} />,
+  ]
+
+  return <NewItemModal toggleModal={toggleModal} inputs={inputs} />
+}
+
+export default NewBikeModal

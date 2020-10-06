@@ -22,14 +22,14 @@ const TextInput = ({label}: {label?: string}) => <Input type="text" label={label
 const NumberInput = ({label}: {label?: string}) => <Input type="number" label={label} />
 
 interface BikeInputProps {
-  bikes: string[],
+  bikeNames: string[],
 }
 
 const NameInput = () => <TextInput label="Name" />
 const MileageInput = () => <NumberInput label="Mileage"  />
-const BikeInput = ({bikes}: BikeInputProps) =>
+const BikeInput = ({bikeNames}: BikeInputProps) =>
   <MultiSelect 
-    options={bikes} 
+    options={bikeNames} 
     initial_option="Assign bike(s)..."
   />
 

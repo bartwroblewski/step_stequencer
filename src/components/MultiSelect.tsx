@@ -2,11 +2,10 @@ import React from 'react'
 import { isPropertySignature} from 'typescript'
 import '../css/MultiSelect.css'
 
-type MultiSelectOption = string
 type Selected = Set<string>
 
 interface MultiSelectProps {
-  options: MultiSelectOption[],
+  options: string[],
   initial_option: string,
 }
 
