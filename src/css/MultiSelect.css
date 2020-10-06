@@ -3,6 +3,9 @@
   flex-flow: row wrap;
   width: 100%;
   border: 1px solid black;
+  background: rgb(230, 230, 230);
+  padding: 5px;
+  margin-top: 5px;
 }
 
 .tags-container:empty {
