@@ -1,5 +1,5 @@
 import React from 'react';
-import NewBikeModal from './components/NewItemModal'
+import NewBikeModal from './components/NewBikeModal'
 import Test from './components/Test'
 
 const App = () => {
