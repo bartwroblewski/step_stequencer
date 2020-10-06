@@ -10,6 +10,13 @@ interface NewItemModalProps {
 
 const NewItemModal = ({toggleModal, inputs}: NewItemModalProps) => {
 
+/*   const [inputValue, setInputValue] = React.useState<any>()
+
+  const handleInputChange = (new_value: any) => {
+    setInputValue(new_value)
+  } */
+
+
   const handleOKButtonClick = (e: any) => {
     toggleModal(e)
   }
