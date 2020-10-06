@@ -9,12 +9,17 @@ interface NewItemModalProps {
 }
 
 const NewItemModal = ({toggleModal, inputs}: NewItemModalProps) => {
+
+  const handleOKButtonClick = (e: any) => {
+    toggleModal(e)
+  }
+
   return (
     <div className="modal" onClick={toggleModal}>
       <div className="modal-content" onClick={e => e.stopPropagation()}> {/*  prevent hiding modal on modal content click */}
         {inputs}
         <div className="modal-buttons">
-          <OKButton onClick={toggleModal} />
+          <OKButton onClick={handleOKButtonClick} />
           <CancelButton onClick={toggleModal} />
         </div>
       </div>
