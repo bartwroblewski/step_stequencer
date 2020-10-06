@@ -6,14 +6,16 @@ const App = () => {
 
   const [modalVisible, setModalVisible] = React.useState<boolean>(false)
 
-  const toggleModal = () => {
-    setModalVisible(prev => !prev)
+  const toggleModal = (e: any) => {
+    //if (e.target.className !== 'modal-content') {
+      setModalVisible(prev => !prev)
+    //}
   }
 
   return (
     <div>
       {modalVisible 
-        ? <NewItemModal />
+        ? <NewItemModal toggleModal={toggleModal} />
         : null
       }
       <button onClick={toggleModal}>Toggle modal</button>

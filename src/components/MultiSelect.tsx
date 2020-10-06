@@ -16,7 +16,6 @@ interface TagProps {
 }
 
 const MultiSelect = ({options, initial_option}: MultiSelectProps) => {
-
   const [selected, setSelected] = React.useState<Selected>(new Set([]))
   const [value, setValue] = React.useState<string>()
   

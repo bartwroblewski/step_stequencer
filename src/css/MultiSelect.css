@@ -1,9 +1,7 @@
-.multi-select {}
-
 .tags-container {
   display: flex;
   flex-flow: row wrap;
-  width: 15%;
+  width: 100%;
   border: 1px solid black;
 }
 
