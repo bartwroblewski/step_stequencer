@@ -30,7 +30,7 @@ const MileageInput = () => <NumberInput label="Mileage"  />
 const BikeInput = ({bikeNames}: BikeInputProps) =>
   <MultiSelect 
     options={bikeNames} 
-    initial_option="Assign bike(s)..."
+    placeholder_text="Assign bike(s)..."
   />
 
 export { NameInput, MileageInput, BikeInput }

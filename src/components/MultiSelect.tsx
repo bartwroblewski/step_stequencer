@@ -6,7 +6,7 @@ type Selected = Set<string>
 
 interface MultiSelectProps {
   options: string[],
-  initial_option: string,
+  placeholder_text: string,
 }
 
 interface TagProps {
@@ -14,7 +14,7 @@ interface TagProps {
   remove: (arg: any) => void
 }
 
-const MultiSelect = ({options, initial_option}: MultiSelectProps) => {
+const MultiSelect = ({options, placeholder_text}: MultiSelectProps) => {
   const [selected, setSelected] = React.useState<Selected>(new Set([]))
   const [value, setValue] = React.useState<string>()
   
@@ -34,10 +34,10 @@ const MultiSelect = ({options, initial_option}: MultiSelectProps) => {
   }
 
   const resetValue = () => {
-    setValue(initial_option)
+    setValue(placeholder_text)
   }
 
-  const header = <option disabled>{value}</option>
+  const header = <option disabled>{placeholder_text}</option>
   const opts = [header].concat(options.map(o => <option>{o}</option>))
   const tags = Array.from(selected).map(s => {
      return <Tag text={s} remove={removeSelected} />
