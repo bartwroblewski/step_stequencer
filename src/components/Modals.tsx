@@ -1,6 +1,6 @@
 import React from 'react'
 import { NameInput, MileageInput, BikeInput } from './Inputs'
-import { OKButton, CancelButton, SubmitButton } from './Buttons'
+import { CancelButton, SubmitButton } from './Buttons'
 import AddGearForm from './Forms'
 import '../css/NewItemModal.css'
 
@@ -36,6 +36,7 @@ const NewGearModal = ({toggleModal, bikeNames}: NewGearModalProps) => {
       itemForm={
         <AddGearForm
           onSubmit={toggleModal}
+          onCancel={toggleModal}
           bikeNames={bikeNames}
         />
       }

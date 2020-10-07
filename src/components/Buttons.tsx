@@ -3,7 +3,7 @@ import React from 'react'
 interface FormButtonProps {
     text: string,
     onClick?: (e: any) => void,
-    type?: 'submit' | 'reset' | 'button',
+    type: 'submit' | 'reset' | 'button',
 }
 
 const FormButton = ({text, onClick, type}: FormButtonProps) => {
@@ -13,15 +13,6 @@ const FormButton = ({text, onClick, type}: FormButtonProps) => {
             onClick={onClick}
             className="modal-button">{text}
         </button>
-    )
-}
-
-const OKButton = ({onClick}: {onClick: (e: any) => void}) => {
-    return (
-        <FormButton 
-            text="OK"  
-            onClick={onClick}
-        />
     )
 }
 
@@ -37,10 +28,11 @@ const SubmitButton = () => {
 const CancelButton = ({onClick}: {onClick: (e: any) => void}) => {
     return (
         <FormButton 
+            type="button"
             text="Cancel"  
             onClick={onClick}
         />
     )
 }
 
-export { OKButton, SubmitButton, CancelButton }
+export { SubmitButton, CancelButton }
