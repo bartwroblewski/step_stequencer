@@ -1,6 +1,7 @@
 import React from 'react'
 import { NameInput, MileageInput, BikeInput } from './Inputs'
-import { OKButton, CancelButton } from './Buttons'
+import { OKButton, CancelButton, SubmitButton } from './Buttons'
+import AddGearForm from './Forms'
 import '../css/NewItemModal.css'
 
 interface NewItemModalProps {
@@ -16,7 +17,6 @@ const NewItemModal = ({toggleModal, inputs}: NewItemModalProps) => {
     setInputValue(new_value)
   } */
 
-
   const handleOKButtonClick = (e: any) => {
     toggleModal(e)
   }
@@ -28,18 +28,20 @@ const NewItemModal = ({toggleModal, inputs}: NewItemModalProps) => {
         <div className="modal-buttons">
           <OKButton onClick={handleOKButtonClick} />
           <CancelButton onClick={toggleModal} />
+          <SubmitButton />
         </div>
       </div>
     </div>
   )
 }
 
-interface NewBikeModalProps {
+interface NewGearModalProps {
   toggleModal: (e: any) => void,
   bikeNames: string[],
 }
 
-const NewBikeModal = ({toggleModal, bikeNames}: NewBikeModalProps) => {
+const NewGearModal = ({toggleModal, bikeNames}: NewGearModalProps) => {
+
   const inputs = [
     <NameInput />,
     <MileageInput />,
@@ -49,4 +51,4 @@ const NewBikeModal = ({toggleModal, bikeNames}: NewBikeModalProps) => {
   return <NewItemModal toggleModal={toggleModal} inputs={inputs} />
 }
 
-export default NewBikeModal
+export default NewGearModal

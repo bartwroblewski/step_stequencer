@@ -1,32 +1,46 @@
 import React from 'react'
 
-interface ModalButtonProps {
+interface FormButtonProps {
     text: string,
-    onClick: (e: any) => void,
+    onClick?: (e: any) => void,
+    type?: 'submit' | 'reset' | 'button',
 }
 
-const ModalButton = ({text, onClick}: ModalButtonProps) => {
+const FormButton = ({text, onClick, type}: FormButtonProps) => {
     return (
-        <button onClick={onClick} className="modal-button">{text}</button>
+        <button 
+            type={type}
+            onClick={onClick}
+            className="modal-button">{text}
+        </button>
     )
 }
 
 const OKButton = ({onClick}: {onClick: (e: any) => void}) => {
     return (
-        <ModalButton 
+        <FormButton 
             text="OK"  
             onClick={onClick}
         />
     )
 }
 
+const SubmitButton = () => {
+    return (
+        <FormButton 
+            type="submit"
+            text="OK"  
+        />
+    )
+}
+
 const CancelButton = ({onClick}: {onClick: (e: any) => void}) => {
     return (
-        <ModalButton 
+        <FormButton 
             text="Cancel"  
             onClick={onClick}
         />
     )
 }
 
-export { OKButton, CancelButton }
+export { OKButton, SubmitButton, CancelButton }

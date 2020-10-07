@@ -1,5 +1,5 @@
 import React from 'react';
-import NewBikeModal from './components/NewBikeModal'
+import NewGearModal from './components/NewGearModal'
 import Test from './components/Test'
 
 const App = () => {
@@ -15,7 +15,7 @@ const App = () => {
   return (
     <div>
       {modalVisible 
-        ? <NewBikeModal toggleModal={toggleModal} bikeNames={['bikeA', 'bikeB', 'bikeC']} />
+        ? <NewGearModal toggleModal={toggleModal} bikeNames={['bikeA', 'bikeB', 'bikeC']} />
         : null
       }
       <button onClick={toggleModal}>Toggle modal</button>
