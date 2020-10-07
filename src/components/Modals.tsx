@@ -1,5 +1,5 @@
 import React from 'react'
-import { NameInput, MileageInput, BikeInput } from './Inputs'
+import { NameInput, BikeInput } from './Inputs'
 import { CancelButton, SubmitButton } from './Buttons'
 import AddGearForm from './Forms'
 import '../css/NewItemModal.css'
@@ -25,17 +25,18 @@ const NewItemModal = ({toggleModal, itemForm}: NewItemModalProps) => {
 }
 
 interface NewGearModalProps {
+  addGear: (name: string, mileage: number, bikeName: string) => void,
   toggleModal: (e: any) => void,
   bikeNames: string[],
 }
 
-const NewGearModal = ({toggleModal, bikeNames}: NewGearModalProps) => {
+const NewGearModal = ({addGear, toggleModal, bikeNames}: NewGearModalProps) => {
   return (
     <NewItemModal 
       toggleModal={toggleModal}
       itemForm={
         <AddGearForm
-          onSubmit={toggleModal}
+          onSubmit={addGear}
           onCancel={toggleModal}
           bikeNames={bikeNames}
         />

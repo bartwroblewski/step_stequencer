@@ -1,13 +1,14 @@
 import React from 'react'
 import { JsxEmit, OperationCanceledException } from 'typescript'
-import { NameInput, MileageInput, BikeInput } from './Inputs'
+import { NameInput, BikeInput } from './Inputs'
 import { SubmitButton, CancelButton } from './Buttons'
 
 type onSubmit = (e: any) => void
 type onCancel = (e: any) => void
+type onChange = (e: any) => void
 
 interface SubmitFormProps {
-    onSubmit: onSubmit,
+    onSubmit: any,
     onCancel: onCancel,
     inputs: JSX.Element[], 
 }
@@ -15,8 +16,8 @@ interface SubmitFormProps {
 const SubmitForm = ({onSubmit, onCancel, inputs}: SubmitFormProps) => {
 
     const handleSubmit = (e: any) => {
-        console.log('submit')
-        onSubmit(inputs)
+        e.preventDefault()
+        onSubmit()
     }
 
     const handleCancel = (e: any) => {
@@ -25,7 +26,7 @@ const SubmitForm = ({onSubmit, onCancel, inputs}: SubmitFormProps) => {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={(e: any) => handleSubmit(e)}>
             {inputs}
             <SubmitButton />
             <CancelButton onClick={handleCancel} />
@@ -34,18 +35,27 @@ const SubmitForm = ({onSubmit, onCancel, inputs}: SubmitFormProps) => {
 }
 
 interface AddGearFormProps {
-    onSubmit: onSubmit,
+    onSubmit: any,
     onCancel: onCancel,
     bikeNames: string[],
 }
 const AddGearForm = ({onSubmit, onCancel, bikeNames}: AddGearFormProps) => {
+
+    const [name, setName] = React.useState<string>('Name')
+    const [mileage, setMileage] = React.useState<number>(4343)
+    const [bikeName, setBikeName] = React.useState<string>('bikeName')
+
+    const handleNameChange = (newName: string) => setName(newName)
+    const handleMileageChange = (newMileage: number) => setMileage(newMileage)
+    const handleBikeNameChange = (newBikeName: string) => setBikeName(newBikeName)
+
     return (
         <SubmitForm
-            onSubmit={onSubmit}
+            onSubmit={() => onSubmit(name, mileage, bikeName)}
             onCancel={onCancel}
             inputs={[
-                <NameInput />,
-                <MileageInput />,
+                <NameInput onChange={(e: any) => handleNameChange(e.target.value)} />,
+                //<MileageInput />,
                 <BikeInput bikeNames={bikeNames} />,
             ]}
         />

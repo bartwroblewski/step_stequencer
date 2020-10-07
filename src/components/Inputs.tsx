@@ -5,17 +5,11 @@ import Test from './Test'
 interface InputProps {
     type: string,
     label?: string,
+    onChange: (e: any) => void
   }
 
-const Input = <T,>({type, label}: InputProps) => {
-
-  const [value, setValue] = React.useState<T>()
-
-  const handleChange = (new_value: T) => {
-    console.log(new_value)
-    setValue(new_value)
-  }
-
+const Input = <T,>({type, label, onChange}: InputProps) => {
+  
   return (
     <div>
       {label 
@@ -24,25 +18,37 @@ const Input = <T,>({type, label}: InputProps) => {
       }
       <input 
         type={type}
-        onChange={(e: any) => handleChange(e.target.value)}>
+        onChange={onChange}>
       </input>
     </div>
   )
 }
   
-const TextInput = ({label}: {label?: string}) => <Input<string> type="text" label={label} />
-const NumberInput = ({label}: {label?: string}) => <Input<number> type="number" label={label} />
+const TextInput = ({label, onChange}: {label?: string, onChange: (e: any) => void}) => {
+  return (
+    <Input<string> 
+      type="text"
+      label={label} 
+      onChange={onChange}
+    />
+  )
+  }
+//const NumberInput = ({label}: {label?: string}) => <Input<number> type="number" label={label} />
 
 interface BikeInputProps {
   bikeNames: string[],
 }
 
-const NameInput = () => <TextInput label="Name" />
-const MileageInput = () => <NumberInput label="Mileage"  />
+const NameInput = ({onChange} : {onChange: (e: any) => void}) => {
+  return (
+   <TextInput onChange={onChange} label="Name" />
+  )
+}
+//const MileageInput = () => <NumberInput label="Mileage"  />
 const BikeInput = ({bikeNames}: BikeInputProps) =>
   <MultiSelect 
     options={bikeNames} 
     placeholder_text="Assign bike(s)..."
   />
 
-export { NameInput, MileageInput, BikeInput }
+export { NameInput, BikeInput }
