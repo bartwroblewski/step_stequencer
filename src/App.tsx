@@ -1,5 +1,5 @@
 import React from 'react';
-import NewGearModal from './components/NewGearModal'
+import NewGearModal from './components/Modals'
 import Test from './components/Test'
 
 const App = () => {

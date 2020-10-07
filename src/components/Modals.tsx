@@ -6,16 +6,10 @@ import '../css/NewItemModal.css'
 
 interface NewItemModalProps {
   toggleModal: (e: any) => void,
-  inputs: JSX.Element[],
+  itemForm: JSX.Element,
 }
 
-const NewItemModal = ({toggleModal, inputs}: NewItemModalProps) => {
-
-/*   const [inputValue, setInputValue] = React.useState<any>()
-
-  const handleInputChange = (new_value: any) => {
-    setInputValue(new_value)
-  } */
+const NewItemModal = ({toggleModal, itemForm}: NewItemModalProps) => {
 
   const handleOKButtonClick = (e: any) => {
     toggleModal(e)
@@ -24,12 +18,7 @@ const NewItemModal = ({toggleModal, inputs}: NewItemModalProps) => {
   return (
     <div className="modal" onClick={toggleModal}>
       <div className="modal-content" onClick={e => e.stopPropagation()}> {/*  prevent hiding modal on modal content click */}
-        {inputs}
-        <div className="modal-buttons">
-          <OKButton onClick={handleOKButtonClick} />
-          <CancelButton onClick={toggleModal} />
-          <SubmitButton />
-        </div>
+        {itemForm}
       </div>
     </div>
   )
@@ -41,14 +30,17 @@ interface NewGearModalProps {
 }
 
 const NewGearModal = ({toggleModal, bikeNames}: NewGearModalProps) => {
-
-  const inputs = [
-    <NameInput />,
-    <MileageInput />,
-    <BikeInput bikeNames={bikeNames} />,
-  ]
-
-  return <NewItemModal toggleModal={toggleModal} inputs={inputs} />
+  return (
+    <NewItemModal 
+      toggleModal={toggleModal}
+      itemForm={
+        <AddGearForm
+          onSubmit={toggleModal}
+          bikeNames={bikeNames}
+        />
+      }
+    />
+  )
 }
 
 export default NewGearModal
