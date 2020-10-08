@@ -1,6 +1,6 @@
 import React from 'react'
 import { JsxEmit, OperationCanceledException } from 'typescript'
-import { NameInput, BikeInput } from './Inputs'
+import { NameInput, MileageInput, BikeInput } from './Inputs'
 import { SubmitButton, CancelButton } from './Buttons'
 
 type onSubmit = (e: any) => void
@@ -66,29 +66,13 @@ const AddGearForm = ({onSubmit, onCancel, bikeNames}: AddGearFormProps) => {
     const [mileage, setMileage] = React.useState<number>(4343)
     const [bikeName, setBikeName] = React.useState<string>('bikeName')
 
-    const [inputsValues, setInputsValues] = React.useState<AddGearFormInputsStates>(
-        {
-            name: '',
-            mileage: 0,
-            bikeName: 'no name',
-        }
-    )
-
-    const handleInputChange = (inputState: {input_name: string, input_value: string | number}) => {
-        console.log(inputState, inputsValues)
-        setInputsValues(prev => {
-            return {...prev, ...inputState}
-        })
-    }
-
-
     return (
         <SubmitForm
             onSubmit={() => onSubmit(name, mileage, bikeName)}
             onCancel={onCancel}
             inputs={[
-                <NameInput onChange={handleInputChange} />,
-                //<MileageInput />,
+                <NameInput />,
+                <MileageInput />,
                 <BikeInput bikeNames={bikeNames} />,
             ]}
         />

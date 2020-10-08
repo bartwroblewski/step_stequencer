@@ -54,7 +54,16 @@ const TextInput = ({label, onChange, name}: {label?: string, onChange: any, name
     />
   )
   }
-//const NumberInput = ({label}: {label?: string}) => <Input<number> type="number" label={label} />
+const NumberInput = ({label, onChange, name}: {label?: string, onChange: any, name: string}) => {
+  return (
+    <Input<number>
+      type="number"
+      name={name}
+      label={label}
+      onChange={onChange}
+    />
+  )
+}
 
 interface BikeInputProps {
   bikeNames: string[],
@@ -65,11 +74,15 @@ const NameInput = ({onChange} : any) => {
    <TextInput onChange={onChange} name="name" label="Name" />
   )
 }
-//const MileageInput = () => <NumberInput label="Mileage"  />
+const MileageInput = ({onChange} : any) => {
+  return (
+   <NumberInput onChange={onChange} name="mileage" label="Mileage" />
+  )
+}
 const BikeInput = ({bikeNames}: BikeInputProps) =>
   <MultiSelect 
     options={bikeNames} 
     placeholder_text="Assign bike(s)..."
   />
 
-export { NameInput, BikeInput }
+export { NameInput, MileageInput, BikeInput }
