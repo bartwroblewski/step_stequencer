@@ -15,12 +15,11 @@ interface SubmitFormProps {
 
 const SubmitForm = ({onSubmit, onCancel, inputs}: SubmitFormProps) => {
 
-    const [inputValues, setInputValues] = React.useState<{}>() // any dictionary
+    const [inputValues, setInputValues] = React.useState<any>({}) // any dictionary
 
     const handleSubmit = (e: any) => {
         e.preventDefault()
-        console.log('Will post the following params: ', inputValues)
-        onSubmit()
+        onSubmit(inputValues)
     }
 
     const handleCancel = (e: any) => {
@@ -29,21 +28,21 @@ const SubmitForm = ({onSubmit, onCancel, inputs}: SubmitFormProps) => {
     }
 
     const handleInputChange = (inputState: {input_name: string, input_value: string | number}) => {
-        if (inputState) { // prevent error (inputState empty) on initial Input element useEffect render
+        //if (inputState) { // prevent error (inputState empty) on initial Input element useEffect render
             const name = inputState.input_name
             const value = inputState.input_value
             const obj = {[name]: value}
             setInputValues({...inputValues, ...obj})
-        }
+        //}
     }
 
     const inputsWithChangeHandler = inputs.map(input => {
         return React.cloneElement(input, {onChange: handleInputChange})
     })
 
-    React.useEffect(() => {
+/*     React.useEffect(() => {
         console.log(inputValues)
-    }, [inputValues])
+    }, [inputValues]) */
 
     return (
         <form onSubmit={(e: any) => handleSubmit(e)}>
@@ -60,21 +59,19 @@ interface AddGearFormProps {
     bikeNames: string[],
 }
 
-interface AddGearFormInputsStates {
-    name: string,
-    mileage: number,
-    bikeName: string,
-}
-
 const AddGearForm = ({onSubmit, onCancel, bikeNames}: AddGearFormProps) => {
 
-    const [name, setName] = React.useState<string>('Name')
-    const [mileage, setMileage] = React.useState<number>(4343)
-    const [bikeName, setBikeName] = React.useState<string>('bikeName')
+    const handleSubmit = (inputValues: any) => {
+        onSubmit(
+            inputValues.name,
+            inputValues.mileage,
+            'placeholder bike name',//inputValues.bikeName
+        )
+    }
 
     return (
         <SubmitForm
-            onSubmit={() => onSubmit(name, mileage, bikeName)}
+            onSubmit={(input_values: any) => handleSubmit(input_values)}
             onCancel={onCancel}
             inputs={[
                 <NameInput />,

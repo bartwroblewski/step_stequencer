@@ -16,7 +16,7 @@ interface InputState {
 
 const Input = <T,>({type, label, onChange, name}: InputProps) => {
 
-  const [state, setState] = React.useState<InputState>()
+  const [state, setState] = React.useState<InputState>({input_name: '', input_value: ''})
 
   const handleOnChange = (e: any) => {
     setState({
