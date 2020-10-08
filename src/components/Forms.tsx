@@ -15,7 +15,7 @@ interface SubmitFormProps {
 
 const SubmitForm = ({onSubmit, onCancel, inputs}: SubmitFormProps) => {
 
-    const [inputValues, setInputValues] = React.useState<any>() // any dictionary
+    const [inputValues, setInputValues] = React.useState<any>({}) // any dictionary
 
     const handleSubmit = (e: any) => {
         e.preventDefault()
@@ -28,7 +28,13 @@ const SubmitForm = ({onSubmit, onCancel, inputs}: SubmitFormProps) => {
     }
 
     const handleInputChange = (inputState: {input_name: string, input_value: string | number}) => {
-        setInputValues(inputState)
+        if (inputState) {
+            const name = inputState.input_name
+            const value = inputState.input_value
+            const d = {[name]: value}
+            setInputValues({...inputValues, ...d})
+        }
+        
     }
 
     const inputsWithChangeHandler = inputs.map(input => {
