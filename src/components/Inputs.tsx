@@ -5,11 +5,29 @@ import Test from './Test'
 interface InputProps {
     type: string,
     label?: string,
-    onChange: (e: any) => void
+    onChange: any,
   }
 
+interface InputState {
+  input_name: string,
+  input_value: string | number,
+}
+
 const Input = <T,>({type, label, onChange}: InputProps) => {
-  
+
+  const [state, setState] = React.useState<InputState>()
+
+  const handleOnChange = (e: any) => {
+    setState({
+      input_name: 'placeholder',
+      input_value: e.target.value,
+    })
+  }
+
+  React.useEffect(() => {
+    onChange(state)
+  }, [state])
+
   return (
     <div>
       {label 
@@ -18,13 +36,13 @@ const Input = <T,>({type, label, onChange}: InputProps) => {
       }
       <input 
         type={type}
-        onChange={onChange}>
+        onChange={(e: any) => handleOnChange(e)}>
       </input>
     </div>
   )
 }
   
-const TextInput = ({label, onChange}: {label?: string, onChange: (e: any) => void}) => {
+const TextInput = ({label, onChange}: {label?: string, onChange: any}) => {
   return (
     <Input<string> 
       type="text"
@@ -39,7 +57,7 @@ interface BikeInputProps {
   bikeNames: string[],
 }
 
-const NameInput = ({onChange} : {onChange: (e: any) => void}) => {
+const NameInput = ({onChange} : any) => {
   return (
    <TextInput onChange={onChange} label="Name" />
   )
