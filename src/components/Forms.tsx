@@ -31,10 +31,10 @@ const SubmitForm = ({onSubmit, onCancel, inputs}: SubmitFormProps) => {
         if (inputState) {
             const name = inputState.input_name
             const value = inputState.input_value
-            const d = {[name]: value}
-            setInputValues({...inputValues, ...d})
+            const obj = {[name]: value}
+            setInputValues({...inputValues, ...obj})
         }
-        
+
     }
 
     const inputsWithChangeHandler = inputs.map(input => {
