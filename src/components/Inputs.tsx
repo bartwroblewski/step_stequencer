@@ -6,6 +6,7 @@ interface InputProps {
     type: string,
     label?: string,
     onChange: any,
+    name: string,
   }
 
 interface InputState {
@@ -13,13 +14,13 @@ interface InputState {
   input_value: string | number,
 }
 
-const Input = <T,>({type, label, onChange}: InputProps) => {
+const Input = <T,>({type, label, onChange, name}: InputProps) => {
 
   const [state, setState] = React.useState<InputState>()
 
   const handleOnChange = (e: any) => {
     setState({
-      input_name: 'placeholder',
+      input_name: name,
       input_value: e.target.value,
     })
   }
@@ -36,16 +37,18 @@ const Input = <T,>({type, label, onChange}: InputProps) => {
       }
       <input 
         type={type}
+        name={name}
         onChange={(e: any) => handleOnChange(e)}>
       </input>
     </div>
   )
 }
   
-const TextInput = ({label, onChange}: {label?: string, onChange: any}) => {
+const TextInput = ({label, onChange, name}: {label?: string, onChange: any, name: string}) => {
   return (
     <Input<string> 
       type="text"
+      name={name}
       label={label} 
       onChange={onChange}
     />
@@ -59,7 +62,7 @@ interface BikeInputProps {
 
 const NameInput = ({onChange} : any) => {
   return (
-   <TextInput onChange={onChange} label="Name" />
+   <TextInput onChange={onChange} name="name" label="Name" />
   )
 }
 //const MileageInput = () => <NumberInput label="Mileage"  />
