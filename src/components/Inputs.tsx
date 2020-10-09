@@ -16,12 +16,14 @@ const NameInput = ({onChange}: {onChange: onChange}) => {
   )
 }
 
-const MileageInput = ({onChange}: {onChange: onChange}) => {
+const MileageInput = ({onChange, value}: {onChange: onChange, value: number}) => {
   return (
     <div>
       <label>Mileage: </label>
       <input
         type="number"
+        min="0"
+        value={value}
         onChange={onChange}
       ></input>
     </div>

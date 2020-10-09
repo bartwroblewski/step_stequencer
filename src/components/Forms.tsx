@@ -12,7 +12,7 @@ interface AddGearFormProps {
 const AddGearForm = ({onSubmit, onCancel, bikeNames}: AddGearFormProps) => {
 
     const [name, setName] = React.useState<string>()
-    const [mileage, setMileage] = React.useState<number>()
+    const [mileage, setMileage] = React.useState<number>(0)
     const [bikeName, setBikeName] = React.useState<string>()
 
     const handleNameChange = (newName: string) => setName(newName)
@@ -28,7 +28,10 @@ const AddGearForm = ({onSubmit, onCancel, bikeNames}: AddGearFormProps) => {
         <form onSubmit={(e: any) => handleOnSubmit(e)}>
             <div className="form-inputs">
                 <NameInput onChange={(e: any) => handleNameChange(e.target.value)} />
-                <MileageInput onChange={(e: any) => handleMileageChange(e.target.value)} />
+                <MileageInput 
+                    onChange={(e: any) => handleMileageChange(e.target.value)}
+                    value={mileage}             
+                />
                 <BikeInput 
                     onChange={(e: any) => handleBikeNameChange(e.target.value)}
                     bikeNames={bikeNames}
