@@ -1,16 +1,20 @@
 import React from 'react'
 import MultiSelect from './MultiSelect'
 import Test from './Test'
+import '../css/Inputs.css'
 
 type onChange = (e: any) => void
 
-const NameInput = ({onChange}: {onChange: onChange}) => {
+const NameInput = ({value, onChange, className, placeholder}: {value: string, onChange: onChange, className: string, placeholder: string}) => {
   return (
     <div>
       <label>Name: </label>
       <input
+        value={value}
+        placeholder={placeholder}
         type="text"
         onChange={onChange}
+        className={className}
       ></input>
     </div>
   )

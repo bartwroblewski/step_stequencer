@@ -9,13 +9,34 @@ interface AddGearFormProps {
  bikeNames: string[],
 }
 
+const validate = {
+    formName: (name: string | undefined, onError: () => void) => {
+        if (name) return true
+        onError()
+        return false
+    }
+}
+
 const AddGearForm = ({onSubmit, onCancel, bikeNames}: AddGearFormProps) => {
 
-    const [name, setName] = React.useState<string>()
+    const [name, setName] = React.useState<string>('')
     const [mileage, setMileage] = React.useState<number>(0)
     const [bikeName, setBikeName] = React.useState<string>()
 
-    const handleNameChange = (newName: string) => setName(newName)
+    const [validationErrors, setValidationErrors] = React.useState({
+        name: '',
+        mileage: '',
+        bikeName: '',
+    })
+
+    const handleNameChange = (newName: string) => {
+        // name validation
+            setName(newName)
+            if (!newName) {
+              setValidationErrors(prev => ({...prev, ...{name: 'Name cannot be empty!'}}))
+            }
+    }
+
     const handleMileageChange = (newMileage: number) => setMileage(newMileage)
     const handleBikeNameChange = (newBikeName: string) => setBikeName(newBikeName)
 
@@ -24,10 +45,22 @@ const AddGearForm = ({onSubmit, onCancel, bikeNames}: AddGearFormProps) => {
         onSubmit()(name, mileage, bikeName)
     }
 
+    React.useEffect(() => {
+        if (validationErrors.name) {
+                //alert(validationErrors.name)
+        }
+    }, [validationErrors])
+
+
     return (
         <form onSubmit={(e: any) => handleOnSubmit(e)}>
             <div className="form-inputs">
-                <NameInput onChange={(e: any) => handleNameChange(e.target.value)} />
+                <NameInput 
+                    value={name}
+                    onChange={(e: any) => handleNameChange(e.target.value)}
+                    className={validationErrors.name ? 'errored-input' : 'valid-input'}
+                    placeholder={validationErrors.name || ''}
+                />
                 <MileageInput 
                     onChange={(e: any) => handleMileageChange(e.target.value)}
                     value={mileage}             
