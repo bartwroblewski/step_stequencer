@@ -1,5 +1,4 @@
 import React from 'react'
-import { NameInput, BikeInput } from './Inputs'
 import { CancelButton, SubmitButton } from './Buttons'
 import AddGearForm from './Forms'
 import '../css/NewItemModal.css'

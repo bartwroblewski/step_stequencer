@@ -2,87 +2,45 @@ import React from 'react'
 import MultiSelect from './MultiSelect'
 import Test from './Test'
 
-interface InputProps {
-    type: string,
-    label?: string,
-    onChange: any,
-    name: string,
-  }
+type onChange = (e: any) => void
 
-interface InputState {
-  input_name: string,
-  input_value: string | number,
-}
-
-const Input = <T,>({type, label, onChange, name}: InputProps) => {
-
-  const [state, setState] = React.useState<InputState>({input_name: '', input_value: ''})
-
-  const handleOnChange = (e: any) => {
-    setState({
-      input_name: name,
-      input_value: e.target.value,
-    })
-  }
-
-  React.useEffect(() => {
-    onChange(state)
-  }, [state])
-
+const NameInput = ({onChange}: {onChange: onChange}) => {
   return (
     <div>
-      {label 
-        ? `${label}: `
-        : ''
-      }
-      <input 
-        type={type}
-        name={name}
-        onChange={(e: any) => handleOnChange(e)}>
-      </input>
+      <label>Name: </label>
+      <input
+        type="text"
+        onChange={onChange}
+      ></input>
     </div>
   )
 }
-  
-const TextInput = ({label, onChange, name}: {label?: string, onChange: any, name: string}) => {
+
+const MileageInput = ({onChange}: {onChange: onChange}) => {
   return (
-    <Input<string> 
-      type="text"
-      name={name}
-      label={label} 
-      onChange={onChange}
-    />
-  )
-  }
-const NumberInput = ({label, onChange, name}: {label?: string, onChange: any, name: string}) => {
-  return (
-    <Input<number>
-      type="number"
-      name={name}
-      label={label}
-      onChange={onChange}
-    />
+    <div>
+      <label>Mileage: </label>
+      <input
+        type="number"
+        onChange={onChange}
+      ></input>
+    </div>
   )
 }
 
 interface BikeInputProps {
+  onChange: onChange,
   bikeNames: string[],
 }
 
-const NameInput = ({onChange} : any) => {
+const BikeInput = ({onChange, bikeNames} : BikeInputProps) => {
   return (
-   <TextInput onChange={onChange} name="name" label="Name" />
+    <MultiSelect
+      options={bikeNames}
+      placeholder_text='Assign a bike...'
+    />
   )
 }
-const MileageInput = ({onChange} : any) => {
-  return (
-   <NumberInput onChange={onChange} name="mileage" label="Mileage" />
-  )
-}
-const BikeInput = ({bikeNames}: BikeInputProps) =>
-  <MultiSelect 
-    options={bikeNames} 
-    placeholder_text="Assign bike(s)..."
-  />
+      
 
-export { NameInput, MileageInput, BikeInput }
+export { NameInput, MileageInput, BikeInput } 
