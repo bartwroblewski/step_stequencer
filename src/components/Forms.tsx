@@ -9,14 +9,6 @@ interface AddGearFormProps {
  bikeNames: string[],
 }
 
-const validate = {
-    formName: (name: string | undefined, onError: () => void) => {
-        if (name) return true
-        onError()
-        return false
-    }
-}
-
 const AddGearForm = ({onSubmit, onCancel, bikeNames}: AddGearFormProps) => {
 
     const [name, setName] = React.useState<string>('')
