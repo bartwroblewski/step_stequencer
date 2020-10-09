@@ -8,6 +8,7 @@ interface MultiSelectProps {
   onChange: any,
   options: string[],
   placeholder_text: string,
+  label: string,
 }
 
 interface TagProps {
@@ -15,7 +16,7 @@ interface TagProps {
   remove: (arg: any) => void
 }
 
-const MultiSelect = ({onChange, options, placeholder_text}: MultiSelectProps) => {
+const MultiSelect = ({onChange, options, placeholder_text, label}: MultiSelectProps) => {
   const [selected, setSelected] = React.useState<Selected>(new Set([]))
   const [value, setValue] = React.useState<string>()
   
@@ -53,6 +54,7 @@ const MultiSelect = ({onChange, options, placeholder_text}: MultiSelectProps) =>
 
   return (
     <div className="multi-select">
+      <label>{`${label}: `}</label>
       <select value={value} onChange={handleSelectChange}>
         {opts}
       </select>

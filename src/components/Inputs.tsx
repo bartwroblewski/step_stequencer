@@ -38,10 +38,10 @@ const BikeInput = ({onChange, bikeNames} : BikeInputProps) => {
     <MultiSelect
       onChange={onChange}
       options={bikeNames}
-      placeholder_text='Assign a bike...'
+      placeholder_text='Choose...'
+      label="Bike"
     />
   )
 }
       
-
 export { NameInput, MileageInput, BikeInput } 

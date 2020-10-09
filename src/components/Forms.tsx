@@ -24,10 +24,6 @@ const AddGearForm = ({onSubmit, onCancel, bikeNames}: AddGearFormProps) => {
         onSubmit()(name, mileage, bikeName)
     }
 
-    React.useEffect(() => {
-        console.log(name, mileage, bikeName)
-    }, [name, mileage, bikeName])
-
     return (
         <form onSubmit={(e: any) => handleOnSubmit(e)}>
             <div className="form-inputs">
@@ -37,16 +33,13 @@ const AddGearForm = ({onSubmit, onCancel, bikeNames}: AddGearFormProps) => {
                     onChange={(e: any) => handleBikeNameChange(e.target.value)}
                     bikeNames={bikeNames}
                 />
-
             </div>
             <div className="form-buttons">
                 <SubmitButton />
                 <CancelButton onClick={onCancel} />
             </div>
-
         </form>
     )
-    }
-
+}
 
 export default AddGearForm
