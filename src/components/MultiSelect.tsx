@@ -5,6 +5,7 @@ import '../css/MultiSelect.css'
 type Selected = Set<string>
 
 interface MultiSelectProps {
+  onChange: any,
   options: string[],
   placeholder_text: string,
 }
@@ -14,7 +15,7 @@ interface TagProps {
   remove: (arg: any) => void
 }
 
-const MultiSelect = ({options, placeholder_text}: MultiSelectProps) => {
+const MultiSelect = ({onChange, options, placeholder_text}: MultiSelectProps) => {
   const [selected, setSelected] = React.useState<Selected>(new Set([]))
   const [value, setValue] = React.useState<string>()
   
@@ -22,6 +23,7 @@ const MultiSelect = ({options, placeholder_text}: MultiSelectProps) => {
     //e.preventDefault()
     addSelected(e.target.value)
     setValue(e.target.value)
+    onChange(e)
     
   }
 

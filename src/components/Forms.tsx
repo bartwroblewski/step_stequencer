@@ -20,8 +20,8 @@ const AddGearForm = ({onSubmit, onCancel, bikeNames}: AddGearFormProps) => {
     const handleBikeNameChange = (newBikeName: string) => setBikeName(newBikeName)
 
     React.useEffect(() => {
-        console.log(name, mileage)
-    }, [name, mileage])
+        console.log(name, mileage, bikeName)
+    }, [name, mileage, bikeName])
 
     return (
         <form onSubmit={onSubmit}>
@@ -29,7 +29,7 @@ const AddGearForm = ({onSubmit, onCancel, bikeNames}: AddGearFormProps) => {
                 <NameInput onChange={(e: any) => handleNameChange(e.target.value)} />
                 <MileageInput onChange={(e: any) => handleMileageChange(e.target.value)} />
                 <BikeInput 
-                    onChange={(e: any) => handleMileageChange(e.target.value)}
+                    onChange={(e: any) => handleBikeNameChange(e.target.value)}
                     bikeNames={bikeNames}
                 />
 
