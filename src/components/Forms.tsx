@@ -34,6 +34,8 @@ const AddGearForm = ({onSubmit, onCancel, bikeNames}: AddGearFormProps) => {
             setName(newName)
             if (!newName) {
               setValidationErrors(prev => ({...prev, ...{name: 'Name cannot be empty!'}}))
+            } else {
+                setValidationErrors(prev => ({...prev, ...{name: ''}}))
             }
     }
 
