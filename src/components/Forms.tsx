@@ -31,12 +31,9 @@ const AddGearForm = ({onSubmit, onCancel, bikeNames}: AddGearFormProps) => {
 
     const handleNameChange = (newName: string) => {
         // name validation
-            setName(newName)
-            if (!newName) {
-              setValidationErrors(prev => ({...prev, ...{name: 'Name cannot be empty!'}}))
-            } else {
-                setValidationErrors(prev => ({...prev, ...{name: ''}}))
-            }
+        const nameError = newName ? '' : 'Name cannot be empty!'
+        setValidationErrors(prev => ({...prev, ...{name: nameError}}))       
+        setName(newName)
     }
 
     const handleMileageChange = (newMileage: number) => setMileage(newMileage)
