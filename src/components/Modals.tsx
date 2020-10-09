@@ -9,11 +9,6 @@ interface NewItemModalProps {
 }
 
 const NewItemModal = ({toggleModal, itemForm}: NewItemModalProps) => {
-
-  const handleOKButtonClick = (e: any) => {
-    toggleModal(e)
-  }
-
   return (
     <div className="modal" onClick={toggleModal}>
       <div className="modal-content" onClick={e => e.stopPropagation()}> {/*  prevent hiding modal on modal content click */}
@@ -30,12 +25,17 @@ interface NewGearModalProps {
 }
 
 const NewGearModal = ({addGear, toggleModal, bikeNames}: NewGearModalProps) => {
+
+  const handleFormSubmit = (e: any) => {
+    toggleModal(e)
+    return addGear
+  }
   return (
     <NewItemModal 
       toggleModal={toggleModal}
       itemForm={
         <AddGearForm
-          onSubmit={addGear}
+          onSubmit={(e: any) => handleFormSubmit(e)}
           onCancel={toggleModal}
           bikeNames={bikeNames}
         />
