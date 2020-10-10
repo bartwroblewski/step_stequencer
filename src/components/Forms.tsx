@@ -11,23 +11,11 @@ interface AddGearFormProps {
 
 const AddGearForm = ({onSubmit, onCancel, bikeNames}: AddGearFormProps) => {
 
-    const [name, setName] = React.useState<string>('')
-    const [mileage, setMileage] = React.useState<number>(0)
-    const [bikeName, setBikeName] = React.useState<string>()
-
-    const [inputs, setInputs] = React.useState<any>({})
-    const handleInputChange = (e: any) => {
-        const { name, value } = e.target
-
-        switch (name) {
-            case 'name':
-                const nameError = value ? '' : 'Name cannot be empty!'
-                setValidationErrors(prev => ({...prev, ...{name: nameError}}))       
-                setName(value)
-        }
-        setInputs((prev: any) => ({...prev, ...{[name]: value}}))
-    }
-    React.useEffect(() => console.log(inputs), [inputs])
+    const [inputs, setInputs] = React.useState<any>({
+        name: '',
+        mileage: 0,
+        bikeName: '',
+    })
 
     const [validationErrors, setValidationErrors] = React.useState({
         name: '',
@@ -35,18 +23,30 @@ const AddGearForm = ({onSubmit, onCancel, bikeNames}: AddGearFormProps) => {
         bikeName: '',
     })
 
-    const handleNameChange = (newName: string) => {
-        // name validation
-        const nameError = newName ? '' : 'Name cannot be empty!'
-        setValidationErrors(prev => ({...prev, ...{name: nameError}}))       
-        setName(newName)
+    const isValid = () => {
+        // check if there are no error messages
+        const errorMessages = Object.values(validationErrors)
+        return errorMessages.every(msg => msg === '')
     }
 
-    const handleMileageChange = (newMileage: number) => setMileage(newMileage)
-    const handleBikeNameChange = (newBikeName: string) => setBikeName(newBikeName)
+    const handleInputChange = (e: any) => {
+        const { name, value } = e.target
+        // validate input
+        switch (name) {
+            case 'name':
+                const nameError = value ? '' : 'Name cannot be empty!'
+                setValidationErrors(prev => ({...prev, ...{name: nameError}})) 
+        }
+        setInputs((prev: any) => ({...prev, ...{[name]: value}}))
+    }
+    React.useEffect(() => {
+        console.log(inputs)
+        console.log('form valid: ', isValid())
+    }, [inputs])
 
     const handleOnSubmit = (e: any) => {
         e.preventDefault()
+        const { name, mileage, bikeName } = inputs
         onSubmit()(name, mileage, bikeName)
     }
 
@@ -61,7 +61,7 @@ const AddGearForm = ({onSubmit, onCancel, bikeNames}: AddGearFormProps) => {
         <form onSubmit={(e: any) => handleOnSubmit(e)}>
             <div className="form-inputs">
                 <NameInput 
-                    value={name}
+                    value={inputs.name}
                     //onChange={(e: any) => handleNameChange(e.target.value)}
                     onChange={(e: any) => handleInputChange(e)}
                     className={validationErrors.name ? 'errored-input' : 'valid-input'}
@@ -70,10 +70,10 @@ const AddGearForm = ({onSubmit, onCancel, bikeNames}: AddGearFormProps) => {
                 <MileageInput 
                     //onChange={(e: any) => handleMileageChange(e.target.value)}
                     onChange={(e: any) => handleInputChange(e)}
-                    value={mileage}             
+                    value={inputs.mileage}             
                 />
                 <BikeInput 
-                    onChange={(e: any) => handleBikeNameChange(e.target.value)}
+                    onChange={(e: any) => handleInputChange(e)}
                     bikeNames={bikeNames}
                 />
             </div>
