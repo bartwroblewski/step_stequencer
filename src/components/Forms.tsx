@@ -46,8 +46,12 @@ const AddGearForm = ({onSubmit, onCancel, bikeNames}: AddGearFormProps) => {
 
     const handleOnSubmit = (e: any) => {
         e.preventDefault()
-        const { name, mileage, bikeName } = inputs
-        onSubmit()(name, mileage, bikeName)
+        if (isValid()) {
+            const { name, mileage, bikeName } = inputs
+            onSubmit()(name, mileage, bikeName)
+        } else {
+            alert('Correct errors first!')
+        }
     }
 
     React.useEffect(() => {
