@@ -1,0 +1,8 @@
+.errored-input {
+    border: 4px solid black;
+}
+
+.errored-input::placeholder {
+    color: red;
+    opacity: .8;
+}

@@ -24,7 +24,7 @@ const App = () => {
         : null
       }
       <button onClick={toggleModal}>Toggle modal</button>
-      {/* <Test /> */}
+      <Test />
     </div>
   );
 }

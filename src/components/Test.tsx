@@ -1,34 +1,29 @@
 import React from 'react'
 import { setConstantValue } from 'typescript'
 
-const Input = <T,>({type}: {type: string}) => {
+const Form = () => {
 
-    const [value, setValue] = React.useState<T>()
+    const [inputs, setInputs] = React.useState<any>({})
 
-    const handleChange = (value: T) => {
-        setValue(value)
+    const handleInputChange = (e: any) => {
+        const { name, value } = e.target
+        setInputs((prev: any) => ({...prev, ...{[name]: value}}))     
     }
 
-    React.useEffect(() => {
-        console.log(value)
-    }, [value])
+    React.useEffect(() => console.log(inputs), [inputs])
 
     return (
-        <input 
-            type={type} 
-            onChange={(e: any) => handleChange(e.target.value)}>
-        </input>
+        <form>
+            <input type="text" name="name" onChange={(e: any) => handleInputChange(e)}></input>
+            <input type="number" name="mileage" onChange={(e: any) => handleInputChange(e)}></input>
+        </form>
     )
 }
-
-const TextInput = () => <Input<string> type="text"/>
-const NumberInput = () => <Input<number> type="number"/>
 
 const Test = () => {
     return (
         <div>
-            <TextInput/>
-            <NumberInput/>
+            <Form/>
         </div>
     )
 }
