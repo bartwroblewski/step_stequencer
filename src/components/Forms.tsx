@@ -15,6 +15,20 @@ const AddGearForm = ({onSubmit, onCancel, bikeNames}: AddGearFormProps) => {
     const [mileage, setMileage] = React.useState<number>(0)
     const [bikeName, setBikeName] = React.useState<string>()
 
+    const [inputs, setInputs] = React.useState<any>({})
+    const handleInputChange = (e: any) => {
+        const { name, value } = e.target
+
+        switch (name) {
+            case 'name':
+                const nameError = value ? '' : 'Name cannot be empty!'
+                setValidationErrors(prev => ({...prev, ...{name: nameError}}))       
+                setName(value)
+        }
+        setInputs((prev: any) => ({...prev, ...{[name]: value}}))
+    }
+    React.useEffect(() => console.log(inputs), [inputs])
+
     const [validationErrors, setValidationErrors] = React.useState({
         name: '',
         mileage: '',
@@ -48,12 +62,14 @@ const AddGearForm = ({onSubmit, onCancel, bikeNames}: AddGearFormProps) => {
             <div className="form-inputs">
                 <NameInput 
                     value={name}
-                    onChange={(e: any) => handleNameChange(e.target.value)}
+                    //onChange={(e: any) => handleNameChange(e.target.value)}
+                    onChange={(e: any) => handleInputChange(e)}
                     className={validationErrors.name ? 'errored-input' : 'valid-input'}
                     placeholder={validationErrors.name || ''}
                 />
                 <MileageInput 
-                    onChange={(e: any) => handleMileageChange(e.target.value)}
+                    //onChange={(e: any) => handleMileageChange(e.target.value)}
+                    onChange={(e: any) => handleInputChange(e)}
                     value={mileage}             
                 />
                 <BikeInput 

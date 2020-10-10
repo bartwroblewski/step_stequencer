@@ -10,6 +10,7 @@ const NameInput = ({value, onChange, className, placeholder}: {value: string, on
     <div>
       <label>Name: </label>
       <input
+        name="name"
         value={value}
         placeholder={placeholder}
         type="text"
@@ -25,6 +26,7 @@ const MileageInput = ({onChange, value}: {onChange: onChange, value: number}) =>
     <div>
       <label>Mileage: </label>
       <input
+        name="mileage"
         type="number"
         min="0"
         value={value}
