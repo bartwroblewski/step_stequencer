@@ -11,23 +11,30 @@ interface AddGearFormProps {
 
 const AddGearForm = ({onSubmit, onCancel, bikeNames}: AddGearFormProps) => {
 
-    const [inputs, setInputs] = React.useState<any>({
+    const [inputs, setInputs] = React.useState({
         name: '',
         mileage: 0,
         bikeName: '',
     })
-
     const [validationErrors, setValidationErrors] = React.useState({
         name: '',
         mileage: '',
         bikeName: '',
     })
+    const [initial, setInitial] = React.useState<boolean>(true)
+    const [valid, setValid] = React.useState<boolean>(false)
 
-    const isValid = () => {
-        // check if there are no error messages
-        const errorMessages = Object.values(validationErrors)
-        return errorMessages.every(msg => msg === '')
+    const validate = () => {
+        if (!initial) {
+            // check if there are no error messages
+            const errorMessages = Object.values(validationErrors)
+            setValid(errorMessages.every(msg => msg === ''))
+        }
     }
+
+    React.useEffect(() => setInitial(false), [])
+
+    React.useEffect(() => validate(), [validationErrors])
 
     const handleInputChange = (e: any) => {
         const { name, value } = e.target
@@ -39,27 +46,16 @@ const AddGearForm = ({onSubmit, onCancel, bikeNames}: AddGearFormProps) => {
         }
         setInputs((prev: any) => ({...prev, ...{[name]: value}}))
     }
-    React.useEffect(() => {
-        console.log(inputs)
-        console.log('form valid: ', isValid())
-    }, [inputs])
-
+    
     const handleOnSubmit = (e: any) => {
         e.preventDefault()
-        if (isValid()) {
+        if (valid) {
             const { name, mileage, bikeName } = inputs
             onSubmit()(name, mileage, bikeName)
         } else {
             alert('Correct errors first!')
         }
     }
-
-    React.useEffect(() => {
-        if (validationErrors.name) {
-                //alert(validationErrors.name)
-        }
-    }, [validationErrors])
-
 
     return (
         <form onSubmit={(e: any) => handleOnSubmit(e)}>
