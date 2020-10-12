@@ -52,7 +52,6 @@ const AddGearForm = ({onSubmit, onCancel, bikeNames}: AddGearFormProps) => {
 
     const handleSubmit = (e: any) => {
         e.preventDefault()
-        //validateInput('name', errors.name)
         validateInputs()
         if (valid && !initial) {
             alert('Submitted')
@@ -66,13 +65,11 @@ const AddGearForm = ({onSubmit, onCancel, bikeNames}: AddGearFormProps) => {
             <div className="form-inputs">
                 <NameInput 
                     value={inputs.name}
-                    //onChange={(e: any) => handleNameChange(e.target.value)}
                     onChange={(e: any) => handleInputChange(e)}
                     className={errors.name ? 'errored-input' : 'valid-input'}
                     placeholder={errors.name || ''}
                 />
                 <MileageInput 
-                    //onChange={(e: any) => handleMileageChange(e.target.value)}
                     onChange={(e: any) => handleInputChange(e)}
                     value={inputs.mileage}             
                 />
