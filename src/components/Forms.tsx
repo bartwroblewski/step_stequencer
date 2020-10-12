@@ -19,10 +19,12 @@ const AddGearForm = ({onSubmit, onCancel, bikeNames}: AddGearFormProps) => {
 
     const errorMessages = {
         name: 'Name cannot be empty!',
+        mileage: 'Mileage has to be over 0!',
     }
 
     const [errors, setErrors] = React.useState({
         name: errorMessages.name,
+        mileage: errorMessages.mileage,
     })
 
     const [showErrors, setShowErrors] = React.useState<boolean>(false)
@@ -32,6 +34,9 @@ const AddGearForm = ({onSubmit, onCancel, bikeNames}: AddGearFormProps) => {
         switch (name) {
             case 'name':
                 error = value ? '' : errorMessages.name  
+                setShowErrors(true)
+            case 'mileage':
+                error = value < 1 ? errorMessages.mileage : ''
                 setShowErrors(true)
         }
         setErrors(prev => ({...prev, ...{[name]: error}}))
@@ -66,8 +71,10 @@ const AddGearForm = ({onSubmit, onCancel, bikeNames}: AddGearFormProps) => {
                     placeholder={showErrors ? errors.name : ''}
                 />
                 <MileageInput 
+                    value={inputs.mileage}
                     onChange={(e: any) => handleInputChange(e)}
-                    value={inputs.mileage}             
+                    className={showErrors && errors.mileage ? 'errored-input' : 'valid-input'}
+                    placeholder={showErrors ? errors.mileage : ''}
                 />
                 <BikeInput 
                     onChange={(e: any) => handleInputChange(e)}
