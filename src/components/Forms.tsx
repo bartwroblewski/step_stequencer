@@ -9,6 +9,10 @@ interface AddGearFormProps {
  bikeNames: string[],
 }
 
+const errorMessages = {
+    name: 'Name cannot be empty!',
+}
+
 const AddGearForm = ({onSubmit, onCancel, bikeNames}: AddGearFormProps) => {
 
     const [inputs, setInputs] = React.useState<any>({
@@ -18,17 +22,17 @@ const AddGearForm = ({onSubmit, onCancel, bikeNames}: AddGearFormProps) => {
     })
 
     const [errors, setErrors] = React.useState({
-        name: '',
+        name: errorMessages.name,
     })
 
-    const [initial, setInitial] = React.useState<boolean>(true)
-    const [valid, setValid] = React.useState<boolean>(false) // initially not valid because name is empty
+    const [showErrors, setShowErrors] = React.useState<boolean>(false)
 
     const validateInput = (name: string, value: string | number) => {
         let error: string
         switch (name) {
             case 'name':
-                error = value ? '' : 'Name cannot be empty!'  
+                error = value ? '' : errorMessages.name  
+                setShowErrors(true)
         }
         setErrors(prev => ({...prev, ...{[name]: error}}))
     }
@@ -40,8 +44,6 @@ const AddGearForm = ({onSubmit, onCancel, bikeNames}: AddGearFormProps) => {
     }
 
     const handleInputChange = (e: any) => {
-        if (initial) setInitial(!initial)
-        
         const { name, value } = e.target
         setInputs((prev: any) => ({...prev, ...{[name]: value}})) 
         validateInput(name, value)
@@ -49,18 +51,14 @@ const AddGearForm = ({onSubmit, onCancel, bikeNames}: AddGearFormProps) => {
 
     const noErrors = () => Object.values(errors).every(msg => !msg)
 
-    React.useEffect(() => {
-        console.log(errors) 
-        setValid(noErrors())
-    }, [errors])
-
     const handleSubmit = (e: any) => {
         e.preventDefault()
         validateInputs()
-        if (valid && !initial) {
+        if (noErrors()) {
             const { name, mileage, bikeName } = inputs
             onSubmit()(name, mileage, bikeName)
         } else {
+            setShowErrors(true)
             alert('Correct errors first!')
         }
     }
@@ -71,8 +69,8 @@ const AddGearForm = ({onSubmit, onCancel, bikeNames}: AddGearFormProps) => {
                 <NameInput 
                     value={inputs.name}
                     onChange={(e: any) => handleInputChange(e)}
-                    className={errors.name ? 'errored-input' : 'valid-input'}
-                    placeholder={errors.name || ''}
+                    className={showErrors && errors.name ? 'errored-input' : 'valid-input'}
+                    placeholder={showErrors ? errors.name : ''}
                 />
                 <MileageInput 
                     onChange={(e: any) => handleInputChange(e)}
