@@ -8,16 +8,33 @@ const errorTexts = {
     bikeName: 'Seems like a bike name error!',
 }
 
+interface Error {
+    [key: string]: {
+        text: string,
+        visible: boolean,
+    }
+}
+
 const Form = () => {
 
     const handleSubmit = (e: any) => {
-        e.preventDefault()
-        console.log('Valid: ', valid())      
+        console.log('Valid: ', valid())    
+        if (!valid()) {
+            e.preventDefault()
+            showAllErrors()  
+        }
     }
 
     const showAllErrors = () => {
         setErrors((prev: any) => {
-            Object.keys(prev).forEach(key => prev[key].visible = true)
+            let old_state = Object.assign(prev, {})
+            let new_state: Error = {}
+            Object.keys(old_state).forEach(key => {
+                let value = old_state[key]
+                value.visible = true
+                new_state[key] = value
+            })
+            return new_state
         })
     }
 
