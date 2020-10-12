@@ -41,7 +41,9 @@ const MultiSelect = ({onChange, options, placeholder_text, label}: MultiSelectPr
   }
 
   const header = <option disabled>{placeholder_text}</option>
-  const opts = [header].concat(options.map(o => <option>{o}</option>))
+  const opts = [header].concat(options.map(o => 
+    <option className={Array.from(selected).includes(o) ? 'option-selected' : ''}>{o}</option>
+  ))
   const tags = Array.from(selected).map(s => {
      return <Tag text={s} remove={removeSelected} />
   })

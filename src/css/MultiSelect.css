@@ -31,3 +31,7 @@
   margin: 5px;
   color: red;
 }
+
+.option-selected {
+  background: rgb(167, 231, 167);
+}

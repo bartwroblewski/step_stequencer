@@ -22,7 +22,7 @@ const AddGearForm = ({onSubmit, onCancel, bikeNames}: AddGearFormProps) => {
     })
 
     const [initial, setInitial] = React.useState<boolean>(true)
-    const [valid, setValid] = React.useState<boolean>(false)
+    const [valid, setValid] = React.useState<boolean>(false) // initially not valid because name is empty
 
     const validateInput = (name: string, value: string | number) => {
         let error: string
