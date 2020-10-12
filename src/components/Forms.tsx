@@ -47,9 +47,12 @@ const AddGearForm = ({onSubmit, onCancel, bikeNames}: AddGearFormProps) => {
         validateInput(name, value)
     }
 
-    const ifErrors = () => Object.values(errors).every(msg => !msg)
+    const noErrors = () => Object.values(errors).every(msg => !msg)
 
-    React.useEffect(() => setValid(ifErrors()), [errors])
+    React.useEffect(() => {
+        console.log(errors) 
+        setValid(noErrors())
+    }, [errors])
 
     const handleSubmit = (e: any) => {
         e.preventDefault()
