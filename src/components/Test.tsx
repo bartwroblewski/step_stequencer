@@ -5,14 +5,14 @@ import { setConstantValue } from 'typescript'
 const errorTexts = {
     name: 'Name cannot be empty!',
     mileage: 'Mileage cannot be less than 1!',
+    bikeName: 'Seems like a bike name error!',
 }
 
 const Form = () => {
 
     const handleSubmit = (e: any) => {
         e.preventDefault()
-        console.log(valid())
-       
+        console.log('Valid: ', valid())      
     }
 
     const showAllErrors = () => {
@@ -32,6 +32,9 @@ const Form = () => {
             case 'mileage':
                 error_text = value < 1 ? errorTexts.mileage : ''             
                 break
+            case 'bikeName':
+                error_text = value ? '' : errorTexts.bikeName
+                break
         }
 
         const error = {text: error_text, visible: true}
@@ -47,11 +50,14 @@ const Form = () => {
     const [inputs, setInputs] = React.useState({
         name: '',
         mileage: 0,
+        bikeName: '', 
     })
 
     const [errors, setErrors] = React.useState<any>({
         name: {text: errorTexts.name, visible: false},
         mileage: {text: errorTexts.mileage, visible: false},
+        bikeName: {text: errorTexts.bikeName, visible: false},
+
     })
 
     const valid = () => Object.keys(errors).every(key => !errors[key].text)
@@ -75,6 +81,14 @@ const Form = () => {
                 name="mileage"
                 type="number"
                 placeholder={errors.mileage.visible ? errors.mileage.text : ''}>
+            </input>
+            <label>Bike name: </label>
+            <input 
+                value={inputs.bikeName}
+                onChange={(e: any) => handleInputChange(e)}
+                name="bikeName"
+                type="text"
+                placeholder={errors.bikeName.visible ? errors.bikeName.text : ''}>
             </input>
             <button type="submit">Submit</button>
         </form>
