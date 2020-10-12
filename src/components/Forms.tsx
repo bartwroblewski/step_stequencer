@@ -13,6 +13,7 @@ const AddGearForm = ({onSubmit, onCancel, bikeNames}: AddGearFormProps) => {
 
     const [inputs, setInputs] = React.useState<any>({
         name: '',
+        mileage: 0,
     })
 
     const [errors, setErrors] = React.useState({
