@@ -14,6 +14,7 @@ const AddGearForm = ({onSubmit, onCancel, bikeNames}: AddGearFormProps) => {
     const [inputs, setInputs] = React.useState<any>({
         name: '',
         mileage: 0,
+        bikeName: '',
     })
 
     const [errors, setErrors] = React.useState({
@@ -34,7 +35,6 @@ const AddGearForm = ({onSubmit, onCancel, bikeNames}: AddGearFormProps) => {
 
     const validateInputs = () => {
         Object.keys(inputs).forEach(key => {
-            console.log(key, inputs[key])
             validateInput(key, inputs[key])
         })
     }
@@ -55,7 +55,8 @@ const AddGearForm = ({onSubmit, onCancel, bikeNames}: AddGearFormProps) => {
         e.preventDefault()
         validateInputs()
         if (valid && !initial) {
-            alert('Submitted')
+            const { name, mileage, bikeName } = inputs
+            onSubmit()(name, mileage, bikeName)
         } else {
             alert('Correct errors first!')
         }
