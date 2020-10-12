@@ -9,10 +9,6 @@ interface AddGearFormProps {
  bikeNames: string[],
 }
 
-const errorMessages = {
-    name: 'Name cannot be empty!',
-}
-
 const AddGearForm = ({onSubmit, onCancel, bikeNames}: AddGearFormProps) => {
 
     const [inputs, setInputs] = React.useState<any>({
@@ -20,6 +16,10 @@ const AddGearForm = ({onSubmit, onCancel, bikeNames}: AddGearFormProps) => {
         mileage: 0,
         bikeName: '',
     })
+
+    const errorMessages = {
+        name: 'Name cannot be empty!',
+    }
 
     const [errors, setErrors] = React.useState({
         name: errorMessages.name,
@@ -37,12 +37,6 @@ const AddGearForm = ({onSubmit, onCancel, bikeNames}: AddGearFormProps) => {
         setErrors(prev => ({...prev, ...{[name]: error}}))
     }
 
-    const validateInputs = () => {
-        Object.keys(inputs).forEach(key => {
-            validateInput(key, inputs[key])
-        })
-    }
-
     const handleInputChange = (e: any) => {
         const { name, value } = e.target
         setInputs((prev: any) => ({...prev, ...{[name]: value}})) 
@@ -53,7 +47,6 @@ const AddGearForm = ({onSubmit, onCancel, bikeNames}: AddGearFormProps) => {
 
     const handleSubmit = (e: any) => {
         e.preventDefault()
-        validateInputs()
         if (noErrors()) {
             const { name, mileage, bikeName } = inputs
             onSubmit()(name, mileage, bikeName)
