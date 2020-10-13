@@ -8,11 +8,9 @@ const errorTexts = {
     bikeName: 'Seems like a bike name error!',
 }
 
-interface InputValidationError {
-    [key: string]: {
-        text: string,
-        visible: boolean,
-    }
+interface ErrorContent {
+    text: string,
+    visible: boolean,
 }
 
 const Form = () => {
@@ -25,16 +23,15 @@ const Form = () => {
         }
     }
 
-    const showError = (error: InputValidationError) => ({...error, ...{visible: true}})
+    const showError = (errorContent: ErrorContent) => ({...errorContent, ...{visible: true}})
 
     const showAllErrors = () => {
         setErrors((prev: any) => {
             let old_state = Object.assign(prev, {})
-            let new_state: InputValidationError = {}
+            let new_state: any = {}
             Object.keys(old_state).forEach(key => {
                 let value = old_state[key]
-                value.visible = true
-                new_state[key] = value
+                new_state[key] = showError(value)
             })
             return new_state
         })
