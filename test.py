@@ -1,16 +1,10 @@
 errors = {
-    'name': {
-        'text': 'Name cannot be empty',
-        'visible': False,
-    },
-    'mileage': {
-        'text': 'Mileage canno be 0',
-        'visible': False,
-    }
+    'name': {'text': 'name error', 'visible': False},
+    'mileage': {'text': 'mileage error', 'visible': False},
+    'bikeName': {'text': 'bike name error', 'visible': False},
 }
 
 def show_errors(errors):
-    #make_visible = lambda x : x.update({'visible': True}) or x
     make_visible = lambda x: {**x, **{'visible': True}}
     return {k: make_visible(v) for k, v in errors.items()}
 

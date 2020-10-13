@@ -25,17 +25,16 @@ const Form = () => {
 
     const showError = (errorContent: ErrorContent) => ({...errorContent, ...{visible: true}})
 
-    const showAllErrors = () => {
-        setErrors((prev: any) => {
-            let old_state = Object.assign(prev, {})
-            let new_state: any = {}
-            Object.keys(old_state).forEach(key => {
-                let value = old_state[key]
-                new_state[key] = showError(value)
-            })
-            return new_state
-        })
+    const getVisibleErrors = (errors: any) => {
+        let visibleErrors: any = {}
+        for (let key in errors) {
+            let value: ErrorContent = errors[key]
+            visibleErrors[key] = showError(value)
+        }
+        return visibleErrors
     }
+
+    const showAllErrors = () => setErrors((prev: any) => getVisibleErrors(prev))
 
 
     const handleInputChange = (e: any) => {
