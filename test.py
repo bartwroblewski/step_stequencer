@@ -10,7 +10,8 @@ errors = {
 }
 
 def show_errors(errors):
-    make_visible = lambda x : x.update({'visible': True}) or x
+    #make_visible = lambda x : x.update({'visible': True}) or x
+    make_visible = lambda x: {**x, **{'visible': True}}
     return {k: make_visible(v) for k, v in errors.items()}
 
 visible = show_errors(errors)

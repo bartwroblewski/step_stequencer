@@ -8,7 +8,7 @@ const errorTexts = {
     bikeName: 'Seems like a bike name error!',
 }
 
-interface Error {
+interface InputValidationError {
     [key: string]: {
         text: string,
         visible: boolean,
@@ -25,10 +25,12 @@ const Form = () => {
         }
     }
 
+    const showError = (error: InputValidationError) => ({...error, ...{visible: true}})
+
     const showAllErrors = () => {
         setErrors((prev: any) => {
             let old_state = Object.assign(prev, {})
-            let new_state: Error = {}
+            let new_state: InputValidationError = {}
             Object.keys(old_state).forEach(key => {
                 let value = old_state[key]
                 value.visible = true
