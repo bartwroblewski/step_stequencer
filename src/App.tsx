@@ -50,7 +50,9 @@ const App = () => {
   }
 
   const playSound = (sound: Sound) => {
-    synth.triggerAttackRelease(sound[0], sound[1])
+    if (sound[0]) {
+      synth.triggerAttackRelease(sound[0], sound[1])
+    }
   }
 
   const handleContextMenu = (e: any, rowIndex: number, colIndex: number) => {
