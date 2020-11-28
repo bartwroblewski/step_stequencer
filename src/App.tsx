@@ -2,17 +2,15 @@ import React from 'react'
 import * as Tone from 'tone'
 import './App.css'
 
-type Sample = {
-  url: string,
-  velocity: number,
-  length: number,
-}
+type Sound = string[]
 
-type SeqCol = Sample[]
+type SeqCol = Sound[]
 
 type Seq = SeqCol[]
 
 const synth = new Tone.Synth().toDestination()
+
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 
 const App = () => {
 
@@ -20,10 +18,10 @@ const App = () => {
     const seq: Seq = []
     for (let i=0; i<16; i++) {
       const col: SeqCol = [
-        {url: '', velocity: 100, length: 100},
-        {url: '', velocity: 100, length: 100}, 
-        {url: '', velocity: 100, length: 100},
-        {url: '', velocity: 100, length: 100},
+        ['', ''],
+        ['', ''],
+        ['', ''],
+        ['', ''],
       ]
       seq.push(col)
     }
@@ -32,9 +30,6 @@ const App = () => {
 
   const [seq, setSeq] = React.useState<Seq>(getEmptySeq())
 
-  const [kick, setKick] = React.useState<Sample>({url: 'kick', velocity: 100, length: 100})
-  const [snare, setSnare] = React.useState<Sample>({url: 'snare', velocity: 100, length: 100})
-
   const sounds = [
     ["C4", "8n"],
     ["D4", "8n"],
@@ -42,40 +37,47 @@ const App = () => {
     ["F4", "8n"],
   ]
 
-  const placeSample = (col: number, row: number, sample: Sample) => {
+  const placeSound = (col: number, row: number) => {
       const newSeq: Seq = [...seq]
-      newSeq[col][row] = sample
+      newSeq[col][row] = sounds[row]
       setSeq(newSeq)
   }
 
   const removeSample = (col: number, row: number) => {
     const newSeq: Seq = [...seq]
-    newSeq[col][row] = {url: '', velocity: 100, length: 100}
+    newSeq[col][row] = ['', '']
     setSeq(newSeq)
   }
 
-  const playSample = (e: any, row: number) => {
-    const sound = sounds[row]
+  const playSound = (sound: Sound) => {
     synth.triggerAttackRelease(sound[0], sound[1])
-    console.log('playing sample ' + e.target.id)
   }
 
   const handleContextMenu = (e: any, rowIndex: number, colIndex: number) => {
     e.preventDefault()
     removeSample(colIndex, rowIndex)
   }
+
+  const playSeq = async() => {
+    for (let col of seq) {
+      await sleep(500)
+      for (let sound of col) {
+        playSound(sound)
+      }
+    }
+  }
   
   const grid = seq.map((col, colIndex) => {
-    const samples = col.map((sample, rowIndex) => {
+    const sounds = col.map((sound, rowIndex) => {
       return (
-        sample.url
-          ? <div onClick={(e) => playSample(e, rowIndex)} onContextMenu={e => handleContextMenu(e, rowIndex, colIndex)} className='sample filled' id={sample.url}></div>
-          : <div onClick={() => placeSample(colIndex, rowIndex, kick)} className='sample empty' id={sample.url}></div>
+        sound[0]
+          ? <div onClick={(e) => playSound(sound)} onContextMenu={e => handleContextMenu(e, rowIndex, colIndex)} className='sample filled'></div>
+          : <div onClick={() => placeSound(colIndex, rowIndex)} className='sample empty'></div>
       )
     })
     return (
       <div className='grid'>
-        {samples}
+        {sounds}
       </div>
     )
   })
@@ -83,6 +85,7 @@ const App = () => {
   return (
     <div>
       {grid}
+      <button type="button" onClick={playSeq}>Play</button>
     </div>
   )
 }
