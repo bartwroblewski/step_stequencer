@@ -80,8 +80,6 @@ const App = () => {
     )
   })
 
-  
-
   return (
     <div>
       {grid}
