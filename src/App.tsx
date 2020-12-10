@@ -1,8 +1,7 @@
 import React from 'react'
 import * as Tone from 'tone'
 import './App.css'
-
-type Sound = string[]
+import { Sound, SoundSelect } from './components/SoundSelect'
 
 type SeqCol = Sound[]
 
@@ -12,7 +11,7 @@ const synth = new Tone.Synth().toDestination()
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 
-const BPM = 150
+const BPM = 120
 const INTERVAL = ((60 / BPM) / 4) * 1000 // 16th notes
 const DIVISION = 16 // 16th notes
 const LOOP_LENGTH = INTERVAL * (DIVISION + 2) // why + 2?
@@ -23,10 +22,10 @@ const App = () => {
     const seq: Seq = []
     for (let i=0; i<DIVISION; i++) {
       const col: SeqCol = [
-        ['', ''],
-        ['', ''],
-        ['', ''],
-        ['', ''],
+        {pitch: '', length: ''},
+        {pitch: '', length: ''},
+        {pitch: '', length: ''},
+        {pitch: '', length: ''},
       ]
       seq.push(col)
     }
@@ -35,12 +34,12 @@ const App = () => {
 
   const [seq, setSeq] = React.useState<Seq>(getEmptySeq())
 
-  const sounds = [
-    ["C3", "16n"],
-    ["D4", "16n"],
-    ["E2", "16n"],
-    ["F4", "16n"],
-  ]
+  const [sounds, setSounds] = React.useState([
+    {pitch: "C3", length: "16n"},
+    {pitch: "D4", length: "16n"},
+    {pitch: "E2", length: "16n"},
+    {pitch: "F4", length: "16n"},
+  ])
 
   const placeSound = (col: number, row: number) => {
       const newSeq: Seq = [...seq]
@@ -50,13 +49,13 @@ const App = () => {
 
   const removeSample = (col: number, row: number) => {
     const newSeq: Seq = [...seq]
-    newSeq[col][row] = ['', '']
+    newSeq[col][row] = {pitch: '', length: ''}
     setSeq(newSeq)
   }
 
   const playSound = (sound: Sound) => {
-    if (sound[0]) {
-      synth.triggerAttackRelease(sound[0], sound[1])
+    if (sound.pitch) {
+      synth.triggerAttackRelease(sound.pitch, sound.length)
     }
   }
 
@@ -76,10 +75,19 @@ const App = () => {
 
   const loop = () => setInterval(playSeq, LOOP_LENGTH)
 
+  const soundSelects = sounds.map(sound => {
+    return (
+      <SoundSelect
+        sounds={sounds}
+        setSounds={setSounds}
+      />
+    )
+    })
+
   const grid = seq.map((col, colIndex) => {
     const sounds = col.map((sound, rowIndex) => {
       return (
-        sound[0]
+        sound.pitch
           ? <div onClick={(e) => playSound(sound)} onContextMenu={e => handleContextMenu(e, rowIndex, colIndex)} className='sample filled'></div>
           : <div onClick={() => placeSound(colIndex, rowIndex)} className='sample empty'></div>
       )
@@ -91,8 +99,11 @@ const App = () => {
     )
   })
 
+  React.useEffect(() => console.log(sounds), [sounds])
+
   return (
     <div>
+      {soundSelects}
       {grid}
       <button type="button" onClick={loop}>Play</button>
     </div>
