@@ -74,14 +74,14 @@ const App = () => {
     ['G3', '16N'],
   ]
 
-  const attachSoundToRow = (row: number, soundIndex: number) => {
+  const attachSoundToRow = (rowIndex: number, soundIndex: number) => {
     setRowsSounds(prev => {
-      return {...prev, ...{[row]: soundIndex}}
+      return {...prev, ...{[rowIndex]: soundIndex}}
     })
   }
 
-  const getSoundForRow = (row: number): Sound => {
-    const soundIndex = rowsSounds[row]
+  const getSoundForRow = (rowIndex: number): Sound => {
+    const soundIndex = rowsSounds[rowIndex]
     const sound = sounds[soundIndex]
     return sound
   }
@@ -118,13 +118,24 @@ const App = () => {
     setGrid([...grid, emptyRow])
   }
 
+  const soundSelectors = grid.map((row: Row, rowIndex: number) => {
+    const options = sounds.map((sound: Sound, soundIndex: number) => <option value={soundIndex}>{sound[0]}</option>)
+    return (
+      <select onChange={e => {
+          attachSoundToRow(rowIndex, parseInt(e.target.value))}}>
+        {options}
+      </select>
+    )
+  })
+
+
   return (
     <div>
       {grid.length}
       <button onClick={addEmptyRow}>Add row</button>
       <button onClick={playGridOnce}>Play grid once</button>
-      <button onClick={() => attachSoundToRow(1, 4)}>Attach sound 4 to row 1</button>
       <GridComponent grid={grid} setGrid={setGrid} />
+      {soundSelectors}
     </div>
   )
 }
