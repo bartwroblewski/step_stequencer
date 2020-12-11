@@ -1,7 +1,6 @@
 import React from 'react'
 import * as Tone from 'tone'
 import './App.css'
-import { Sound, SoundSelect } from './components/SoundSelect'
 
 const synth = new Tone.Synth().toDestination()
 
@@ -18,25 +17,12 @@ type Cell = 0 | 1
 type Row = Array<Cell>
 type Grid = Array<Row>
 
-const Grid = () => {
+interface GridComponentProps {
+  grid: Grid,
+  setGrid: any,
+}
 
-  const COLS = 16
-
-  const [grid, setGrid] = React.useState<Grid>([])
-
-  const getEmptyRow = () => {
-    let row: Row = []
-    for (let i=0; i<COLS; i++) {
-      const cell: Cell = 0
-      row.push(cell)
-    }
-    return row
-  }
-
-  const addEmptyRow = () => {
-    const emptyRow = getEmptyRow()
-    setGrid([...grid, emptyRow])
-  }
+const GridComponent = ({grid, setGrid}: GridComponentProps) => {
 
   const enableCell = (row: number, col: number) => {
     const newGrid = [...grid]
@@ -50,11 +36,35 @@ const Grid = () => {
     setGrid(newGrid)
   }
 
-  const playSound = (sound: any) => {
-      synth.triggerAttackRelease(sound[0], sound[1])
-  }
+  return (
+    <div>
+      <button onClick={() => enableCell(1, 5)}>Enable cell 1, 5</button>
+      <button onClick={() => disableCell(1, 5)}>Disable cell 1, 5</button>
+    </div>
+  )
+}
 
-  const sounds = [
+type Sound = [string, string]
+type RowsSounds = { [row: number]: number }
+
+const App = () => {
+
+  const COLS = 16
+
+  const [grid, setGrid] = React.useState<Grid>([])
+ 
+  const [rowsSounds, setRowsSounds] = React.useState<RowsSounds>({
+    // row index vs sound index
+    1: 2,
+    2: 5,
+    3: 1,
+    4: 6,
+  })
+
+  React.useEffect(() => console.log(grid), [grid])
+  React.useEffect(() => console.log(rowsSounds), [rowsSounds])
+
+  const sounds: Array<Sound> = [
     ['C1', '16N'],
     ['D1', '16N'],
     ['E2', '16N'],
@@ -64,54 +74,57 @@ const Grid = () => {
     ['G3', '16N'],
   ]
 
-  const rowsVsSounds: { [row: number]: number } = {
-    // row index vs sound index
-    1: 2,
-    2: 5,
-    3: 1,
-    4: 6,
+  const attachSoundToRow = (row: number, soundIndex: number) => {
+    setRowsSounds(prev => {
+      return {...prev, ...{[row]: soundIndex}}
+    })
   }
 
-  const pickSound = (row: number) => {
-    const soundIndex = rowsVsSounds[row]
+  const getSoundForRow = (row: number): Sound => {
+    const soundIndex = rowsSounds[row]
     const sound = sounds[soundIndex]
     return sound
   }
+
+  const playSound = (sound: Sound) => {
+    synth.triggerAttackRelease(sound[0], sound[1])
+}
 
   const playGridOnce = () => {
     const rows = grid.length
     for (let col=0; col<COLS; col++) {
       for (let row=0; row<rows; row++) {
         const cell = grid[row][col]
-        if (cell) {
-          const sound = pickSound(row)
+        if (cell === 1) {
+          const sound = getSoundForRow(row)
           console.log('playing', row, col)
           playSound(sound)
         }
       }      
-    } 
+    }
+  }
+    
+  const getEmptyRow = (): Row => {
+    let row: Row = []
+    for (let i=0; i<COLS; i++) {
+      const cell: Cell = 0
+      row.push(cell)
+    }
+    return row
   }
 
-  React.useEffect(() => console.log(grid), [grid])
-
-
+  const addEmptyRow = () => {
+    const emptyRow = getEmptyRow()
+    setGrid([...grid, emptyRow])
+  }
 
   return (
     <div>
       {grid.length}
       <button onClick={addEmptyRow}>Add row</button>
-      <button onClick={() => enableCell(1, 5)}>Enable cell 1, 5</button>
-      <button onClick={() => disableCell(1, 5)}>Disable cell 1, 5</button>
       <button onClick={playGridOnce}>Play grid once</button>
-    </div>
-  )
-}
-
-const App = () => {
-
-  return (
-    <div>
-      <Grid />
+      <button onClick={() => attachSoundToRow(1, 4)}>Attach sound 4 to row 1</button>
+      <GridComponent grid={grid} setGrid={setGrid} />
     </div>
   )
 }
