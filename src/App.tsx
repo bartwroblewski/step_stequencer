@@ -24,22 +24,25 @@ interface GridComponentProps {
 
 const GridComponent = ({grid, setGrid}: GridComponentProps) => {
 
-  const enableCell = (row: number, col: number) => {
+  const toggleCell = (rowIndex: number, colIndex: number) => {
     const newGrid = [...grid]
-    newGrid[row][col] = 1
+    const cell = newGrid[rowIndex][colIndex]
+    newGrid[rowIndex][colIndex] = cell === 0 ? 1 : 0
     setGrid(newGrid)
   }
 
-  const disableCell = (row: number, col: number) => {
-    const newGrid = [...grid]
-    newGrid[row][col] = 0
-    setGrid(newGrid)
-  }
+  const style = {display: 'flex'}
+  const gridEl = grid.map((row: Row, rowIndex: number) => {
+    return (
+      <div style={style}>
+        {row.map((cell: Cell, colIndex: number) => <div onClick={() => toggleCell(rowIndex, colIndex)}>{cell}</div>)}
+      </div>
+    )
+  })
 
   return (
     <div>
-      <button onClick={() => enableCell(1, 5)}>Enable cell 1, 5</button>
-      <button onClick={() => disableCell(1, 5)}>Disable cell 1, 5</button>
+      {gridEl}
     </div>
   )
 }
@@ -55,10 +58,10 @@ const App = () => {
  
   const [rowsSounds, setRowsSounds] = React.useState<RowsSounds>({
     // row index vs sound index
-    1: 2,
-    2: 5,
-    3: 1,
-    4: 6,
+    0: 2,
+    1: 5,
+    2: 1,
+    3: 6,
   })
 
   React.useEffect(() => console.log(grid), [grid])
@@ -90,15 +93,16 @@ const App = () => {
     synth.triggerAttackRelease(sound[0], sound[1])
 }
 
-  const playGridOnce = () => {
+  const playGridOnce = async() => {
     const rows = grid.length
     for (let col=0; col<COLS; col++) {
       for (let row=0; row<rows; row++) {
         const cell = grid[row][col]
         if (cell === 1) {
           const sound = getSoundForRow(row)
-          console.log('playing', row, col)
+          console.log('playing', row, col, sound)
           playSound(sound)
+          await sleep(INTERVAL)
         }
       }      
     }
