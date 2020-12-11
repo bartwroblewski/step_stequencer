@@ -31,7 +31,10 @@ const GridComponent = ({grid, setGrid}: GridComponentProps) => {
     setGrid(newGrid)
   }
 
-  const style = {display: 'flex'}
+  const style = {
+    display: 'flex',
+    justifyContent: 'space-around'
+  }
   const gridEl = grid.map((row: Row, rowIndex: number) => {
     return (
       <div style={style}>
@@ -58,14 +61,14 @@ const App = () => {
  
   const [rowsSounds, setRowsSounds] = React.useState<RowsSounds>({
     // row index vs sound index
-    0: 2,
-    1: 5,
-    2: 1,
+    0: 0,
+    1: 0,
+    2: 0,
     3: 6,
   })
 
-  React.useEffect(() => console.log(grid), [grid])
-  React.useEffect(() => console.log(rowsSounds), [rowsSounds])
+  //React.useEffect(() => console.log(grid), [grid])
+  //React.useEffect(() => console.log(rowsSounds), [rowsSounds])
 
   const sounds: Array<Sound> = [
     ['C1', '16N'],
@@ -96,15 +99,22 @@ const App = () => {
   const playGridOnce = async() => {
     const rows = grid.length
     for (let col=0; col<COLS; col++) {
+      await sleep(INTERVAL)
       for (let row=0; row<rows; row++) {
         const cell = grid[row][col]
         if (cell === 1) {
           const sound = getSoundForRow(row)
           console.log('playing', row, col, sound)
-          playSound(sound)
-          await sleep(INTERVAL)
-        }
+          playSound(sound) 
+        } 
       }      
+    }
+  }
+
+  const loop = async() => {
+    while (true) {
+      playGridOnce()
+      await sleep(LOOP_LENGTH)
     }
   }
     
@@ -122,15 +132,18 @@ const App = () => {
     setGrid([...grid, emptyRow])
   }
 
-  const soundSelectors = grid.map((row: Row, rowIndex: number) => {
-    const options = sounds.map((sound: Sound, soundIndex: number) => <option value={soundIndex}>{sound[0]}</option>)
-    return (
-      <select onChange={e => {
-          attachSoundToRow(rowIndex, parseInt(e.target.value))}}>
-        {options}
-      </select>
-    )
-  })
+  const soundSelectors = 
+    <div className="sound-selectors-container">
+      {grid.map((row: Row, rowIndex: number) => {
+        const options = sounds.map((sound: Sound, soundIndex: number) => <option value={soundIndex}>{sound[0]}</option>)
+        return (
+          <select onChange={e => {
+              attachSoundToRow(rowIndex, parseInt(e.target.value))}}>
+            {options}
+          </select>
+        )
+      })}
+    </div>
 
 
   return (
@@ -138,8 +151,10 @@ const App = () => {
       {grid.length}
       <button onClick={addEmptyRow}>Add row</button>
       <button onClick={playGridOnce}>Play grid once</button>
+      <button onClick={loop}>Play in loop</button>
       <GridComponent grid={grid} setGrid={setGrid} />
       {soundSelectors}
+      <div>{Object.values(rowsSounds)}</div>
     </div>
   )
 }
