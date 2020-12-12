@@ -85,7 +85,7 @@ const App = () => {
   const playSteps = async() => {
     for (let step of steps) {
       playStep(step)
-      await sleep(150)
+      await sleep(INTERVAL)
     }
   }
 
