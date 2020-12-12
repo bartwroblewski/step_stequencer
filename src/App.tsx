@@ -5,6 +5,10 @@ import './App.css'
 const App = () => {
 
   const synth = new Tone.Synth().toDestination()
+  const playSound = (sound: Sound) => {
+    console.log('playing sound ', sound)
+    synth.triggerAttackRelease(sound[0], sound[1])
+  }
 
   Tone.start()
 
@@ -26,8 +30,6 @@ const App = () => {
     ['A2', '16N'],
     ['G3', '16N'],
   ]
-
-  const playSound = (sound: Sound) => console.log('playing sound ', sound)
   
   const N_STEPS = 16
 
@@ -46,19 +48,46 @@ const App = () => {
   }
 
   const kicks = [
-    [0, 1],
-    [4, 1],
-    [8, 1],
-    [12, 1],
+    [0, 4],
+    [4, 4],
+    [8, 4],
+    [12, 4],
+  ]
+
+  const snares = [
+    [2, 6],
+    [5, 6],
+    [10,6],
+    [14, 6],
+  ]
+
+  const hats = [
+    [1, 5],
+    [2, 5],
+    [3, 5],
+    [5, 5],
+    [5, 5],
+    [7, 5],
+    [9, 5],
+    [10, 5],
+    [11, 5],
   ]
 
   kicks.forEach(kick => addSoundToStep(kick[0], kick[1]))
+  snares.forEach(snare => addSoundToStep(snare[0], snare[1]))
+  hats.forEach(hat => addSoundToStep(hat[0], hat[1]))
 
-  const playStep = (step: Step, stepIndex: number) => {
-    console.log('playing step ', stepIndex, step)
+  const playStep = (step: Step) => {
+    console.log('playing step ', step)
     step.forEach(playSound)
   }
-  const playSteps = () => steps.forEach(playStep)
+
+  const playSteps = async() => {
+    for (let step of steps) {
+      playStep(step)
+      await sleep(150)
+    }
+  }
 
   return <button onClick={playSteps}>Play steps</button>
 
