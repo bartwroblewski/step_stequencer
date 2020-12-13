@@ -1,8 +1,11 @@
 import * as Tone from 'tone'
+import React from 'react'
+import ReactDOM from 'react-dom'
+import Grid from './components/Grid'
 
 type Sound = [string, string]
-type Step = Array<Sound>
-type Steps = Array<Step>
+export type Step = Array<Sound>
+export type Steps = Array<Step>
 
 const synth = new Tone.Synth().toDestination()
 Tone.start()
@@ -40,6 +43,7 @@ for (let i=0;i<N_STEPS;i++) {
 
 export const addSoundToStep = (stepIndex: number, soundIndex: number) => {
   steps[stepIndex].push(sounds[soundIndex])
+  ReactDOM.render(<Grid steps={steps} />, document.getElementById('grid'))
 }
 
 const kicks = [

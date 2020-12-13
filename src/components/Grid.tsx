@@ -1,7 +1,9 @@
 import React from 'react'
-import { addSoundToStep } from '../sequencer'
+import { addSoundToStep, Steps, Step, steps } from '../sequencer'
 
-const GridCell = ({row, col}: {row: number, col: number}) => {
+const GridCell = ({row, col, step}: {row: number, col: number, step: Step}) => {
+
+    const className = row < step.length ? 'grid-cell filled' : 'grid-cell'
 
     const handleClick = (e: any) => {
       console.log(row, col)
@@ -10,30 +12,33 @@ const GridCell = ({row, col}: {row: number, col: number}) => {
   
     return (
       <div 
-        className='grid-cell'
+        className={className}
         onClick={handleClick}
       ></div>
     )
   }
   
-  const GridStep = ({col}: {col: number}) => 
-    <div className="grid-step">
-          <GridCell row={0} col={col} />
-          <GridCell row={1} col={col} />
-          <GridCell row={2} col={col} />
-          <GridCell row={3} col={col} />
-    </div>
-  
-  const Grid = () => { 
-  
-    const steps = []
-    for (let i=0; i<16; i++) {
-      steps.push(<GridStep key={i} col={i} />)
+  const GridStep = ({col, step}: {col: number, step: Step}) => {
+
+    return (
+        <div className="grid-step">
+            <GridCell row={0} col={col} step={step} />
+            <GridCell row={1} col={col} step={step}  />
+            <GridCell row={2} col={col} step={step} />
+            <GridCell row={3} col={col} step={step} />
+        </div>
+    )
+  }
+  const Grid = ({steps}: {steps: Steps}) => { 
+    
+    const grid = []
+    for (let i=0; i<steps.length; i++) {
+      grid.push(<GridStep key={i} col={i} step={steps[i]} />)
     }
     
     return (
       <div>
-        {steps}
+        {grid}
       </div>
     )
   }     

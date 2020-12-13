@@ -9,6 +9,10 @@
 .grid-cell {
     width: 15px;
     height: 15px;
-    background: black;
     margin: 10px;
+    border: 1px solid black;
+}
+
+.filled {
+    background: black;
 }
