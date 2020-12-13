@@ -1,3 +1,14 @@
-.sound-selectors-container * {
+.grid {
     display: block;
+}
+
+.grid-step {
+    display: inline-block;
+}
+
+.grid-cell {
+    width: 15px;
+    height: 15px;
+    background: black;
+    margin: 10px;
 }

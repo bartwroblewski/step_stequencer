@@ -1,6 +1,11 @@
 import React from 'react'
 import * as Tone from 'tone'
+import { createCallChain } from 'typescript'
 import './App.css'
+
+type Sound = [string, string]
+type Step = Array<Sound>
+type Steps = Array<Step>
 
 const App = () => {
 
@@ -20,8 +25,6 @@ const App = () => {
   const DIVISION = 16 // 16th notes
   const LOOP_LENGTH = INTERVAL * (DIVISION + 2) // why + 2?
 
-
-  type Sound = [string, string]
   const sounds: Array<Sound> = [
     ['C1', '16N'],
     ['D1', '16N'],
@@ -33,9 +36,6 @@ const App = () => {
   ]
 
   const N_STEPS = 16
-
-  type Step = Array<Sound>
-  type Steps = Array<Step>
 
   //initial steps
   let steps: Steps = []
@@ -90,8 +90,57 @@ const App = () => {
     }
   }
 
-  return <button onClick={playSteps}>Play steps</button>
+  return (
+    <div>
+      <button onClick={playSteps}>Play steps</button>
+      <Grid steps={steps} />
+    </div>
+  )
 
+}
+
+const Grid = ({steps}: {steps: Steps}) => {   
+
+  const cell = <div className="grid-cell"></div>
+
+  const step = 
+    <div className="grid-step">
+      {cell}
+      {cell}
+      {cell}
+      {cell}
+    </div>
+
+  return (
+    <div>
+      {step}
+      {step}
+      {step}
+      {step}
+      {step}
+      {step}
+      {step}
+      {step}
+      {step}
+      {step}
+      {step}
+      {step}
+      {step}
+      {step}
+      {step}
+      {step}     
+   </div>
+    
+  /*   <div className="grid">
+      {steps.map(step => 
+        <div className="grid-step">
+          {step.map(x => 
+            <div className="grid-cell"></div>
+          )}
+        </div>
+      )}
+    </div> */
+  )
 }
 
 export default App
