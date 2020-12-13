@@ -5,6 +5,7 @@ import './App.css'
 const App = () => {
 
   const synth = new Tone.Synth().toDestination()
+
   const playSound = (sound: Sound) => {
     console.log('playing sound ', sound)
     synth.triggerAttackRelease(sound[0], sound[1])
@@ -30,7 +31,7 @@ const App = () => {
     ['A2', '16N'],
     ['G3', '16N'],
   ]
-  
+
   const N_STEPS = 16
 
   type Step = Array<Sound>
