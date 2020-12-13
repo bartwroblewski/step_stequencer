@@ -103,12 +103,11 @@ const GridCell = ({row, col}: {row: number, col: number}) => {
   const handleClick = (e: any) => {
     console.log(row, col)
     addSoundToStep(col, 3)
-
   }
 
   return (
     <div 
-      className="grid-cell"
+      className='grid-cell'
       onClick={handleClick}
     ></div>
   )
