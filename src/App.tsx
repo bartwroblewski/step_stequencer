@@ -99,36 +99,33 @@ const App = () => {
 
 }
 
-const GridCell = () => <div className="grid-cell"></div>
+const GridCell = ({row, col}: {row?: number, col?: number}) => {
+  return (
+    <div className="grid-cell"></div>
+  )
+}
 
-const GridStep = ({index}: {index?: number}) => 
+const GridStep = ({col}: {col?: number}) => 
   <div className="grid-step">
-        <GridCell />
-        <GridCell />
-        <GridCell />
-        <GridCell />
+        <GridCell row={1} col={col} />
+        <GridCell row={2} col={col} />
+        <GridCell row={3} col={col} />
+        <GridCell row={4} col={col} />
   </div>
 
-const Grid = () => 
+const Grid = () => { 
+
+  const steps = []
+  for (let i=0; i<16; i++) {
+    steps.push(<GridStep col={i} />)
+  }
+  
+  return (
     <div>
-      <GridStep />
-      <GridStep />
-      <GridStep />
-      <GridStep />
-      <GridStep />
-      <GridStep />
-      <GridStep />
-      <GridStep />
-      <GridStep />
-      <GridStep />
-      <GridStep />
-      <GridStep />
-      <GridStep />
-      <GridStep />
-      <GridStep />
-      <GridStep />
+      {steps}
     </div>
-     
+  )
+}     
     
   /*   <div className="grid">
       {steps.map(step => 
