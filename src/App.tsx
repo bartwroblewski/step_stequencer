@@ -93,43 +93,42 @@ const App = () => {
   return (
     <div>
       <button onClick={playSteps}>Play steps</button>
-      <Grid steps={steps} />
+      <Grid />
     </div>
   )
 
 }
 
-const Grid = ({steps}: {steps: Steps}) => {   
+const GridCell = () => <div className="grid-cell"></div>
 
-  const cell = <div className="grid-cell"></div>
+const GridStep = ({index}: {index?: number}) => 
+  <div className="grid-step">
+        <GridCell />
+        <GridCell />
+        <GridCell />
+        <GridCell />
+  </div>
 
-  const step = 
-    <div className="grid-step">
-      {cell}
-      {cell}
-      {cell}
-      {cell}
-    </div>
-
-  return (
+const Grid = () => 
     <div>
-      {step}
-      {step}
-      {step}
-      {step}
-      {step}
-      {step}
-      {step}
-      {step}
-      {step}
-      {step}
-      {step}
-      {step}
-      {step}
-      {step}
-      {step}
-      {step}     
-   </div>
+      <GridStep />
+      <GridStep />
+      <GridStep />
+      <GridStep />
+      <GridStep />
+      <GridStep />
+      <GridStep />
+      <GridStep />
+      <GridStep />
+      <GridStep />
+      <GridStep />
+      <GridStep />
+      <GridStep />
+      <GridStep />
+      <GridStep />
+      <GridStep />
+    </div>
+     
     
   /*   <div className="grid">
       {steps.map(step => 
@@ -140,7 +139,7 @@ const Grid = ({steps}: {steps: Steps}) => {
         </div>
       )}
     </div> */
-  )
-}
+  
+
 
 export default App
