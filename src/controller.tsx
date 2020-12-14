@@ -1,4 +1,5 @@
 import Sequencer from './sequencer'
+import { Step } from './sequencer'
 import { GridType, GridRowType, GridCellType } from './components/Grid'
 import { sounds, Sound } from './synthesizer'
 
@@ -11,7 +12,6 @@ const Controller = () => {
         5: 2,
     }
 
-
     const getGridCellValue = (row: number, col: number): GridCellType => {
         return sequencer.steps[col].some((sound: Sound) => mapping[sounds.indexOf(sound)] === row)
         ? 1
@@ -20,7 +20,8 @@ const Controller = () => {
 
     const makeGrid = () => {
         const n_cols = sequencer.steps.length
-        const n_rows = Array.from(new Set(sequencer.steps.reduce((a, b) => a.concat(b)))).length
+        const usedSounds = new Set(sequencer.steps.reduce((a: Step, b: Step) => a.concat(b)))
+        const n_rows = usedSounds.size
         console.log(n_rows)
       /*   const grid: Grid = [
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],

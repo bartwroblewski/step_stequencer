@@ -7,9 +7,7 @@ export type GridRowType = GridCellType[]
 export type GridType= GridRowType[]
 
   const GridCell = ({cell}: {cell: GridCellType}) => {
-
     const className = cell ? 'grid-cell filled' : 'grid-cell'
-
     return <div className={className}></div>
   }
 
@@ -22,7 +20,6 @@ export type GridType= GridRowType[]
   }
 
   const Grid = ({grid}: {grid: GridType}) => { 
-    
     return (
       <div className="grid">
         {grid.map(row => <GridRow row={row} />)}
