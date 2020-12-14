@@ -31,6 +31,11 @@ const Sequencer = () => {
     steps[stepIndex].push(sounds[soundIndex])
   }
 
+  const usedSounds = {
+    kick: sounds[4],
+    snare: sounds[6],
+  }
+
   const kicks = [
     [0, 4],
     [4, 4],
@@ -40,12 +45,12 @@ const Sequencer = () => {
 
   const snares = [
     [2, 6],
-    [5, 6],
+    [6, 6],
     [10,6],
     [14, 6],
   ]
 
-  const hats = [
+/*   const hats = [
     [1, 5],
     [2, 5],
     [3, 5],
@@ -55,11 +60,11 @@ const Sequencer = () => {
     [9, 5],
     [10, 5],
     [11, 5],
-  ]
+  ] */
 
   kicks.forEach(kick => addSoundToStep(kick[0], kick[1]))
   snares.forEach(snare => addSoundToStep(snare[0], snare[1]))
-  hats.forEach(hat => addSoundToStep(hat[0], hat[1]))
+/*   hats.forEach(hat => addSoundToStep(hat[0], hat[1])) */
 
   const playStep = (step: Step) => {
     console.log('playing step ', step)
@@ -76,6 +81,7 @@ const Sequencer = () => {
     steps: steps,
     playSteps: playSteps,
     addSoundToStep: addSoundToStep,
+    usedSounds: usedSounds,
   }
 }
 
