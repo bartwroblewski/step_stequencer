@@ -5,6 +5,7 @@ import { sounds, Sound } from './synthesizer'
 
 const Controller = () => {
     const sequencer = Sequencer()
+    const usedSounds = new Set(sequencer.steps.reduce((a: Step, b: Step) => a.concat(b)))
 
     const mapping: any = { // soundIndex vs rowIndex
         4: 0,
@@ -20,7 +21,6 @@ const Controller = () => {
 
     const makeGrid = () => {
         const n_cols = sequencer.steps.length
-        const usedSounds = new Set(sequencer.steps.reduce((a: Step, b: Step) => a.concat(b)))
         const n_rows = usedSounds.size
         console.log(n_rows)
       /*   const grid: Grid = [
@@ -43,6 +43,7 @@ const Controller = () => {
 
     return {
         sequencer: sequencer,
+        usedSounds: usedSounds,
         makeGrid: makeGrid,
     }
 }

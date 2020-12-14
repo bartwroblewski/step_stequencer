@@ -22,15 +22,16 @@ import { sounds, Sound } from './synthesizer'
       rowIndexVsSoundIndex[rowIndex] = soundIndex
     }
  
-    let soundSelects = []
-    for (let i=0; i<longestStepLength; i++) {
-      soundSelects.push(
+    const soundSelects = Array.from(controller.usedSounds).map((sound: Sound, index: number) => {
+      return (
         <SoundSelect
-          key={i}
-          id={i}
-          onChange={(e: any) => attachSoundToRow(i, e.target.value)}
-        />)
-    }
+          key={index}
+          id={index}
+          onChange={(e: any) => attachSoundToRow(index, e.target.value)}
+        />
+      )
+    })
+
 
     const grid = controller.makeGrid()
 
