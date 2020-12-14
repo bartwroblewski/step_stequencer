@@ -4,6 +4,10 @@ import { GridType, GridRowType, GridCellType } from './components/Grid'
 const Controller = () => {
     const sequencer = Sequencer()
 
+    const determineGridCell = (row: number, col: number): GridCellType => {
+        return sequencer.steps[col][row] ? 1 : 0
+    }
+
     const makeGrid = () => {
         const n_cols = sequencer.steps.length
         const n_rows = Math.max(...sequencer.steps.map(step => step.length)) // n_rows = longest step length
@@ -18,7 +22,7 @@ const Controller = () => {
             const gridRow: GridRowType = []
             grid.push(gridRow)
             for (let col=0; col<n_cols; col++) {
-                const gridCell: GridCellType = 0
+                const gridCell: GridCellType = determineGridCell(row, col)
                 gridRow.push(gridCell)
             }
         }
