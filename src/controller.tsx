@@ -19,7 +19,7 @@ const Controller = () => {
             grid.push(gridRow)
             const gridCell: GridCellType = 0
             for (let col=0; col<n_cols; col++) {
-                gridRow.push(0)
+                gridRow.push(gridCell)
             }
         }
         return grid
