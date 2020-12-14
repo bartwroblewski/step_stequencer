@@ -2,9 +2,9 @@ import React from 'react'
 import { Steps, Step } from '../sequencer'
 import './Grid.css'
 
-type GridCellType = 0 | 1
-type GridRowType = GridCellType[]
-export type Grid= GridRowType[]
+export type GridCellType = 0 | 1
+export type GridRowType = GridCellType[]
+export type GridType= GridRowType[]
 
   const GridCell = ({cell}: {cell: GridCellType}) => {
 
@@ -21,7 +21,7 @@ export type Grid= GridRowType[]
     )
   }
 
-  const Grid = ({grid}: {grid: Grid}) => { 
+  const Grid = ({grid}: {grid: GridType}) => { 
     
     return (
       <div className="grid">
