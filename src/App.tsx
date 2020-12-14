@@ -1,15 +1,15 @@
 import React from 'react'
 import './App.css'
 import Grid from './components/Grid'
-import Sequencer from './sequencer'
+import Controller from './controller'
 import { Step } from './sequencer'
 import SoundSelect from './components/SoundSelect'
 import { sounds, Sound } from './synthesizer'
 
   const App = () => {
 
-    const sequencer = Sequencer()
-    const longestStepLength = Math.max(...sequencer.steps.map(step => step.length))
+    const controller = Controller()
+    const longestStepLength = Math.max(...controller.sequencer.steps.map(step => step.length))
     const n_gridRows = longestStepLength
 
     let rowIndexVsSoundIndex: {[key: number]: number} = {
@@ -42,19 +42,27 @@ import { sounds, Sound } from './synthesizer'
     type GridStep = Array<GridStepCell>
     const stepToGridStep = (step: Step) => {
       const gridStep: GridStep = [null, null, null, null]
+      gridStep.forEach((cell, index) => {
+        if (index < step.length) {
+          gridStep[index] = step[index]
+        }
+      })
       for (let sound of step) {
         const insertAt = reversed[sounds.indexOf(sound)]
         gridStep[insertAt] = sound
       }
       return gridStep
     }
-    const grid = sequencer.steps.map(stepToGridStep)
+    const grid = controller.sequencer.steps.map(stepToGridStep)
     console.log(grid)
+    
+
+    const grid2 = controller.makeGrid()
 
     return (
       <div>
-        <button onClick={sequencer.playSteps}>Play steps</button>
-        <Grid steps={sequencer.steps} />
+        <button onClick={controller.sequencer.playSteps}>Play steps</button>
+        <Grid grid={grid2} />
         {soundSelects}
       </div>
     )

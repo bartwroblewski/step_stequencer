@@ -1,44 +1,31 @@
 import React from 'react'
 import { Steps, Step } from '../sequencer'
+import './Grid.css'
 
-const GridCell = ({row, col, step}: {row: number, col: number, step: Step}) => {
+type GridCellType = 0 | 1
+type GridRowType = GridCellType[]
+export type Grid= GridRowType[]
 
-    const className = row <= step.length - 1 ? 'grid-cell filled' : 'grid-cell'
+  const GridCell = ({cell}: {cell: GridCellType}) => {
 
-    const handleClick = (e: any) => {
-      console.log(row, col, step)
-      //addSoundToStep(col, 3)
-    }
-  
+    const className = cell ? 'grid-cell filled' : 'grid-cell'
+
+    return <div className={className}></div>
+  }
+
+  const GridRow = ({row}: {row: GridRowType}) => {
     return (
-      <div 
-        className={className}
-        onClick={handleClick}
-      ></div>
+      <div className="grid-row">
+        {row.map(cell => <GridCell cell={cell} />)}
+      </div>
     )
   }
-  
-  const GridStep = ({col, step}: {col: number, step: Step}) => {
 
-    return (
-        <div className="grid-step">
-            <GridCell row={0} col={col} step={step} />
-            <GridCell row={1} col={col} step={step}  />
-            <GridCell row={2} col={col} step={step} />
-            <GridCell row={3} col={col} step={step} />
-        </div>
-    )
-  }
-  const Grid = ({steps}: {steps: Steps}) => { 
-    
-    const grid = []
-    for (let i=0; i<steps.length; i++) {
-      grid.push(<GridStep key={i} col={i} step={steps[i]} />)
-    }
+  const Grid = ({grid}: {grid: Grid}) => { 
     
     return (
-      <div>
-        {grid}
+      <div className="grid">
+        {grid.map(row => <GridRow row={row} />)}
       </div>
     )
   }     
