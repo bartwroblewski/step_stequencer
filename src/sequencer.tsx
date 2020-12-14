@@ -1,36 +1,26 @@
 import Synthesizer from './synthesizer'
-import { Sound } from './synthesizer'
+import { Sound, sounds } from './synthesizer'
 
 export type Step = Array<Sound>
 export type Steps = Array<Step>
 
 const Sequencer = () => {
-  const synthesizer = Synthesizer()
+  const synthesizer = Synthesizer().synthesizer
   const BPM = 120
   const INTERVAL = ((60 / BPM) / 4) * 1000 // 16th notes
-  /* const DIVISION = 16 // 16th notes
-  const LOOP_LENGTH = INTERVAL * (DIVISION + 2) // why + 2? */
+  //const DIVISION = 16 // 16th notes
+  //const LOOP_LENGTH = INTERVAL * (DIVISION + 2) // why + 2?
 
   const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 
   const playSound = (sound: Sound) => {
     console.log('playing sound ', sound)
-    synthesizer.synthesizer.triggerAttackRelease(sound[0], sound[1])
+    synthesizer.triggerAttackRelease(sound[0], sound[1])
   }
 
-  const sounds: Array<Sound> = [
-    ['C1', '16N'],
-    ['D1', '16N'],
-    ['E2', '16N'],
-    ['F3', '16N'],
-    ['G4', '16N'],
-    ['A2', '16N'],
-    ['G3', '16N'],
-  ]
-
   const N_STEPS = 16
-
-  //initial steps
+ 
+  //create default steps (empty)
   let steps: Steps = []
   for (let i=0;i<N_STEPS;i++) {
     let step: Step = []
