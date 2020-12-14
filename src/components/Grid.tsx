@@ -1,5 +1,5 @@
 import React from 'react'
-import { addSoundToStep, Steps, Step, steps } from '../sequencer'
+import { Steps, Step } from '../sequencer'
 
 const GridCell = ({row, col, step}: {row: number, col: number, step: Step}) => {
 

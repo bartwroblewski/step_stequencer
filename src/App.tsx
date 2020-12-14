@@ -1,13 +1,16 @@
 import React from 'react'
 import './App.css'
 import Grid from './components/Grid'
-import { playSteps, steps } from './sequencer'
+import Sequencer from './sequencer'
 
   const App = () => {
+
+    const sequencer = Sequencer()
+
     return (
       <div>
-        <button onClick={playSteps}>Play steps</button>
-        <Grid steps={steps} />
+        <button onClick={sequencer.playSteps}>Play steps</button>
+        <Grid steps={sequencer.steps} />
       </div>
     )
 }
