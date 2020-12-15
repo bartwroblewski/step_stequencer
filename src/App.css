@@ -1,0 +1,4 @@
+.sequencer {
+    display: grid;
+    grid-template-columns: 0fr 0fr;
+}
