@@ -22,7 +22,6 @@ const Controller = () => {
     const makeGrid = () => {
         const n_cols = sequencer.steps.length
         const n_rows = usedSounds.size
-        console.log(n_rows)
       /*   const grid: Grid = [
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],

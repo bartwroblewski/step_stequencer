@@ -1,6 +1,7 @@
 import React from 'react'
 import './App.css'
 import Grid from './components/Grid'
+import { GridType } from './components/Grid'
 import Controller from './controller'
 import { Step } from './sequencer'
 import SoundSelect from './components/SoundSelect'
@@ -33,12 +34,16 @@ import { sounds, Sound } from './synthesizer'
     })
 
 
-    const grid = controller.makeGrid()
+    const [grid, setGrid] = React.useState<GridType>(controller.makeGrid())
+    const handleCellClick = (stepIndex: number) => {
+      controller.sequencer.addSoundToStep(stepIndex, 4)
+      setGrid(controller.makeGrid())
+    }
 
     return (
       <div>
         <button onClick={controller.sequencer.playSteps}>Play steps</button>
-        <Grid grid={grid} />
+        <Grid grid={grid} onCellClick={handleCellClick}/>
         {soundSelects}
       </div>
     )

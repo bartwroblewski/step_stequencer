@@ -63,7 +63,7 @@ const Sequencer = () => {
 
   kicks.forEach(kick => addSoundToStep(kick[0], kick[1]))
   snares.forEach(snare => addSoundToStep(snare[0], snare[1]))
-  hats.forEach(hat => addSoundToStep(hat[0], hat[1]))
+  //hats.forEach(hat => addSoundToStep(hat[0], hat[1]))
 
   const playStep = (step: Step) => {
     console.log('playing step ', step)

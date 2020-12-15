@@ -19,10 +19,16 @@ export type GridType= GridRowType[]
     )
   }
 
-  const Grid = ({grid}: {grid: GridType}) => { 
+  const Grid = ({grid, onCellClick}: {grid: GridType, onCellClick: any}) => { 
     return (
       <div className="grid">
-        {grid.map(row => <GridRow row={row} />)}
+        {grid.map(row => 
+          <div className="grid-row">
+            {row.map(cell => 
+              <div className={cell ? 'grid-cell filled' : 'grid-cell'} onClick={() => onCellClick(2)}></div>
+            )}
+          </div>
+        )}
       </div>
     )
   }     
