@@ -4,8 +4,9 @@ import { Sound, sounds } from './synthesizer'
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 
-type SequenceStep = Sound | null
-type Sequence = Array<SequenceStep>
+export type SequenceStep = Sound | null
+export type Sequence = Array<SequenceStep>
+export type Sequences = Array<Sequence>
 
 class Sequencer {
     synthesizer: any
