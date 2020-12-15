@@ -44,6 +44,7 @@ class Sequencer {
 
 
     async play(soundMap: any) {
+        console.log(soundMap)
         for (let i=0; i<this.sequence_length; i++) {
             this.sequences.forEach((sequence, sequenceIndex) => {
                 if (sequence[i]) {
@@ -65,7 +66,7 @@ class Sequencer {
         clearTimeout(this.intervalId)
     }
 
-    placeSound(sequenceIndex: number, stepIndex: number, soundIndex: number) {
+    placeSound(sequenceIndex: number, stepIndex: number) {
         this.sequences[sequenceIndex][stepIndex] = 1// sounds[soundIndex]
     }
 

@@ -7,20 +7,20 @@ import { Sequences } from './sequencer'
 
   const controller = new Controller()
   const sequencer = controller.sequencer
+  let soundMap: {[key: number]: number} = {
+    0: 0,
+    1: 1,
+    2: 2,
+    3: 3,
+    4: 4,
+  }
 
   const App = () => {
  
     const [sequences, setSequences] = React.useState<Sequences>(sequencer.sequences)
 
-    const soundMap = React.useRef({
-      0: 0,
-      1: 1,
-      2: 2,
-      3: 3,
-    })
-
     const handleCellClick = (sequenceIndex: number, stepIndex: number) => {
-      sequencer.placeSound(sequenceIndex, stepIndex, sequenceIndex)
+      sequencer.placeSound(sequenceIndex, stepIndex)
       setSequences([...sequencer.sequences])
     }
 
@@ -28,12 +28,18 @@ import { Sequences } from './sequencer'
       sequencer.addSequence()
       setSequences([...sequencer.sequences])
     }
+    
+    const handleSelectChange = (e: any) => {
+      const sound = sounds.filter(sound => sound[0] === e.target.value)[0]
+      const soundIndex = sounds.indexOf(sound)
+      soundMap = {...soundMap, ...{[e.target.id]: soundIndex}}
+    }
 
-    const soundSelects = sequences.map(sequence =>
-      <SoundSelect sounds={sounds} />
+    const soundSelects = sequences.map((sequence, sequenceIndex) =>
+      <SoundSelect id={sequenceIndex} sounds={sounds} onChange={handleSelectChange} />
     )
 
-    const handlePlay = () => sequencer.play(soundMap.current)
+    const handlePlay = () => sequencer.play(soundMap)
 
     return (
       <div>
@@ -51,8 +57,12 @@ import { Sequences } from './sequencer'
     )
 }
 
-const SoundSelect = ({sounds}: {sounds: Array<Sound>}) =>
-  <select >
+const SoundSelect = ({id, sounds, onChange}: {id: number, sounds: Array<Sound>, onChange: any}) =>
+  <select 
+    defaultValue={sounds[soundMap[id]][0]}
+    id={JSON.stringify(id)}
+    onChange={(e: any) => onChange(e)}
+  > 
     {sounds.map(sound => <option>{sound[0]}</option>)}
   </select>
 
