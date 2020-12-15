@@ -21,34 +21,37 @@ class Sequencer {
 
         this.sequence_length = 16
         this.n_sequences = 4
-        this.sequences = this.getDefaultSequences()
+        this.sequences = [
+            [sounds[1], null, null, null, sounds[2], null, null, null, sounds[3], null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+        ]
 
         //const DIVISION = 16 // 16th notes
         //const LOOP_LENGTH = INTERVAL * (DIVISION + 2) // why + 2?
-    }
-
-    getDefaultSequences() {
-        const sequences = []
-        for (let i=0; i<this.n_sequences; i++) {
-            const sequence: Sequence = this.getEmptySequence()
-            sequences.push(sequence)
-        }
-        return sequences
-    }
-
-    getEmptySequence() {
-        const sequence: Sequence = []
-        for (let i=0; i<this.sequence_length; i++) {
-            const step: SequenceStep = null
-            sequence.push(step)
-        }
-        return sequence
     }
 
     playSound(sound: Sound) {
         console.log('playing sound ', sound)
         this.synthesizer.synthesizer.triggerAttackRelease(sound[0], sound[1])
     }
+
+
+    async play() {
+        for (let i=0; i<this.sequence_length; i++) {
+            for (let sequence of this.sequences) {
+                const sound = sequence[i]
+                if (sound) {
+                    this.playSound(sound)
+                }
+            }
+            await sleep(this.interval)
+        }
+    
+
+    }
+
 }
 
 export default Sequencer

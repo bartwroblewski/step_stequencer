@@ -13,12 +13,10 @@ import { Sound } from './synthesizer'
  
     const [grid, setGrid] = React.useState<GridType>([])
 
-    sequencer.sequences[1][5] = 0
-    console.log(sequencer.sequences)
-
     return (
       <div>
         <Grid grid={grid}/>
+        <button onClick={sequencer.play.bind(sequencer)}>Play</button>
       </div>
     )
 }
