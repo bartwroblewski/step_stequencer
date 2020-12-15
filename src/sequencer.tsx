@@ -43,19 +43,21 @@ class Sequencer {
     }
 
 
-    async play() {
+    async play(soundMap: any) {
         for (let i=0; i<this.sequence_length; i++) {
-            for (let sequence of this.sequences) {
+            this.sequences.forEach((sequence, sequenceIndex) => {
                 if (sequence[i]) {
-                    this.playSound(sounds[i])
+                    const soundIndex = soundMap[sequenceIndex]
+                    const sound = sounds[soundIndex]
+                    this.playSound(sound)
                 }
-            }
+            })
             await sleep(this.stepDuration)
         }
     }
 
-    loop() {
-        this.play()
+    loop(soundMap: any) {
+        this.play(soundMap)
         this.intervalId = setTimeout(this.loop.bind(this), this.loopLength)
     }
 

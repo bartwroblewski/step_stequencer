@@ -12,6 +12,13 @@ import { Sequences } from './sequencer'
  
     const [sequences, setSequences] = React.useState<Sequences>(sequencer.sequences)
 
+    const soundMap = React.useRef({
+      0: 0,
+      1: 1,
+      2: 2,
+      3: 3,
+    })
+
     const handleCellClick = (sequenceIndex: number, stepIndex: number) => {
       sequencer.placeSound(sequenceIndex, stepIndex, sequenceIndex)
       setSequences([...sequencer.sequences])
@@ -26,10 +33,12 @@ import { Sequences } from './sequencer'
       <SoundSelect sounds={sounds} />
     )
 
+    const handlePlay = () => sequencer.play(soundMap.current)
+
     return (
       <div>
         <button onClick={handleAddRow}>Add row</button>
-        <button onClick={sequencer.play.bind(sequencer)}>Play</button>
+        <button onClick={handlePlay}>Play</button>
         <button onClick={sequencer.loop.bind(sequencer)}>Loop</button>
         <button onClick={sequencer.stopLoop.bind(sequencer)}>Stop loop</button>
         <div className="sequencer">
