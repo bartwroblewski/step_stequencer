@@ -1,3 +1,4 @@
+import { Loop } from 'tone'
 import Synthesizer from './synthesizer'
 import { Sound, sounds } from './synthesizer'
 
@@ -9,27 +10,30 @@ type Sequence = Array<SequenceStep>
 class Sequencer {
     synthesizer: any
     bpm: number
-    interval: number
+    stepDuration: number
     sequences: Array<Sequence>
     sequence_length: number
     n_sequences: number
+    loopLength: number
+    intervalId: any
 
     constructor() {
         this.synthesizer = new Synthesizer()
         this.bpm = 120
-        this.interval = ((60 / this.bpm) / 4) * 1000 // 16th notes
+        this.stepDuration = ((60 / this.bpm) / 4) * 1000 // 16th notes
 
         this.sequence_length = 16
         this.n_sequences = 4
         this.sequences = [
-            [sounds[1], null, null, null, sounds[2], null, null, null, sounds[3], null, null, null, null, null, null, null],
-            [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
-            [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+            [sounds[1], null, null, null, sounds[2], null, null, null, sounds[3], null, null, null, sounds[4], null, null, null],
+            [null, null, sounds[3], null, null, sounds[2], null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, sounds[1], null, null, null, null, null, null, null, null, null, null, null],
             [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
         ]
+        this.intervalId = null
 
         //const DIVISION = 16 // 16th notes
-        //const LOOP_LENGTH = INTERVAL * (DIVISION + 2) // why + 2?
+        this.loopLength = this.stepDuration * (this.sequence_length + 2) // why + 2?
     }
 
     playSound(sound: Sound) {
@@ -46,12 +50,17 @@ class Sequencer {
                     this.playSound(sound)
                 }
             }
-            await sleep(this.interval)
+            await sleep(this.stepDuration)
         }
-    
-
     }
 
+    loop() {
+        this.intervalId = setInterval(() => this.play(), this.loopLength)
+    }
+
+    stopLoop() {
+        clearInterval(this.intervalId)
+    }
 }
 
 export default Sequencer

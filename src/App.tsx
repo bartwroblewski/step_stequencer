@@ -17,6 +17,8 @@ import { Sound } from './synthesizer'
       <div>
         <Grid grid={grid}/>
         <button onClick={sequencer.play.bind(sequencer)}>Play</button>
+        <button onClick={sequencer.loop.bind(sequencer)}>Loop</button>
+        <button onClick={sequencer.stopLoop.bind(sequencer)}>Stop loop</button>
       </div>
     )
 }
