@@ -3,14 +3,12 @@ import './App.css'
 import Grid from './components/Grid'
 import { GridType } from './components/Grid'
 import Controller from './controller'
-import { Step } from './sequencer'
 import SoundSelect from './components/SoundSelect'
-import { sounds, Sound } from './synthesizer'
+import { Sound } from './synthesizer'
 
   const App = () => {
 
-    const controller = Controller()
-    const longestStepLength = Math.max(...controller.sequencer.steps.map(step => step.length))
+    const controller = new Controller()
 
     let rowIndexVsSoundIndex: {[key: number]: number} = {
       0: 2,
@@ -37,12 +35,16 @@ import { sounds, Sound } from './synthesizer'
 
     const handleCellClick = (stepIndex: number) => {
       controller.sequencer.addSoundToStep(stepIndex, 4)
+      //controller.sequencer.playSteps()
       setGrid(controller.makeGrid())
     }
 
+    const handlePlayClick = () =>
+      controller.sequencer.playSteps()
+
     return (
       <div>
-        <button onClick={controller.sequencer.playSteps}>Play steps</button>
+        <button onClick={handlePlayClick}>Play steps</button>
         <Grid grid={grid} onCellClick={handleCellClick}/>
         {soundSelects}
       </div>

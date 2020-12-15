@@ -12,10 +12,12 @@ export const sounds: Array<Sound> = [
     ['G3', '16N'],
   ]
 
-const Synthesizer = () => {
-    const synthesizer = new Tone.Synth().toDestination()
-    Tone.start()
-    return {synthesizer: synthesizer}
+class Synthesizer {
+    synthesizer: any
+    constructor() {
+        this.synthesizer = new Tone.Synth().toDestination()
+        Tone.start()
+    }
 }
 
 export default Synthesizer
