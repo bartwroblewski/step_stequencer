@@ -33,8 +33,8 @@ import { sounds, Sound } from './synthesizer'
       )
     })
 
-
     const [grid, setGrid] = React.useState<GridType>(controller.makeGrid())
+
     const handleCellClick = (stepIndex: number) => {
       controller.sequencer.addSoundToStep(stepIndex, 4)
       setGrid(controller.makeGrid())

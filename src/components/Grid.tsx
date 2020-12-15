@@ -24,8 +24,8 @@ export type GridType= GridRowType[]
       <div className="grid">
         {grid.map(row => 
           <div className="grid-row">
-            {row.map(cell => 
-              <div className={cell ? 'grid-cell filled' : 'grid-cell'} onClick={() => onCellClick(2)}></div>
+            {row.map((cell, stepIndex) => 
+              <div className={cell ? 'grid-cell filled' : 'grid-cell'} onClick={() => onCellClick(stepIndex)}></div>
             )}
           </div>
         )}

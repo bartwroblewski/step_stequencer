@@ -13,6 +13,8 @@ const Controller = () => {
         5: 2,
     }
 
+    const loadDefaultSounds = () => {}
+
     const getGridCellValue = (row: number, col: number): GridCellType => {
         return sequencer.steps[col].some((sound: Sound) => mapping[sounds.indexOf(sound)] === row)
         ? 1
@@ -22,6 +24,7 @@ const Controller = () => {
     const makeGrid = () => {
         const n_cols = sequencer.steps.length
         const n_rows = usedSounds.size
+        console.log('used sounds', usedSounds.size)
       /*   const grid: Grid = [
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
