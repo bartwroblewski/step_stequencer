@@ -48,7 +48,7 @@ class Sequencer {
         for (let i=0; i<this.sequence_length; i++) {
             this.sequences.forEach((sequence, sequenceIndex) => {
                 if (sequence[i]) {
-                    const soundIndex = soundMap[sequenceIndex]
+                    const soundIndex = soundMap[sequenceIndex] || 0
                     const sound = sounds[soundIndex]
                     this.playSound(sound)
                 }
@@ -59,7 +59,7 @@ class Sequencer {
 
     loop(soundMap: any) {
         this.play(soundMap)
-        this.intervalId = setTimeout(this.loop.bind(this), this.loopLength)
+        this.intervalId = setTimeout(() => this.loop(soundMap), this.loopLength)
     }
 
     stopLoop() {

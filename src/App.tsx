@@ -7,13 +7,7 @@ import { Sequences } from './sequencer'
 
   const controller = new Controller()
   const sequencer = controller.sequencer
-  let soundMap: {[key: number]: number} = {
-    0: 0,
-    1: 1,
-    2: 2,
-    3: 3,
-    4: 4,
-  }
+  let soundMap: {[key: number]: number} = {}
 
   const App = () => {
  
@@ -40,13 +34,15 @@ import { Sequences } from './sequencer'
     )
 
     const handlePlay = () => sequencer.play(soundMap)
+    const handleLoop = () => sequencer.loop(soundMap)
+    const handleStopLoop = () => sequencer.stopLoop()
 
     return (
       <div>
         <button onClick={handleAddRow}>Add row</button>
         <button onClick={handlePlay}>Play</button>
-        <button onClick={sequencer.loop.bind(sequencer)}>Loop</button>
-        <button onClick={sequencer.stopLoop.bind(sequencer)}>Stop loop</button>
+        <button onClick={handleLoop}>Loop</button>
+        <button onClick={handleStopLoop}>Stop loop</button>
         <div className="sequencer">
           <div>
             {soundSelects}
@@ -59,7 +55,6 @@ import { Sequences } from './sequencer'
 
 const SoundSelect = ({id, sounds, onChange}: {id: number, sounds: Array<Sound>, onChange: any}) =>
   <select 
-    defaultValue={sounds[soundMap[id]][0]}
     id={JSON.stringify(id)}
     onChange={(e: any) => onChange(e)}
   > 
