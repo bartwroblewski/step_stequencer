@@ -56,11 +56,12 @@ class Sequencer {
     }
 
     loop() {
-        this.intervalId = setInterval(() => this.play(), this.loopLength)
+        this.play()
+        this.intervalId = setTimeout(this.loop.bind(this), this.loopLength)
     }
 
     stopLoop() {
-        clearInterval(this.intervalId)
+        clearTimeout(this.intervalId)
     }
 }
 
