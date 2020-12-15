@@ -2,7 +2,6 @@ import React from 'react'
 import './App.css'
 import Grid from './components/Grid'
 import Controller from './controller'
-import SoundSelect from './components/SoundSelect'
 import { Sound, sounds } from './synthesizer'
 import { Sequences } from './sequencer'
 
@@ -14,7 +13,7 @@ import { Sequences } from './sequencer'
     const [sequences, setSequences] = React.useState<Sequences>(sequencer.sequences)
 
     const handleCellClick = (sequenceIndex: number, stepIndex: number) => {
-      sequencer.placeSound(sequenceIndex, stepIndex)
+      sequencer.placeSound(sequenceIndex, stepIndex, sequenceIndex)
       setSequences([...sequencer.sequences])
     }
 
@@ -22,12 +21,11 @@ import { Sequences } from './sequencer'
       sequencer.addSequence()
       setSequences([...sequencer.sequences])
     }
-    
+
     const soundSelects = sequences.map(sequence =>
-      <select className="sound-selects">
-        {sounds.map(sound => <option>{sound[0]}</option>)}
-      </select>
+      <SoundSelect sounds={sounds} />
     )
+
     return (
       <div>
         <button onClick={handleAddRow}>Add row</button>
@@ -43,5 +41,11 @@ import { Sequences } from './sequencer'
       </div>
     )
 }
+
+const SoundSelect = ({sounds}: {sounds: Array<Sound>}) =>
+  <select >
+    {sounds.map(sound => <option>{sound[0]}</option>)}
+  </select>
+
 
 export default App

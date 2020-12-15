@@ -4,7 +4,7 @@ import { Sound, sounds } from './synthesizer'
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 
-export type SequenceStep = Sound | null
+export type SequenceStep = 0 | 1
 export type Sequence = Array<SequenceStep>
 export type Sequences = Array<Sequence>
 
@@ -26,12 +26,12 @@ class Sequencer {
         this.sequence_length = 16
         this.n_sequences = 4
         this.sequences = [
-            [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
-            [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
-            [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
-            [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         ]
-        this.intervalId = null
+        this.intervalId = 0
 
         //const DIVISION = 16 // 16th notes
         this.loopLength = this.stepDuration * (this.sequence_length + 2) // why + 2?
@@ -46,9 +46,8 @@ class Sequencer {
     async play() {
         for (let i=0; i<this.sequence_length; i++) {
             for (let sequence of this.sequences) {
-                const sound = sequence[i]
-                if (sound) {
-                    this.playSound(sound)
+                if (sequence[i]) {
+                    this.playSound(sounds[i])
                 }
             }
             await sleep(this.stepDuration)
@@ -64,12 +63,12 @@ class Sequencer {
         clearTimeout(this.intervalId)
     }
 
-    placeSound(sequenceIndex: number, stepIndex: number) {
-        this.sequences[sequenceIndex][stepIndex] = sounds[sequenceIndex]
+    placeSound(sequenceIndex: number, stepIndex: number, soundIndex: number) {
+        this.sequences[sequenceIndex][stepIndex] = 1// sounds[soundIndex]
     }
 
     addSequence() {
-        this.sequences.push([null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null])
+        this.sequences.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
     }
 }
 
