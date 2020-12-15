@@ -6,9 +6,9 @@ import Controller from './controller'
 import SoundSelect from './components/SoundSelect'
 import { Sound } from './synthesizer'
 
-  const App = () => {
+  const controller = new Controller()
 
-    const controller = new Controller()
+  const App = () => {
 
     let rowIndexVsSoundIndex: {[key: number]: number} = {
       0: 2,
@@ -35,7 +35,6 @@ import { Sound } from './synthesizer'
 
     const handleCellClick = (stepIndex: number) => {
       controller.sequencer.addSoundToStep(stepIndex, 4)
-      //controller.sequencer.playSteps()
       setGrid(controller.makeGrid())
     }
 
