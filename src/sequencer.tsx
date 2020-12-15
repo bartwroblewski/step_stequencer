@@ -26,9 +26,9 @@ class Sequencer {
         this.sequence_length = 16
         this.n_sequences = 4
         this.sequences = [
-            [sounds[1], null, null, null, sounds[2], null, null, null, sounds[3], null, null, null, sounds[4], null, null, null],
-            [null, null, sounds[3], null, null, sounds[2], null, null, null, null, null, null, null, null, null, null],
-            [null, null, null, null, sounds[1], null, null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
             [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
         ]
         this.intervalId = null

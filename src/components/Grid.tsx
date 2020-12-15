@@ -2,13 +2,16 @@ import React from 'react'
 import './Grid.css'
 import { SequenceStep, Sequence, Sequences } from '../sequencer'
 
-const Grid = ({sequences}: {sequences: Sequences}) => { 
+const Grid = ({sequences, onCellClick}: {sequences: Sequences, onCellClick: any}) => { 
   return (
     <div>
-      {sequences.map(sequence => 
+      {sequences.map((sequence, sequenceIndex) => 
         <div className="grid-row">
-          {sequence.map(step =>
-            <div className={step ? "grid-cell filled" : "grid-cell"}></div>
+          {sequence.map((step, stepIndex) =>
+            <div 
+              className={step ? "grid-cell filled" : "grid-cell"}
+              onClick={() => onCellClick(sequenceIndex, stepIndex)}
+            ></div>
           )}
         </div>
       )}
