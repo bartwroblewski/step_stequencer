@@ -32,8 +32,8 @@ class Controller {
 
     addRow() {
         const n_rows = this.getUsedSounds().size
-        this.sequencer.addSoundToStep(0, n_rows + 1)
-        alert(n_rows)
+        console.log(n_rows)
+        this.sequencer.addSoundToStep(0, ['C1', '0N'])//n_rows + 1)
     }
 
     makeGrid(): GridType {
