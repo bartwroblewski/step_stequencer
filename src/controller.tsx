@@ -5,29 +5,42 @@ import { sounds, Sound } from './synthesizer'
 
 class Controller {
     sequencer: any
-    usedSounds: Set<Sound>
-    mapping: any
+    indexes: any
     
     constructor() {
         this.sequencer = new Sequencer()
-        this.usedSounds = new Set(this.sequencer.steps.reduce((a: Step, b: Step) => a.concat(b)))
-        this.mapping = {
-            4: 0,
+        this.indexes = {
+       /*      4: 0,
             6: 1,
-            5: 2,
+            5: 2, */
+        }
+        for (let i=0; i<sounds.length; i++) {
+            this.indexes[i] = i
         }
     }
 
+    getUsedSounds(): Set<Sound> {
+        const usedSounds: Set<Sound> = new Set(this.sequencer.steps.reduce((a: Step, b: Step) => a.concat(b)))
+        return usedSounds
+    }
+
     getGridCellValue (row: number, col: number): GridCellType {
-        return this.sequencer.steps[col].some((sound: Sound) => this.mapping[sounds.indexOf(sound)] === row)
+        return this.sequencer.steps[col].some((sound: Sound) => this.indexes[sounds.indexOf(sound)] === row)
         ? 1
         : 0
     }
 
+    addRow() {
+        const n_rows = this.getUsedSounds().size
+        this.sequencer.addSoundToStep(0, n_rows + 1)
+        alert(n_rows)
+    }
+
     makeGrid(): GridType {
         const n_cols = this.sequencer.steps.length
-        const n_rows = this.usedSounds.size
-        console.log('used sounds', this.usedSounds.size)
+        const usedSounds = this.getUsedSounds()
+        console.log(usedSounds)
+        const n_rows = usedSounds.size
       /*   const grid: Grid = [
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],

@@ -53,9 +53,9 @@ class Sequencer {
             [11, 5],
         ]
         
-        kicks.forEach(kick => this.addSoundToStep(kick[0], kick[1]))
-        snares.forEach(snare => this.addSoundToStep(snare[0], snare[1]))
-        hats.forEach(hat => this.addSoundToStep(hat[0], hat[1]))
+       // kicks.forEach(kick => this.addSoundToStep(kick[0], kick[1]))
+        //snares.forEach(snare => this.addSoundToStep(snare[0], snare[1]))
+        //hats.forEach(hat => this.addSoundToStep(hat[0], hat[1]))
     }
 
     playSound(sound: Sound) {
