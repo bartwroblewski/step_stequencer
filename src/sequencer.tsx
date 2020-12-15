@@ -63,6 +63,14 @@ class Sequencer {
     stopLoop() {
         clearTimeout(this.intervalId)
     }
+
+    placeSound(sequenceIndex: number, stepIndex: number) {
+        this.sequences[sequenceIndex][stepIndex] = sounds[sequenceIndex]
+    }
+
+    addSequence() {
+        this.sequences.push([null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null])
+    }
 }
 
 export default Sequencer
