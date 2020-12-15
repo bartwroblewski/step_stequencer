@@ -8,6 +8,7 @@
     border: 1px solid black;
     margin: 2.5px;
 }
+
 .grid-cell.filled {
     background: black;
 }
