@@ -12,6 +12,7 @@ class Controller {
         this.sequencer = new Sequencer(
             this.pickSound.bind(this),
             this.playSound.bind(this),
+            this.playPart.bind(this),
         )
     }
 
@@ -22,6 +23,10 @@ class Controller {
 
     playSound(sound: Sound) {
         this.synthesizer.synthesizer.triggerAttackRelease(sound[0], sound[1])
+    }
+
+    playPart(part: Array<Sound>) {
+        this.synthesizer.polySynthesizer.triggerAttackRelease(part, .1)
     }
 }
 

@@ -14,8 +14,10 @@ export const sounds: Array<Sound> = [
 
 class Synthesizer {
     synthesizer: any
+    polySynthesizer: any
     constructor() {
         this.synthesizer = new Tone.Synth().toDestination()
+        this.polySynthesizer = new Tone.PolySynth().toDestination();
         Tone.start()
     }
 }

@@ -20,10 +20,12 @@ class Sequencer {
     intervalId: any
     pickSound: PickSound
     playSound: PlaySound
+    playPart: any
 
-    constructor(pickSound: PickSound, playSound: PlaySound) {
+    constructor(pickSound: PickSound, playSound: PlaySound, playPart: any) {
         this.pickSound = pickSound
         this.playSound = playSound
+        this.playPart = playPart
         this.bpm = 120
         this.stepDuration = ((60 / this.bpm) / 4) * 1000 // 16th notes
         this.sequence_length = 16
@@ -38,12 +40,27 @@ class Sequencer {
         this.loopLength = this.stepDuration * (this.sequence_length + 2) // why + 2?
     }
 
+    getMainSequence() {
+        const seq = []
+        for (let step=0; step<this.sequence_length; step++) {
+            const part: Array<SequenceStep> = []
+            this.sequences.forEach((sequence, sequenceIndex) => {
+                if (sequence[step]) part.push(sequence[step])
+            })
+            seq.push(part)
+        }
+        return seq
+    }
+
     async play() {
         for (let step=0; step<this.sequence_length; step++) {
+            const part: Array<String> = []
             this.sequences.forEach((sequence, sequenceIndex) => {
                 if (sequence[step]) {
                     const sound = this.pickSound(sequenceIndex)
-                    this.playSound(sound)
+                    part.push(sound[0])
+                    this.playPart(part)
+                    //this.playSound(sound)
                 }
             })
             await sleep(this.stepDuration)
