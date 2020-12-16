@@ -1,4 +1,26 @@
+body {
+    background: black;
+}
+
 .sequencer {
     display: grid;
     grid-template-columns: 0fr 0fr;
+}
+
+.sound-selects {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+} 
+
+.sound-selects > * {
+    background: none;
+    color: white;
+}
+
+button {
+    background: none;
+    color: white;
+    margin-right: 10px;
+    margin-bottom: 10px;
 }

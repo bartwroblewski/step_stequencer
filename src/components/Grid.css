@@ -3,12 +3,12 @@
 }
 
 .grid-cell {
-    width: 15px;
-    height: 15px;
-    border: 1px solid black;
+    width: 25px;
+    height: 25px;
+    border: 1px solid white;
     margin: 2.5px;
 }
 
 .grid-cell.filled {
-    background: black;
+    background: white;
 }

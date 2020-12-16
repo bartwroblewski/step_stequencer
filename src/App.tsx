@@ -40,7 +40,7 @@ import { controller } from './index'
         <button onClick={handleLoop}>Loop</button>
         <button onClick={handleStopLoop}>Stop loop</button>
         <div className="sequencer">
-          <div>
+          <div className="sound-selects">
             {soundSelects}
           </div>
           <Grid sequences={sequences} onCellClick={handleCellClick}/>
@@ -50,12 +50,8 @@ import { controller } from './index'
 }
 
 const SoundSelect = ({id, sounds, onChange}: {id: number, sounds: Array<Sound>, onChange: any}) =>
-  <select 
-    id={JSON.stringify(id)}
-    onChange={(e: any) => onChange(e)}
-  > 
+  <select id={JSON.stringify(id)} onChange={(e: any) => onChange(e)}> 
     {sounds.map(sound => <option>{sound[0]}</option>)}
   </select>
-
 
 export default App
