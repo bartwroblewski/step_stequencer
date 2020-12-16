@@ -1,18 +1,16 @@
-import { controller } from './index'
-import Synthesizer from './synthesizer'
-import { Sound, sounds } from './synthesizer'
-
-
-const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
+import { Sound } from './synthesizer'
 
 export type SequenceStep = 0 | 1
 export type Sequence = Array<SequenceStep>
 export type Sequences = Array<Sequence>
-
 type PickSound = (sequenceIndex: number) => Sound
+type PlaySound = (sound: Sound) => void
+
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
+
+interface SequencerConstructor {}
 
 class Sequencer {
-    synthesizer: any
     bpm: number
     stepDuration: number
     sequences: Array<Sequence>
@@ -21,10 +19,11 @@ class Sequencer {
     loopLength: number
     intervalId: any
     pickSound: PickSound
+    playSound: PlaySound
 
-    constructor(pickSound: PickSound) {
+    constructor(pickSound: PickSound, playSound: PlaySound) {
         this.pickSound = pickSound
-        this.synthesizer = new Synthesizer()
+        this.playSound = playSound
         this.bpm = 120
         this.stepDuration = ((60 / this.bpm) / 4) * 1000 // 16th notes
         this.sequence_length = 16
@@ -36,13 +35,7 @@ class Sequencer {
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         ]
         this.intervalId = 0
-        //const DIVISION = 16 // 16th notes
         this.loopLength = this.stepDuration * (this.sequence_length + 2) // why + 2?
-    }
-
-    playSound(sound: Sound) {
-        console.log('playing sound ', sound)
-        this.synthesizer.synthesizer.triggerAttackRelease(sound[0], sound[1])
     }
 
     async play() {

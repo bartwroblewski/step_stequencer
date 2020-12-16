@@ -1,7 +1,6 @@
 import React from 'react'
 import './App.css'
 import Grid from './components/Grid'
-import Controller from './controller'
 import { Sound, sounds } from './synthesizer'
 import { Sequences } from './sequencer'
 import { controller } from './index'
