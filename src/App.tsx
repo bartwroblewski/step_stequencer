@@ -11,7 +11,7 @@ import { controller } from './index'
     const [sequences, setSequences] = React.useState<Sequences>(controller.sequencer.sequences)
 
     const handleCellClick = (sequenceIndex: number, stepIndex: number) => {
-      controller.sequencer.placeSound(sequenceIndex, stepIndex)
+      controller.sequencer.toggleStep(sequenceIndex, stepIndex)
       setSequences([...controller.sequencer.sequences])
     }
 

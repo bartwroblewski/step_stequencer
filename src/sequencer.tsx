@@ -66,8 +66,9 @@ class Sequencer {
         clearTimeout(this.intervalId)
     }
 
-    placeSound(sequenceIndex: number, stepIndex: number) {
-        this.sequences[sequenceIndex][stepIndex] = 1// sounds[soundIndex]
+    toggleStep(sequenceIndex: number, stepIndex: number) {
+        const step = this.sequences[sequenceIndex][stepIndex]
+        this.sequences[sequenceIndex][stepIndex] = step ? 0 : 1
     }
 
     addSequence() {
