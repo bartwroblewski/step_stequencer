@@ -4,38 +4,35 @@ import Grid from './components/Grid'
 import Controller from './controller'
 import { Sound, sounds } from './synthesizer'
 import { Sequences } from './sequencer'
-
-  const controller = new Controller()
-  const sequencer = controller.sequencer
-  let soundMap: {[key: number]: number} = {}
+import { controller } from './index'
 
   const App = () => {
  
-    const [sequences, setSequences] = React.useState<Sequences>(sequencer.sequences)
+    const [sequences, setSequences] = React.useState<Sequences>(controller.sequencer.sequences)
 
     const handleCellClick = (sequenceIndex: number, stepIndex: number) => {
-      sequencer.placeSound(sequenceIndex, stepIndex)
-      setSequences([...sequencer.sequences])
+      controller.sequencer.placeSound(sequenceIndex, stepIndex)
+      setSequences([...controller.sequencer.sequences])
     }
 
     const handleAddRow = () => {
-      sequencer.addSequence()
-      setSequences([...sequencer.sequences])
+      controller.sequencer.addSequence()
+      setSequences([...controller.sequencer.sequences])
     }
     
     const handleSelectChange = (e: any) => {
       const sound = sounds.filter(sound => sound[0] === e.target.value)[0]
       const soundIndex = sounds.indexOf(sound)
-      soundMap = {...soundMap, ...{[e.target.id]: soundIndex}}
+      controller.soundMap[e.target.id] = soundIndex
     }
 
     const soundSelects = sequences.map((sequence, sequenceIndex) =>
       <SoundSelect id={sequenceIndex} sounds={sounds} onChange={handleSelectChange} />
     )
 
-    const handlePlay = () => sequencer.play(soundMap)
-    const handleLoop = () => sequencer.loop(soundMap)
-    const handleStopLoop = () => sequencer.stopLoop()
+    const handlePlay = () => controller.sequencer.play()
+    const handleLoop = () => controller.sequencer.loop()
+    const handleStopLoop = () => controller.sequencer.stopLoop()
 
     return (
       <div>

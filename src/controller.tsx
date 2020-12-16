@@ -1,11 +1,18 @@
 import Sequencer from './sequencer'
+import { sounds, Sound } from './synthesizer'
 
 class Controller {
     sequencer: any
-    indexes: any
+    soundMap: {[key: number]: number}
     
     constructor() {
-        this.sequencer = new Sequencer()
+        this.soundMap = {}
+        this.sequencer = new Sequencer(this.pickSound)
+    }
+
+    pickSound = (sequenceIndex: number): Sound => {
+        const soundIndex = this.soundMap[sequenceIndex] || 0
+        return sounds[soundIndex]
     }
 }
 

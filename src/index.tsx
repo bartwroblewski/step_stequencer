@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import Controller from './controller'
+
+export const controller = new Controller()
 
 ReactDOM.render(
   <React.StrictMode>

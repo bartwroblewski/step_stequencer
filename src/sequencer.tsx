@@ -1,12 +1,15 @@
-import { Loop } from 'tone'
+import { controller } from './index'
 import Synthesizer from './synthesizer'
 import { Sound, sounds } from './synthesizer'
+
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 
 export type SequenceStep = 0 | 1
 export type Sequence = Array<SequenceStep>
 export type Sequences = Array<Sequence>
+
+type PickSound = (sequenceIndex: number) => Sound
 
 class Sequencer {
     synthesizer: any
@@ -17,12 +20,13 @@ class Sequencer {
     n_sequences: number
     loopLength: number
     intervalId: any
+    pickSound: PickSound
 
-    constructor() {
+    constructor(pickSound: PickSound) {
+        this.pickSound = pickSound
         this.synthesizer = new Synthesizer()
         this.bpm = 120
         this.stepDuration = ((60 / this.bpm) / 4) * 1000 // 16th notes
-
         this.sequence_length = 16
         this.n_sequences = 4
         this.sequences = [
@@ -32,7 +36,6 @@ class Sequencer {
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         ]
         this.intervalId = 0
-
         //const DIVISION = 16 // 16th notes
         this.loopLength = this.stepDuration * (this.sequence_length + 2) // why + 2?
     }
@@ -42,14 +45,11 @@ class Sequencer {
         this.synthesizer.synthesizer.triggerAttackRelease(sound[0], sound[1])
     }
 
-
-    async play(soundMap: any) {
-        console.log(soundMap)
-        for (let i=0; i<this.sequence_length; i++) {
+    async play() {
+        for (let step=0; step<this.sequence_length; step++) {
             this.sequences.forEach((sequence, sequenceIndex) => {
-                if (sequence[i]) {
-                    const soundIndex = soundMap[sequenceIndex] || 0
-                    const sound = sounds[soundIndex]
+                if (sequence[step]) {
+                    const sound = this.pickSound(sequenceIndex)
                     this.playSound(sound)
                 }
             })
@@ -57,9 +57,9 @@ class Sequencer {
         }
     }
 
-    loop(soundMap: any) {
-        this.play(soundMap)
-        this.intervalId = setTimeout(() => this.loop(soundMap), this.loopLength)
+    loop() {
+        this.play()
+        this.intervalId = setTimeout(() => this.loop(), this.loopLength)
     }
 
     stopLoop() {
