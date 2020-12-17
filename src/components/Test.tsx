@@ -1,16 +1,17 @@
-import React from 'react'
-
-type Sample = {
-    url: string,
-    volume: number,
+interface TestOptions {
+    a: string,
+    b: number,
 }
 
-type Col = Sample[]
+class Test {
+    options: TestOptions
+    constructor (options: TestOptions) {
+        this.options = options
+    }
+}
 
-type Seq = Col[]
+const test = new Test({a: 'sdsf', b: 4545})
 
-const col: Col = []
 
-const Test = () => <div></div>
+export {}
 
-export default Test

@@ -3,12 +3,14 @@ import { Sound } from './synthesizer'
 export type SequenceStep = 0 | 1
 export type Sequence = Array<SequenceStep>
 export type Sequences = Array<Sequence>
-type PickSound = (sequenceIndex: number) => Sound
-type PlaySound = (sound: Sound) => void
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 
-interface SequencerConstructor {}
+export interface SoundManager {
+    pickSound: (sequenceIndex: number) => Sound
+    playSound: (sound: Sound) => void
+    playPart: any
+}
 
 class Sequencer {
     bpm: number
@@ -18,14 +20,10 @@ class Sequencer {
     n_sequences: number
     loopLength: number
     intervalId: any
-    pickSound: PickSound
-    playSound: PlaySound
-    playPart: any
+    soundManager: SoundManager
 
-    constructor(pickSound: PickSound, playSound: PlaySound, playPart: any) {
-        this.pickSound = pickSound
-        this.playSound = playSound
-        this.playPart = playPart
+    constructor(soundManager: SoundManager) {
+        this.soundManager = soundManager
         this.bpm = 120
         this.stepDuration = ((60 / this.bpm) / 4) * 1000 // 16th notes
         this.sequence_length = 16
@@ -57,10 +55,10 @@ class Sequencer {
             const part: Array<String> = []
             this.sequences.forEach((sequence, sequenceIndex) => {
                 if (sequence[step]) {
-                    const sound = this.pickSound(sequenceIndex)
+                    const sound = this.soundManager.pickSound(sequenceIndex)
                     part.push(sound[0])
-                    this.playPart(part)
-                    //this.playSound(sound)
+                    this.soundManager.playPart(part)
+                    //this.soundManger.playSound(sound)
                 }
             })
             await sleep(this.stepDuration)

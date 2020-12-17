@@ -1,4 +1,4 @@
-import Sequencer from './sequencer'
+import Sequencer, { SoundManager } from './sequencer'
 import Synthesizer, { sounds, Sound } from './synthesizer'
 
 class Controller {
@@ -9,11 +9,12 @@ class Controller {
     constructor() {
         this.soundMap = {}
         this.synthesizer = new Synthesizer()
-        this.sequencer = new Sequencer(
-            this.pickSound.bind(this),
-            this.playSound.bind(this),
-            this.playPart.bind(this),
-        )
+        const soundManager: SoundManager = {
+            pickSound: this.pickSound.bind(this),
+            playSound: this.playSound.bind(this),
+            playPart: this.playPart.bind(this),
+        } 
+        this.sequencer = new Sequencer(soundManager)
     }
 
     pickSound (sequenceIndex: number): Sound {
