@@ -11,6 +11,10 @@ import { controller } from './index'
 
     const handleCellClick = (sequenceIndex: number, stepIndex: number) => {
       controller.sequencer.toggleStep(sequenceIndex, stepIndex)
+      const isCellOn = controller.sequencer.sequences[sequenceIndex][stepIndex]
+      if (isCellOn) {
+        controller.playSound(controller.pickSound(sequenceIndex))
+      }
       console.log(controller.sequencer.getMainSequence())
       setSequences([...controller.sequencer.sequences])
     }

@@ -16,12 +16,17 @@ body {
 
 .sound-selects > * {
     background: none;
-    color: white;
+    color: silver;
+}
+
+option {
+    background: black;
+    color: silver;
 }
 
 button {
     background: none;
-    color: white;
+    color: silver;
     margin-right: 10px;
     margin-bottom: 10px;
 }
