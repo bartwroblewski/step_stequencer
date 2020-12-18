@@ -27,7 +27,12 @@ const App: React.FC<UIProps> = ({handlers, sequences, defaultEvent}: UIProps) =>
 
   const grid = seqs.map((seq, seqIndex) => 
     <div className='grid-row'>
-      {seq.map((cell, cellIndex) => <div className='grid-cell' onClick={() => handleCellClick(seqIndex, cellIndex)}></div>)}
+      {seq.map((cell, cellIndex) =>
+        <div 
+          className={cell.name === 'sleepEvent' ? 'grid-cell' : 'grid-cell filled'}
+          onClick={() => handleCellClick(seqIndex, cellIndex)}>
+        </div>
+      )}
     </div>
   )
 
