@@ -34,7 +34,7 @@ sequencer.addSequence(sequence4)
 //sequencer.startAllSequences()
 
 interface AppHandlers {
-  handleAddSequence: (sequence: Sequence) => any
+  onAddSequence: (sequence: Sequence) => any
 }
 
 export interface AppProps {
@@ -43,7 +43,7 @@ export interface AppProps {
 }
 
 const appHandlers: AppHandlers = {
-  handleAddSequence: sequencer.addSequence.bind(sequencer)
+  onAddSequence: sequencer.addSequence.bind(sequencer)
 }
 
 const appProps: AppProps = {
