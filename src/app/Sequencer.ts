@@ -28,6 +28,8 @@ class Sequencer {
 
     changeSequence(sequenceIndex: number, cellIndex: number, event: Event) {
         const sequence = this.sequences[sequenceIndex]
+       // const ev = sequence[cellIndex]
+       // if (ev.name === event.name) 
         const newSequence = sequence.map((cell, index) => index === cellIndex ? event : cell)
         const newSequences = [...this.sequences]
         newSequences[sequenceIndex] = newSequence

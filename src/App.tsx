@@ -7,7 +7,6 @@ import { Sequence, makeSequence } from './app/Sequence'
 
 const App: React.FC<UIProps> = ({handlers, sequences, defaultEvent}: UIProps) => {
  
-
   const [seqs, setSeqs] = React.useState<Sequence[]>(sequences)
 
   React.useEffect(() => console.log(seqs), [seqs])
