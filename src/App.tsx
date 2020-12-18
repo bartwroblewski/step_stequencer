@@ -31,8 +31,13 @@ const App: React.FC<UIProps> = ({handlers, sequences, defaultEvent}: UIProps) =>
     </div>
   )
 
+  const handlePlay = () => {
+    handlers.onPlay()
+  }
+
   return (
     <div>
+      <button onClick={handlePlay}>Play</button>
       <button onClick={handleAddSequence}>Add sequence</button>
       {grid}
     </div>

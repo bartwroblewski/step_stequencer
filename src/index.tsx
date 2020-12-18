@@ -37,6 +37,7 @@ sequencer.addSequence(sequence4)
 interface UIHandlers {
   onAddSequence: (sequence: Sequence) => any
   onCellClick: (seqIndex: number, cellIndex: number, event: Event) => Sequence,
+  onPlay: () => void
 }
 
 export interface UIProps {
@@ -45,13 +46,14 @@ export interface UIProps {
   defaultEvent: Event,
 }
 
-const appHandlers: UIHandlers = {
+const UIHandlers: UIHandlers = {
   onAddSequence: sequencer.addSequence.bind(sequencer),
-  onCellClick: (seqIndex: number, cellIndex: number, event: Event) => sequencer.changeSequence(seqIndex, cellIndex, event)
+  onCellClick: (seqIndex: number, cellIndex: number, event: Event) => sequencer.changeSequence(seqIndex, cellIndex, event),
+  onPlay: sequencer.startAllSequences.bind(sequencer),
 }
 
 const UIProps: UIProps = {
-  handlers: appHandlers,
+  handlers: UIHandlers,
   sequences: sequencer.sequences,
   defaultEvent: () => playSound('C3'),
 }
