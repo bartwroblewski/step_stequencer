@@ -19,14 +19,17 @@ const sequencer = app.sequencer
 const sequence1 = makeSequence(16, 100)
 const sequence2 = makeSequence(16, 100)
 const sequence3 = makeSequence(16, 100)
+const sequence4 = makeSequence(16, 100)
 
-sequence1[4] = () => playSound('C3')
-sequence2[8] = () => playSound('E3')
-sequence3[12] = () => playSound('G3')
+sequence1[3] = () => playSound('C3')
+sequence2[7] = () => playSound('E3')
+sequence3[11] = () => playSound('G3')
+sequence4[15] = () => playSound('B3')
 
 sequencer.addSequence(sequence1)
 sequencer.addSequence(sequence2)
 sequencer.addSequence(sequence3)
+sequencer.addSequence(sequence4)
 
 sequencer.startAllSequences()
 
