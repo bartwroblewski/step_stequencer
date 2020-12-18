@@ -33,22 +33,22 @@ sequencer.addSequence(sequence4)
 
 //sequencer.startAllSequences()
 
-interface AppHandlers {
+interface UIHandlers {
   onAddSequence: (sequence: Sequence) => any
   onCellClick: any,
 }
 
-export interface AppProps {
-  handlers: AppHandlers,
+export interface UIProps {
+  handlers: UIHandlers,
   sequences: Sequence[],
 }
 
-const appHandlers: AppHandlers = {
+const appHandlers: UIHandlers = {
   onAddSequence: sequencer.addSequence.bind(sequencer),
   onCellClick: () => alert('cellClicked'),
 }
 
-const appProps: AppProps = {
+const UIProps: UIProps = {
   handlers: appHandlers,
   sequences: sequencer.sequences,
 }
@@ -56,8 +56,8 @@ const appProps: AppProps = {
 ReactDOM.render(
   <React.StrictMode>
     <App 
-      handlers={appProps.handlers}
-      sequences={appProps.sequences}
+      handlers={UIProps.handlers}
+      sequences={UIProps.sequences}
     />
   </React.StrictMode>,
   document.getElementById('root')

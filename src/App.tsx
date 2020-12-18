@@ -2,10 +2,10 @@ import React from 'react'
 import './App.css'
 import './components/Grid.css'
 
-import { AppProps } from './index'
+import { UIProps } from './index'
 import { Sequence, makeSequence } from './app/Sequence'
 
-const App: React.FC<AppProps> = ({handlers, sequences}: AppProps) => {
+const App: React.FC<UIProps> = ({handlers, sequences}: UIProps) => {
  
 
   const [seqs, setSeqs] = React.useState<Sequence[]>(sequences)
