@@ -18,15 +18,15 @@ const App: React.FC<AppProps> = ({handlers, sequences}: AppProps) => {
     </div>
   )
   
-  const addSequence = () => {
+  const handleAddSequence = () => {
     const sequence = makeSequence(16, 500)
-    const newSequences = handlers.handleAddSequence(sequence)
+    const newSequences = handlers.onAddSequence(sequence)
     setSeqs([...newSequences])
   }
 
   return (
     <div>
-      <button onClick={addSequence}>Add sequence</button>
+      <button onClick={handleAddSequence}>Add sequence</button>
       {grid}
     </div>
   )
