@@ -10,6 +10,7 @@ class Sequencer {
 
     addSequence(sequence: Sequence) {
         this.sequences.push(sequence)
+        return this.sequences
     }
 
     async startSequence(sequence: Sequence) {

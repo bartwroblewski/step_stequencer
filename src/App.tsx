@@ -6,7 +6,7 @@ import { AppProps } from './index'
 import { Sequence, makeSequence } from './app/Sequence'
 
 const App: React.FC<AppProps> = ({handlers, sequences}: AppProps) => {
-  const sequence1 = makeSequence(16, 500)
+ 
 
   const [seqs, setSeqs] = React.useState<Sequence[]>(sequences)
 
@@ -17,10 +17,16 @@ const App: React.FC<AppProps> = ({handlers, sequences}: AppProps) => {
       {seq.map(cell => <div className='grid-cell'></div>)}
     </div>
   )
+  
+  const addSequence = () => {
+    const sequence = makeSequence(16, 500)
+    const newSequences = handlers.handleAddSequence(sequence)
+    setSeqs([...newSequences])
+  }
 
   return (
     <div>
-      <button onClick={() => handlers.handleAddSequence(sequence1)}>add sequence</button>
+      <button onClick={addSequence}>Add sequence</button>
       {grid}
     </div>
   )
