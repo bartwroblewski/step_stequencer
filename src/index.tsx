@@ -19,17 +19,25 @@ sequencer.addSequence(sequence3)
 sequencer.addSequence(sequence4)
 //sequencer.startAllSequences()
 
-export interface IAppOptions {
+interface AppHandlers {
+  handleAddSequence: (sequence: Sequence) => any
+}
+
+export interface AppProps {
   handleAddSequence: (sequence: Sequence) => any,
 }
 
-const appOptions: IAppOptions = {
+const handlers: AppHandlers = {
+  handleAddSequence: sequencer.addSequence.bind(sequencer)
+}
+
+const appProps: AppProps = {
   handleAddSequence: sequencer.addSequence.bind(sequencer),
 }
 
 ReactDOM.render(
   <React.StrictMode>
-    <App handleAddSequence={appOptions.handleAddSequence} />
+    <App handleAddSequence={appProps.handleAddSequence} />
   </React.StrictMode>,
   document.getElementById('root')
 );

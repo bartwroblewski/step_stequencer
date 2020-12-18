@@ -1,9 +1,9 @@
 import React from 'react'
 import './App.css'
-import { IAppOptions } from './index'
+import { AppProps } from './index'
 import Sequence from './app/Sequence'
 
-const App: React.FC<IAppOptions> = ({handleAddSequence}: IAppOptions) => {
+const App: React.FC<AppProps> = ({handleAddSequence}: AppProps) => {
   const sequence1 = new Sequence({n_ticks: 16, tickDuration: 1000, event: () => console.log('sequence1')})
   return (
     <div>
