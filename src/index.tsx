@@ -3,13 +3,33 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import Controller from './controller'
 
-export const controller = new Controller()
+import Backend from './app/App'
+import Sequence from './app/Sequence'
+
+const app = Backend()
+const sequencer = app.sequencer
+const sequence1 = new Sequence({n_ticks: 16, tickDuration: 1000, event: () => console.log('sequence1')})
+const sequence2 = new Sequence({n_ticks: 16, tickDuration: 500, event: () => console.log('sequence2')})
+const sequence3 = new Sequence({n_ticks: 16, tickDuration: 2000, event: () => console.log('sequence3')})
+const sequence4 = new Sequence({n_ticks: 16, tickDuration: 100, event: () => console.log('sequence4')})
+sequencer.addSequence(sequence1)
+sequencer.addSequence(sequence2)
+sequencer.addSequence(sequence3)
+sequencer.addSequence(sequence4)
+//sequencer.startAllSequences()
+
+export interface IAppOptions {
+  addSequence: (sequence: Sequence) => any,
+}
+
+const appOptions: IAppOptions = {
+  addSequence: sequencer.addSequence.bind(sequencer),
+}
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <App addSequence={appOptions.addSequence} />
   </React.StrictMode>,
   document.getElementById('root')
 );
