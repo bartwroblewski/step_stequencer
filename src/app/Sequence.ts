@@ -10,3 +10,9 @@ export const makeSequence = (sequenceLength: number, sleepMs: number): Sequence 
     }
     return sequence
 }
+
+const changeSequence = (sequence: Sequence, cellIndex: number, event: Event): Sequence => {
+    // Replace event at given index in sequence
+    const newSequence = sequence.map((cell, index) => index === cellIndex ? event : cell)
+    return newSequence
+}
