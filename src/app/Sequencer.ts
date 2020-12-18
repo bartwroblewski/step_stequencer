@@ -15,7 +15,6 @@ class Sequencer {
     async startSequence(sequence: Sequence) {
         for(let i=0; i<sequence.length; i++) {
             const event = sequence[i]
-            console.log('fefrrf')
             await event()
         }
     }

@@ -11,13 +11,22 @@ import * as Tone from 'tone'
 
 Tone.start()
 const synth = new Tone.Synth().toDestination()
-const playSound = () => synth.triggerAttackRelease('C3', '16N')
+const playSound = (pitch: string) => synth.triggerAttackRelease(pitch, '16N')
 
 const app = Backend()
 const sequencer = app.sequencer
-const sequence1 = makeSequence(16)
-sequence1[5] = playSound
+
+const sequence1 = makeSequence(16, 100)
+const sequence2 = makeSequence(16, 100)
+const sequence3 = makeSequence(16, 100)
+
+sequence1[4] = () => playSound('C3')
+sequence2[8] = () => playSound('E3')
+sequence3[12] = () => playSound('G3')
+
 sequencer.addSequence(sequence1)
+sequencer.addSequence(sequence2)
+sequencer.addSequence(sequence3)
 
 sequencer.startAllSequences()
 
