@@ -8,7 +8,7 @@ class Sequencer {
         this.sequences = []
     }
 
-    addSequence(sequence: Sequence) {
+    addSequence(sequence: Sequence): Sequence[] {
         this.sequences.push(sequence)
         return this.sequences
     }
@@ -26,7 +26,7 @@ class Sequencer {
         }
     }
 
-    changeSequence(sequenceIndex: number, cellIndex: number, event: Event) {
+    changeSequence(sequenceIndex: number, cellIndex: number, event: Event): Sequence {
         const sequence = this.sequences[sequenceIndex]
        // const ev = sequence[cellIndex]
        // if (ev.name === event.name) 
