@@ -19,7 +19,10 @@ const App: React.FC<UIProps> = ({handlers, sequences}: UIProps) => {
   }
   
   const handleCellClick = (seqIndex: number, cellIndex: number) => {
-    handlers.onCellClick(seqIndex, cellIndex)
+    const newSequence = handlers.onCellClick(seqIndex, cellIndex)
+    const newSequences = [...seqs]
+    newSequences[seqIndex] = newSequence
+    setSeqs(newSequences)
   }
 
   const grid = seqs.map((seq, seqIndex) => 
