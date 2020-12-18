@@ -16,3 +16,10 @@ const changeSequence = (sequence: Sequence, cellIndex: number, event: Event): Se
     const newSequence = sequence.map((cell, index) => index === cellIndex ? event : cell)
     return newSequence
 }
+
+export const addSequence = (sequences: Sequence[]): Sequence[] => {
+    const newSequence = makeSequence(16, 100)
+    const newSequences = [...sequences]
+    newSequences.push(newSequence)
+    return newSequences
+}

@@ -6,7 +6,7 @@ import * as serviceWorker from './serviceWorker';
 
 import Backend from './app/App'
 import { Event } from './app/Event'
-import { Sequence, makeSequence } from './app/Sequence'
+import { Sequence, makeSequence, addSequence } from './app/Sequence'
 import * as Tone from 'tone'
 
 
@@ -22,7 +22,11 @@ const sequence2 = makeSequence(16, 100)
 const sequence3 = makeSequence(16, 100)
 const sequence4 = makeSequence(16, 100)
 
-const sequences = [sequence1, sequence2, sequence3, sequence4]
+let sequences = [sequence1, sequence2, sequence3, sequence4]
+const setSequences = (newSequences: Sequence[]) => {
+  sequences = newSequences
+  return sequences
+}
 
 sequences[0][3] = () => playSound('C3')
 sequences[1][7] = () => playSound('E3')
@@ -37,7 +41,7 @@ sequencer.addSequence(sequences[3])
 //sequencer.startAllSequences()
 
 interface UIHandlers {
-  onAddSequence: (sequence: Sequence) => any
+  onAddSequence: () => Sequence[]
   onCellClick: (seqIndex: number, cellIndex: number, event: Event) => Sequence,
   onPlay: () => void
 }
@@ -49,14 +53,14 @@ export interface UIProps {
 }
 
 const UIHandlers: UIHandlers = {
-  onAddSequence: sequencer.addSequence.bind(sequencer),
+  onAddSequence: () => setSequences(sequences.concat([makeSequence(16, 100)])),
   onCellClick: (seqIndex: number, cellIndex: number, event: Event) => sequencer.changeSequence(seqIndex, cellIndex, event),
   onPlay: sequencer.startAllSequences.bind(sequencer),
 }
 
 const UIProps: UIProps = {
   handlers: UIHandlers,
-  sequences: sequencer.sequences,
+  sequences: sequences,
   defaultEvent: () => playSound('C3'),
 }
 
