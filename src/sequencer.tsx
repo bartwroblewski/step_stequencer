@@ -51,6 +51,7 @@ class Sequencer {
     }
 
     async play() {
+        const lastStep = this.sequence_length - 1
         for (let step=0; step<this.sequence_length; step++) {
             const part: Array<String> = []
             this.sequences.forEach((sequence, sequenceIndex) => {
@@ -61,7 +62,9 @@ class Sequencer {
                     //this.soundManger.playSound(sound)
                 }
             })
-            await sleep(this.stepDuration)
+            if (step !== lastStep) {
+                await sleep(this.stepDuration)
+            }
         }
     }
 
