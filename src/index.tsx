@@ -20,16 +20,16 @@ sequencer.addSequence(sequence4)
 //sequencer.startAllSequences()
 
 export interface IAppOptions {
-  addSequence: (sequence: Sequence) => any,
+  handleAddSequence: (sequence: Sequence) => any,
 }
 
 const appOptions: IAppOptions = {
-  addSequence: sequencer.addSequence.bind(sequencer),
+  handleAddSequence: sequencer.addSequence.bind(sequencer),
 }
 
 ReactDOM.render(
   <React.StrictMode>
-    <App addSequence={appOptions.addSequence} />
+    <App handleAddSequence={appOptions.handleAddSequence} />
   </React.StrictMode>,
   document.getElementById('root')
 );
