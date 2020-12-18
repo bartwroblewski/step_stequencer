@@ -18,13 +18,13 @@ const App: React.FC<UIProps> = ({handlers, sequences}: UIProps) => {
     setSeqs([...newSequences])
   }
   
-  const handleCellClick = () => {
-    handlers.onCellClick()
+  const handleCellClick = (seqIndex: number, cellIndex: number) => {
+    handlers.onCellClick(seqIndex, cellIndex)
   }
 
-  const grid = seqs.map(seq => 
+  const grid = seqs.map((seq, seqIndex) => 
     <div className='grid-row'>
-      {seq.map(cell => <div className='grid-cell' onClick={handleCellClick}></div>)}
+      {seq.map((cell, cellIndex) => <div className='grid-cell' onClick={() => handleCellClick(seqIndex, cellIndex)}></div>)}
     </div>
   )
 

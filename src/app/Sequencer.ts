@@ -25,6 +25,10 @@ class Sequencer {
             this.startSequence(sequence)
         }
     }
+
+    changeSequence(sequenceIndex: number, cellIndex: number) {
+        console.log(sequenceIndex, cellIndex)
+    }
 }
 
 export default Sequencer

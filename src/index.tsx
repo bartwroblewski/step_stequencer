@@ -45,7 +45,7 @@ export interface UIProps {
 
 const appHandlers: UIHandlers = {
   onAddSequence: sequencer.addSequence.bind(sequencer),
-  onCellClick: () => alert('cellClicked'),
+  onCellClick: (seqIndex: number, cellIndex: number) => sequencer.changeSequence(seqIndex, cellIndex)
 }
 
 const UIProps: UIProps = {
