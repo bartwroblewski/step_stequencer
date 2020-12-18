@@ -1,4 +1,4 @@
-import Sequence from './Sequence'
+import { Sequence, makeSequence } from './Sequence'
 
 const sleep = async(ms: number) => new Promise(r => setTimeout(r, ms))
 
@@ -13,9 +13,10 @@ class Sequencer {
     }
 
     async startSequence(sequence: Sequence) {
-        for(let i=0; i<sequence.n_ticks; i++) {
-            sequence.event()
-            await sleep(sequence.tickDuration)
+        for(let i=0; i<sequence.length; i++) {
+            const event = sequence[i]
+            console.log('fefrrf')
+            await event()
         }
     }
 

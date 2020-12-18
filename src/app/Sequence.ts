@@ -1,20 +1,12 @@
-import Event from './Event'
+import Event, { sleep } from './Event'
 
-interface ISequenceOptions {
-    n_ticks: number,
-    tickDuration: number,
-    event: Event,
-}
+export type Sequence = Event[]
 
-class Sequence {
-    n_ticks: number
-    tickDuration: number
-    event: Event
-    constructor(options: ISequenceOptions) {
-        this.n_ticks = options.n_ticks
-        this.tickDuration = options.tickDuration
-        this.event = options.event
+export const makeSequence = (sequenceLength: number): Sequence => {
+    const sequence = []
+    for (let i=0; i<sequenceLength; i++) {
+        const sleepEvent: Event = () => sleep(500)
+        sequence.push(sleepEvent)
     }
+    return sequence
 }
-
-export default Sequence

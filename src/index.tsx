@@ -5,19 +5,21 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 import Backend from './app/App'
-import Sequence from './app/Sequence'
+import { Sequence, makeSequence } from './app/Sequence'
+import * as Tone from 'tone'
+
+
+Tone.start()
+const synth = new Tone.Synth().toDestination()
+const playSound = () => synth.triggerAttackRelease('C3', '16N')
 
 const app = Backend()
 const sequencer = app.sequencer
-const sequence1 = new Sequence({n_ticks: 16, tickDuration: 1000, event: () => console.log('sequence1')})
-const sequence2 = new Sequence({n_ticks: 16, tickDuration: 500, event: () => console.log('sequence2')})
-const sequence3 = new Sequence({n_ticks: 16, tickDuration: 2000, event: () => console.log('sequence3')})
-const sequence4 = new Sequence({n_ticks: 16, tickDuration: 100, event: () => console.log('sequence4')})
+const sequence1 = makeSequence(16)
+sequence1[5] = playSound
 sequencer.addSequence(sequence1)
-sequencer.addSequence(sequence2)
-sequencer.addSequence(sequence3)
-sequencer.addSequence(sequence4)
-//sequencer.startAllSequences()
+
+sequencer.startAllSequences()
 
 interface AppHandlers {
   handleAddSequence: (sequence: Sequence) => any

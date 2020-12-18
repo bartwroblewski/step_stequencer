@@ -1,4 +1,3 @@
-import Sequence from './Sequence'
 import Sequencer from './Sequencer'
 
 const Backend = () => {
