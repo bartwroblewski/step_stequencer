@@ -5,7 +5,7 @@ import './components/Grid.css'
 import { UIProps } from './index'
 import { Sequence, makeSequence } from './app/Sequence'
 
-const App: React.FC<UIProps> = ({handlers, sequences}: UIProps) => {
+const App: React.FC<UIProps> = ({handlers, sequences, defaultEvent}: UIProps) => {
  
 
   const [seqs, setSeqs] = React.useState<Sequence[]>(sequences)
@@ -19,7 +19,7 @@ const App: React.FC<UIProps> = ({handlers, sequences}: UIProps) => {
   }
   
   const handleCellClick = (seqIndex: number, cellIndex: number) => {
-    const newSequence = handlers.onCellClick(seqIndex, cellIndex)
+    const newSequence = handlers.onCellClick(seqIndex, cellIndex, defaultEvent)
     const newSequences = [...seqs]
     newSequences[seqIndex] = newSequence
     setSeqs(newSequences)

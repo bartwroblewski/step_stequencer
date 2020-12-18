@@ -26,9 +26,9 @@ class Sequencer {
         }
     }
 
-    changeSequence(sequenceIndex: number, cellIndex: number) {
+    changeSequence(sequenceIndex: number, cellIndex: number, event: Event) {
         const sequence = this.sequences[sequenceIndex]
-        const newSequence = sequence.map((cell, index) => index === cellIndex ? () => alert('fgfg') : cell)
+        const newSequence = sequence.map((cell, index) => index === cellIndex ? event : cell)
         return newSequence
     }
 }

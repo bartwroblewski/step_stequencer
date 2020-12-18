@@ -5,6 +5,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 import Backend from './app/App'
+import { Event } from './app/Event'
 import { Sequence, makeSequence } from './app/Sequence'
 import * as Tone from 'tone'
 
@@ -35,22 +36,24 @@ sequencer.addSequence(sequence4)
 
 interface UIHandlers {
   onAddSequence: (sequence: Sequence) => any
-  onCellClick: any,
+  onCellClick: (seqIndex: number, cellIndex: number, event: Event) => Sequence,
 }
 
 export interface UIProps {
   handlers: UIHandlers,
   sequences: Sequence[],
+  defaultEvent: Event,
 }
 
 const appHandlers: UIHandlers = {
   onAddSequence: sequencer.addSequence.bind(sequencer),
-  onCellClick: (seqIndex: number, cellIndex: number) => sequencer.changeSequence(seqIndex, cellIndex)
+  onCellClick: (seqIndex: number, cellIndex: number, event: Event) => sequencer.changeSequence(seqIndex, cellIndex, event)
 }
 
 const UIProps: UIProps = {
   handlers: appHandlers,
   sequences: sequencer.sequences,
+  defaultEvent: () => playSound('C3'),
 }
 
 ReactDOM.render(
@@ -58,6 +61,7 @@ ReactDOM.render(
     <App 
       handlers={UIProps.handlers}
       sequences={UIProps.sequences}
+      defaultEvent={UIProps.defaultEvent}
     />
   </React.StrictMode>,
   document.getElementById('root')
