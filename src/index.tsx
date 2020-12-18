@@ -31,7 +31,7 @@ sequencer.addSequence(sequence2)
 sequencer.addSequence(sequence3)
 sequencer.addSequence(sequence4)
 
-sequencer.startAllSequences()
+//sequencer.startAllSequences()
 
 interface AppHandlers {
   handleAddSequence: (sequence: Sequence) => any
@@ -39,6 +39,7 @@ interface AppHandlers {
 
 export interface AppProps {
   handlers: AppHandlers,
+  sequences: Sequence[],
 }
 
 const appHandlers: AppHandlers = {
@@ -47,11 +48,15 @@ const appHandlers: AppHandlers = {
 
 const appProps: AppProps = {
   handlers: appHandlers,
+  sequences: sequencer.sequences,
 }
 
 ReactDOM.render(
   <React.StrictMode>
-    <App handlers={appProps.handlers} />
+    <App 
+      handlers={appProps.handlers}
+      sequences={appProps.sequences}
+    />
   </React.StrictMode>,
   document.getElementById('root')
 );
