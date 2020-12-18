@@ -24,20 +24,20 @@ interface AppHandlers {
 }
 
 export interface AppProps {
-  handleAddSequence: (sequence: Sequence) => any,
+  handlers: AppHandlers,
 }
 
-const handlers: AppHandlers = {
+const appHandlers: AppHandlers = {
   handleAddSequence: sequencer.addSequence.bind(sequencer)
 }
 
 const appProps: AppProps = {
-  handleAddSequence: sequencer.addSequence.bind(sequencer),
+  handlers: appHandlers,
 }
 
 ReactDOM.render(
   <React.StrictMode>
-    <App handleAddSequence={appProps.handleAddSequence} />
+    <App handlers={appProps.handlers} />
   </React.StrictMode>,
   document.getElementById('root')
 );
