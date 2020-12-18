@@ -11,18 +11,22 @@ const App: React.FC<AppProps> = ({handlers, sequences}: AppProps) => {
   const [seqs, setSeqs] = React.useState<Sequence[]>(sequences)
 
   React.useEffect(() => console.log(seqs), [seqs])
-
-  const grid = seqs.map(seq => 
-    <div className='grid-row'>
-      {seq.map(cell => <div className='grid-cell'></div>)}
-    </div>
-  )
   
   const handleAddSequence = () => {
     const sequence = makeSequence(16, 500)
     const newSequences = handlers.onAddSequence(sequence)
     setSeqs([...newSequences])
   }
+  
+  const handleCellClick = () => {
+    handlers.onCellClick()
+  }
+
+  const grid = seqs.map(seq => 
+    <div className='grid-row'>
+      {seq.map(cell => <div className='grid-cell' onClick={handleCellClick}></div>)}
+    </div>
+  )
 
   return (
     <div>

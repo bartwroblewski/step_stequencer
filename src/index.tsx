@@ -35,6 +35,7 @@ sequencer.addSequence(sequence4)
 
 interface AppHandlers {
   onAddSequence: (sequence: Sequence) => any
+  onCellClick: any,
 }
 
 export interface AppProps {
@@ -43,7 +44,8 @@ export interface AppProps {
 }
 
 const appHandlers: AppHandlers = {
-  onAddSequence: sequencer.addSequence.bind(sequencer)
+  onAddSequence: sequencer.addSequence.bind(sequencer),
+  onCellClick: () => alert('cellClicked'),
 }
 
 const appProps: AppProps = {
