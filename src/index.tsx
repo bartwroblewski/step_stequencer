@@ -22,15 +22,17 @@ const sequence2 = makeSequence(16, 100)
 const sequence3 = makeSequence(16, 100)
 const sequence4 = makeSequence(16, 100)
 
-sequence1[3] = () => playSound('C3')
-sequence2[7] = () => playSound('E3')
-sequence3[11] = () => playSound('G3')
-sequence4[15] = () => playSound('B3')
+const sequences = [sequence1, sequence2, sequence3, sequence4]
 
-sequencer.addSequence(sequence1)
-sequencer.addSequence(sequence2)
-sequencer.addSequence(sequence3)
-sequencer.addSequence(sequence4)
+sequences[0][3] = () => playSound('C3')
+sequences[1][7] = () => playSound('E3')
+sequences[2][11] = () => playSound('G3')
+sequences[3][15] = () => playSound('B3')
+
+sequencer.addSequence(sequences[0])
+sequencer.addSequence(sequences[1])
+sequencer.addSequence(sequences[2])
+sequencer.addSequence(sequences[3])
 
 //sequencer.startAllSequences()
 
