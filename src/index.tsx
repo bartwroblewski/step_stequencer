@@ -7,12 +7,9 @@ import { Event } from './app/Event'
 import { Sequence, makeSequence } from './app/Sequence'
 import * as Tone from 'tone'
 
-import test from './components/Test'
-//test()
-
 Tone.start()
 const synth = new Tone.Synth().toDestination()
-const playSound = (pitch: string) => synth.triggerAttackRelease(pitch, '16N')
+const playSound: Event = (pitch: string) => synth.triggerAttackRelease(pitch, '16N')
 
 const sequence1 = makeSequence(16, 100)
 const sequence2 = makeSequence(16, 100)
@@ -32,9 +29,8 @@ sequences[2][11] = () => playSound('G3')
 sequences[3][15] = () => playSound('B3')
 
 const startSequence = async(sequence: Sequence): Promise<any> => {
-  for(let i=0; i<sequence.length; i++) {
-      const event = sequence[i]
-      await event()
+  for (const event of sequence) {
+    await event()
   }
 }
 const startSequences = (sequences: Sequence[]): void => sequences.forEach(startSequence)
