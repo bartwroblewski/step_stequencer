@@ -3,8 +3,6 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-
-import Backend from './app/App'
 import { Event } from './app/Event'
 import { Sequence, makeSequence } from './app/Sequence'
 import * as Tone from 'tone'
@@ -15,9 +13,6 @@ import test from './components/Test'
 Tone.start()
 const synth = new Tone.Synth().toDestination()
 const playSound = (pitch: string) => synth.triggerAttackRelease(pitch, '16N')
-
-const app = Backend()
-const sequencer = app.sequencer
 
 const sequence1 = makeSequence(16, 100)
 const sequence2 = makeSequence(16, 100)
