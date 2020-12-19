@@ -39,14 +39,23 @@ const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultEvent}:
     handlers.onPlay()
   }
 
-  const soundSelects = 
-    <div className="sound-selects">
+  const inputs = 
+    <div className="inputs">
       {seqs.map((seq, seqIndex) =>
-        <select className='sound-select'>
-          {soundNames.map(soundName =>
-            <option className='sound-select-option'>{soundName}</option>
-          )}
-        </select>
+        <div className="input-group">
+          <select className='sound-select'>
+            {soundNames.map(soundName =>
+              <option className='sound-select-option'>{soundName}</option>
+            )}
+          </select>
+          <input 
+            className="pitch-input"
+            type="number"
+            min="0"
+            max="5"
+            defaultValue="3"
+          />
+        </div>
       )}
     </div>
 
@@ -55,7 +64,7 @@ const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultEvent}:
       <button onClick={handlePlay}>Play</button>
       <button onClick={handleAddSequence}>Add sequence</button>
       <div className="sequencer">
-        {soundSelects}
+        {inputs}
         {grid}
       </div>
     </div>

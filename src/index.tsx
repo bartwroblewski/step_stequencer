@@ -27,7 +27,7 @@ const setSequences = (newSequences: Sequence[]): Sequence[] => {
   return sequences
 }
 
-const soundNames: string[] = ['C1', 'C2', 'C3', 'D1', 'D2', 'D3', 'E1', 'E2', 'E3', 'G1', 'G2', 'G3', 'A1', 'A2', 'A3']
+const soundNames: string[] = ['C', 'D', 'E', 'F', 'G', 'B']
 
 const soundOnSequence = {}
 

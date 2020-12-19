@@ -2,24 +2,33 @@ body {
     background: black;
 }
 
+.inputs {
+    display: inline;
+}
+
+.input-group {
+    display: grid;
+    grid-template-columns: 0fr 5ch;
+    grid-gap: 5px;
+}
+
 .sequencer {
     display: grid;
     grid-template-columns: 0fr 0fr;
     grid-gap: 5px;
 }
 
-.sound-selects {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-} 
-
-.sound-selects > * {
-    background: none;
+.sound-select {
+    background: black;
     color: silver;
 }
 
 .sound-select-option {
+    background: black;
+    color: silver;
+}
+
+.pitch-input {
     background: black;
     color: silver;
 }
