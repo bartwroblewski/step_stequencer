@@ -18,9 +18,7 @@ const App: React.FC<UIProps> = ({handlers, sequences, defaultEvent}: UIProps) =>
   }
   
   const handleCellClick = (seqIndex: number, cellIndex: number) => {
-    const newSequence = handlers.onCellClick(seqIndex, cellIndex, defaultEvent)
-    const newSequences = [...seqs]
-    newSequences[seqIndex] = newSequence
+    const newSequences = handlers.onCellClick(seqIndex, cellIndex, defaultEvent)
     setSeqs(newSequences)
   }
 

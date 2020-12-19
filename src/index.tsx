@@ -5,7 +5,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 import Backend from './app/App'
-import { Event } from './app/Event'
+import { Event, sleep } from './app/Event'
 import { Sequence, makeSequence, addSequence } from './app/Sequence'
 import * as Tone from 'tone'
 
@@ -26,8 +26,9 @@ const sequence3 = makeSequence(16, 100)
 const sequence4 = makeSequence(16, 100)
 
 let sequences = [sequence1, sequence2, sequence3, sequence4]
-const setSequences = (newSequences: Sequence[]) => {
+const setSequences = (newSequences: Sequence[]): Sequence[] => {
   sequences = newSequences
+  console.log(sequences)
   return sequences
 }
 
@@ -57,7 +58,11 @@ export interface UIProps {
 
 const UIHandlers: UIHandlers = {
   onAddSequence: () => setSequences(sequences.concat([makeSequence(16, 100)])),
-  onCellClick: (seqIndex: number, cellIndex: number, event: Event) => sequencer.changeSequence(seqIndex, cellIndex, event),
+  onCellClick: (seqIndex: number, cellIndex: number, event: Event) => setSequences(
+    sequences.map((seq, index) => seqIndex === index
+    ? seq.map((cell, index) => index === cellIndex ? event : cell)
+    : seq 
+  )),
   onPlay: sequencer.startAllSequences.bind(sequencer),
 }
 
