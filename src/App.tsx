@@ -63,6 +63,9 @@ const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultEvent}:
     <div>
       <button onClick={handlePlay}>Play</button>
       <button onClick={handleAddSequence}>Add sequence</button>
+      Steps
+      <button>+</button>
+      <button>-</button>
       <div className="sequencer">
         {inputs}
         {grid}
