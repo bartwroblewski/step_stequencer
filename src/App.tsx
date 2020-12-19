@@ -15,6 +15,11 @@ const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultEvent}:
     const newSequences = handlers.onAddSequence()  
     setSeqs([...newSequences])
   }
+
+  const handleRemoveSequence = (sequenceIndex: number) => {
+    const newSequences = handlers.onRemoveSequence(sequenceIndex)  
+    setSeqs([...newSequences])
+  }
   
   const handleCellClick = (seqIndex: number, cellIndex: number) => {
     const newSequences = handlers.onCellClick(seqIndex, cellIndex, defaultEvent)
@@ -73,6 +78,7 @@ const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultEvent}:
     <div>
       <button onClick={handlePlay}>Play</button>
       <button onClick={handleAddSequence}>Add sequence</button>
+      <button onClick={() => handleRemoveSequence(seqs.length - 1)}>Remove sequence</button>
       Steps
       <button onClick={handleAddStep}>+</button>
       <button onClick={handleRemoveStep}>-</button>

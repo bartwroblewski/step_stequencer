@@ -68,9 +68,11 @@ const replaceSequenceEvent = (seqIndex: number, cellIndex: number, event: Event)
 } 
 
 const addSequence = (sequence: Sequence): Sequence[] => setSequences(sequences.concat([sequence]))
+const removeSequence = (sequenceIndex: number) => setSequences(sequences.filter((seq, index) => index !== sequenceIndex))
 
 interface UIHandlers {
   onAddSequence: () => Sequence[]
+  onRemoveSequence: (sequenceIndex: number) => Sequence[]
   onCellClick: (seqIndex: number, cellIndex: number, event: Event) => Sequence[],
   onAddStep: () => Sequence[],
   onRemoveStep: () => Sequence[]
@@ -88,6 +90,7 @@ const sleepEvent: Event = () => sleep(100) // better to keep it in Event module 
 
 const UIHandlers: UIHandlers = {
   onAddSequence: () => addSequence(makeSequence(steps, 100)),
+  onRemoveSequence: (sequenceIndex: number) => removeSequence(sequenceIndex),
   onCellClick: (seqIndex: number, cellIndex: number, event: Event) => replaceSequenceEvent(seqIndex, cellIndex, event),
   onAddStep: () => {
     steps += 1
