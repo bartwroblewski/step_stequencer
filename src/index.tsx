@@ -16,10 +16,9 @@ const sequence2 = makeSequence(16, 100)
 const sequence3 = makeSequence(16, 100)
 const sequence4 = makeSequence(16, 100)
 
-let sequences = [sequence1, sequence2, sequence3, sequence4]
+let sequences: Sequence[] = [sequence1, sequence2, sequence3, sequence4]
 const setSequences = (newSequences: Sequence[]): Sequence[] => {
   sequences = newSequences
-  console.log(sequences)
   return sequences
 }
 
@@ -37,7 +36,7 @@ const startSequences = (sequences: Sequence[]): void => sequences.forEach(startS
 
 interface UIHandlers {
   onAddSequence: () => Sequence[]
-  onCellClick: (seqIndex: number, cellIndex: number, event: Event) => Sequence,
+  onCellClick: (seqIndex: number, cellIndex: number, event: Event) => Sequence[],
   onPlay: () => void
 }
 
@@ -51,11 +50,11 @@ const UIHandlers: UIHandlers = {
   onAddSequence: () => setSequences(sequences.concat([makeSequence(16, 100)])),
   onCellClick: (seqIndex: number, cellIndex: number, event: Event) => setSequences(
     sequences.map((seq, index) => seqIndex === index
-    ? seq.map((cell, index) => index === cellIndex
-        ? event 
-        : cell
-      )
-    : seq 
+      ? seq.map((cell, index) => index === cellIndex
+          ? event 
+          : cell
+        )
+      : seq 
   )),
   onPlay: () => startSequences(sequences),
 }
