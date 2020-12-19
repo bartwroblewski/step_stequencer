@@ -50,7 +50,7 @@ const start = async(): Promise<any> => {
       }
     }
     for (const stepEvent of stepEvents) {
-      await stepEvent()
+      stepEvent()
     }
     await sleep(sleepTime)
   }
