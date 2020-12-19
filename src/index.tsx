@@ -25,6 +25,7 @@ const sequence4 = makeSequence(steps, 100)
 let sequences: Sequence[] = [sequence1, sequence2, sequence3, sequence4]
 const setSequences = (newSequences: Sequence[]): Sequence[] => {
   sequences = newSequences
+  console.log(sequences)
   return sequences
 }
 
@@ -45,6 +46,7 @@ const startSequence = async(sequence: Sequence): Promise<any> => {
 const startSequences = (sequences: Sequence[]): void => sequences.forEach(startSequence)
 
 const replaceSequenceEvent = (seqIndex: number, cellIndex: number, event: Event): Sequence[] => {
+  console.log(seqIndex, cellIndex)
   return setSequences(
     sequences.map((seq, index) => seqIndex === index
       ? seq.map((cell, index) => index === cellIndex
@@ -73,10 +75,12 @@ export interface UIProps {
   defaultEvent: Event,
 }
 
+const sleepEvent: Event = () => sleep(100) // better to keep it in Event module and import here
+
 const UIHandlers: UIHandlers = {
   onAddSequence: () => addSequence(makeSequence(16, 100)),
   onCellClick: (seqIndex: number, cellIndex: number, event: Event) => replaceSequenceEvent(seqIndex, cellIndex, event),
-  onAddStep: () => setSequences(sequences.map(seq => seq.concat(() => sleep(100)))),
+  onAddStep: () => setSequences(sequences.map(seq => seq.concat(sleepEvent))),
   onRemoveStep: () => setSequences(sequences.map(seq => seq.slice(0, -1))),
   onPlay: () => startSequences(sequences),
 }
@@ -85,7 +89,7 @@ const UIProps: UIProps = {
   handlers: UIHandlers,
   sequences: sequences,
   soundNames: soundNames,
-  defaultEvent: () => playSound('C3'),
+  defaultEvent: () => playSound(['C3', '8N']),
 }
 
 ReactDOM.render(
