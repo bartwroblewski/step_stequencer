@@ -41,7 +41,7 @@ const App: React.FC<UIProps> = ({handlers, sequences, defaultEvent}: UIProps) =>
 
   const soundSelects = 
     <div className="sound-selects">
-      {sequences.map((seq, seqIndex) =>
+      {seqs.map((seq, seqIndex) =>
         <select className='sound-select'>
           <option className='sound-select-option'>fg</option>
         </select>
