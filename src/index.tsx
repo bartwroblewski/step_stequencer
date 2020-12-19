@@ -6,6 +6,7 @@ import * as serviceWorker from './serviceWorker';
 import { Event } from './app/Event'
 import { Sequence, makeSequence } from './app/Sequence'
 import { Sound } from './app/Sound'
+import { sleep } from './app/Event'
 import * as Tone from 'tone'
 
 Tone.start()
@@ -60,6 +61,8 @@ const addSequence = (sequence: Sequence): Sequence[] => setSequences(sequences.c
 interface UIHandlers {
   onAddSequence: () => Sequence[]
   onCellClick: (seqIndex: number, cellIndex: number, event: Event) => Sequence[],
+  onAddStep: () => Sequence[],
+  onRemoveStep: () => Sequence[]
   onPlay: () => void
 }
 
@@ -73,6 +76,8 @@ export interface UIProps {
 const UIHandlers: UIHandlers = {
   onAddSequence: () => addSequence(makeSequence(16, 100)),
   onCellClick: (seqIndex: number, cellIndex: number, event: Event) => replaceSequenceEvent(seqIndex, cellIndex, event),
+  onAddStep: () => setSequences(sequences.map(seq => seq.concat(() => sleep(100)))),
+  onRemoveStep: () => setSequences(sequences.map(seq => seq.slice(0, -1))),
   onPlay: () => startSequences(sequences),
 }
 

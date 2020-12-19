@@ -21,6 +21,16 @@ const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultEvent}:
     setSeqs(newSequences)
   }
 
+  const handleAddStep = () => {
+    const newSequences = handlers.onAddStep()
+    setSeqs(newSequences)
+  }
+
+  const handleRemoveStep = () => {
+    const newSequences = handlers.onRemoveStep()
+    setSeqs(newSequences)
+  }
+
   const grid = 
     <div>
       {seqs.map((seq, seqIndex) => 
@@ -64,8 +74,8 @@ const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultEvent}:
       <button onClick={handlePlay}>Play</button>
       <button onClick={handleAddSequence}>Add sequence</button>
       Steps
-      <button>+</button>
-      <button>-</button>
+      <button onClick={handleAddStep}>+</button>
+      <button onClick={handleRemoveStep}>-</button>
       <div className="sequencer">
         {inputs}
         {grid}
