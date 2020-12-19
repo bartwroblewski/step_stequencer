@@ -34,11 +34,11 @@ const startSequence = async(sequence: Sequence): Promise<any> => {
 }
 const startSequences = (sequences: Sequence[]): void => sequences.forEach(startSequence)
 
-const replaceSequenceEvent = (seqIndex: number, cellIndex: number, newEvent: Event): Sequence[] => {
+const replaceSequenceEvent = (seqIndex: number, cellIndex: number, event: Event): Sequence[] => {
   return setSequences(
     sequences.map((seq, index) => seqIndex === index
       ? seq.map((cell, index) => index === cellIndex
-          ? newEvent 
+          ? event 
           : cell
         )
       : seq
@@ -50,7 +50,7 @@ const addSequence = (sequence: Sequence): Sequence[] => setSequences(sequences.c
 
 interface UIHandlers {
   onAddSequence: () => Sequence[]
-  onCellClick: (seqIndex: number, cellIndex: number, newEvent: Event) => Sequence[],
+  onCellClick: (seqIndex: number, cellIndex: number, event: Event) => Sequence[],
   onPlay: () => void
 }
 
@@ -62,7 +62,7 @@ export interface UIProps {
 
 const UIHandlers: UIHandlers = {
   onAddSequence: () => addSequence(makeSequence(16, 100)),
-  onCellClick: (seqIndex: number, cellIndex: number, newEvent: Event) => replaceSequenceEvent(seqIndex, cellIndex, event),
+  onCellClick: (seqIndex: number, cellIndex: number, event: Event) => replaceSequenceEvent(seqIndex, cellIndex, event),
   onPlay: () => startSequences(sequences),
 }
 

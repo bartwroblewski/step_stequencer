@@ -19,7 +19,7 @@ body {
     color: silver;
 }
 
-option {
+.sound-select-option {
     background: black;
     color: silver;
 }
