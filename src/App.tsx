@@ -37,7 +37,7 @@ const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultEvent}:
         <div className='grid-row'>
           {seq.map((cell, cellIndex) =>
             <div 
-              className={cell.name === 'sleepEvent' ? 'grid-cell' : 'grid-cell filled'}
+              className={cell ? 'grid-cell filled' : 'grid-cell'}
               onClick={() => handleCellClick(seqIndex, cellIndex)}>
             </div>
           )}

@@ -10,9 +10,11 @@ import { sleep } from './app/Event'
 import * as Tone from 'tone'
 
 Tone.start()
-Tone.Transport.bpm.value = 120;
+const bpm = 120
+Tone.Transport.bpm.value = bpm;
 
-const steps = 16
+const sleepTime = ((60 /bpm) / 4) * 1000 // works for 16th notes
+let steps = 16
 
 const synth = new Tone.Synth().toDestination()
 const playSound: Event = (sound: Sound) => synth.triggerAttackRelease(sound[0], sound[1])
@@ -38,23 +40,20 @@ sequences[1][7] = () => playSound(['E3', '8N'])
 sequences[2][11] = () => playSound(['G3', '8N'])
 sequences[3][15] = () => playSound(['B3', '8N'])
 
-const startSequence = async(sequence: Sequence): Promise<any> => {
-  for (const event of sequence) {
-    await event()
-  }
-}
-const startSequences = (sequences: Sequence[]): void => {
-  sequences.forEach(startSequence)
- /*  for (let step=0;step<steps; step++) {
+const start = async(): Promise<any> => {
+  for (let step=0;step<steps; step++) {
     const stepEvents = []
     for (let sequence of sequences) {
       const stepEvent = sequence[step]
-      stepEvents.push(stepEvent)
+      if (stepEvent) {
+        stepEvents.push(stepEvent)
+      }
     }
     for (const stepEvent of stepEvents) {
       await stepEvent()
     }
-  } */
+    await sleep(sleepTime)
+  }
 }
 
 const replaceSequenceEvent = (seqIndex: number, cellIndex: number, event: Event): Sequence[] => {
@@ -92,9 +91,12 @@ const sleepEvent: Event = () => sleep(100) // better to keep it in Event module 
 const UIHandlers: UIHandlers = {
   onAddSequence: () => addSequence(makeSequence(16, 100)),
   onCellClick: (seqIndex: number, cellIndex: number, event: Event) => replaceSequenceEvent(seqIndex, cellIndex, event),
-  onAddStep: () => setSequences(sequences.map(seq => seq.concat(sleepEvent))),
+  onAddStep: () => {
+    steps = steps + 1
+    return setSequences(sequences.map(seq => seq.concat(null)))
+  },
   onRemoveStep: () => setSequences(sequences.map(seq => seq.slice(0, -1))),
-  onPlay: () => startSequences(sequences),
+  onPlay: () => start(),
 }
 
 const UIProps: UIProps = {
