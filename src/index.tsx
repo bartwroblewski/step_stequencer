@@ -87,7 +87,7 @@ export interface UIProps {
 const sleepEvent: Event = () => sleep(100) // better to keep it in Event module and import here
 
 const UIHandlers: UIHandlers = {
-  onAddSequence: () => addSequence(makeSequence(16, 100)),
+  onAddSequence: () => addSequence(makeSequence(steps, 100)),
   onCellClick: (seqIndex: number, cellIndex: number, event: Event) => replaceSequenceEvent(seqIndex, cellIndex, event),
   onAddStep: () => {
     steps += 1
