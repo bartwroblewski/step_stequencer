@@ -5,16 +5,21 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { Event } from './app/Event'
 import { Sequence, makeSequence } from './app/Sequence'
+import { Sound } from './app/Sound'
 import * as Tone from 'tone'
 
 Tone.start()
-const synth = new Tone.Synth().toDestination()
-const playSound: Event = (pitch: string) => synth.triggerAttackRelease(pitch, '16N')
+Tone.Transport.bpm.value = 120;
 
-const sequence1 = makeSequence(16, 100)
-const sequence2 = makeSequence(16, 100)
-const sequence3 = makeSequence(16, 100)
-const sequence4 = makeSequence(16, 100)
+const steps = 16
+
+const synth = new Tone.Synth().toDestination()
+const playSound: Event = (sound: Sound) => synth.triggerAttackRelease(sound[0], sound[1])
+
+const sequence1 = makeSequence(steps, 100)
+const sequence2 = makeSequence(steps, 100)
+const sequence3 = makeSequence(steps, 100)
+const sequence4 = makeSequence(steps, 100)
 
 let sequences: Sequence[] = [sequence1, sequence2, sequence3, sequence4]
 const setSequences = (newSequences: Sequence[]): Sequence[] => {
@@ -22,10 +27,14 @@ const setSequences = (newSequences: Sequence[]): Sequence[] => {
   return sequences
 }
 
-sequences[0][3] = () => playSound('C3')
-sequences[1][7] = () => playSound('E3')
-sequences[2][11] = () => playSound('G3')
-sequences[3][15] = () => playSound('B3')
+const soundNames: string[] = ['C1', 'C2', 'C3', 'D1', 'D2', 'D3', 'E1', 'E2', 'E3', 'G1', 'G2', 'G3', 'A1', 'A2', 'A3']
+
+const soundOnSequence = {}
+
+sequences[0][3] = () => playSound(['C3', '8N'])
+sequences[1][7] = () => playSound(['E3', '8N'])
+sequences[2][11] = () => playSound(['G3', '8N'])
+sequences[3][15] = () => playSound(['B3', '8N'])
 
 const startSequence = async(sequence: Sequence): Promise<any> => {
   for (const event of sequence) {
@@ -57,6 +66,7 @@ interface UIHandlers {
 export interface UIProps {
   handlers: UIHandlers,
   sequences: Sequence[],
+  soundNames: string[],
   defaultEvent: Event,
 }
 
@@ -69,6 +79,7 @@ const UIHandlers: UIHandlers = {
 const UIProps: UIProps = {
   handlers: UIHandlers,
   sequences: sequences,
+  soundNames: soundNames,
   defaultEvent: () => playSound('C3'),
 }
 
@@ -77,6 +88,7 @@ ReactDOM.render(
     <App 
       handlers={UIProps.handlers}
       sequences={UIProps.sequences}
+      soundNames={UIProps.soundNames}
       defaultEvent={UIProps.defaultEvent}
     />
   </React.StrictMode>,

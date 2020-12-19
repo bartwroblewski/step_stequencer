@@ -5,7 +5,7 @@ import './components/Grid.css'
 import { UIProps } from './index'
 import { Sequence, makeSequence } from './app/Sequence'
 
-const App: React.FC<UIProps> = ({handlers, sequences, defaultEvent}: UIProps) => {
+const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultEvent}: UIProps) => {
  
   const [seqs, setSeqs] = React.useState<Sequence[]>(sequences)
 
@@ -43,7 +43,9 @@ const App: React.FC<UIProps> = ({handlers, sequences, defaultEvent}: UIProps) =>
     <div className="sound-selects">
       {seqs.map((seq, seqIndex) =>
         <select className='sound-select'>
-          <option className='sound-select-option'>fg</option>
+          {soundNames.map(soundName =>
+            <option className='sound-select-option'>{soundName}</option>
+          )}
         </select>
       )}
     </div>
