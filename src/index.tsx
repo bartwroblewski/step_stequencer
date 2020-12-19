@@ -55,18 +55,19 @@ const start = async(): Promise<any> => {
   }
 }
 
-const replaceSequenceEvent = (seqIndex: number, cellIndex: number, event: Event): Sequence[] => {
+const toggleSequenceCell = (seqIndex: number, cellIndex: number, event: Event): Sequence[] => {
   return setSequences(
     sequences.map((seq, index) => seqIndex === index
       ? seq.map((cell, index) => index === cellIndex
-          ? event 
+          ? cell 
+            ? null
+            : event
           : cell
         )
       : seq
     )
   )
 } 
-
 const addSequence = (sequence: Sequence): Sequence[] => setSequences(sequences.concat([sequence]))
 const removeSequence = (sequenceIndex: number) => setSequences(sequences.filter((seq, index) => index !== sequenceIndex))
 
@@ -91,7 +92,7 @@ const sleepEvent: Event = () => sleep(100) // better to keep it in Event module 
 const UIHandlers: UIHandlers = {
   onAddSequence: () => addSequence(makeSequence(steps, 100)),
   onRemoveSequence: (sequenceIndex: number) => removeSequence(sequenceIndex),
-  onCellClick: (seqIndex: number, cellIndex: number, event: Event) => replaceSequenceEvent(seqIndex, cellIndex, event),
+  onCellClick: (seqIndex: number, cellIndex: number, event: Event) => toggleSequenceCell(seqIndex, cellIndex, event),
   onAddStep: () => {
     steps += 1
     return setSequences(sequences.map(seq => seq.concat(null)))
