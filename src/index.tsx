@@ -9,6 +9,9 @@ import { Event } from './app/Event'
 import { Sequence, makeSequence, addSequence } from './app/Sequence'
 import * as Tone from 'tone'
 
+import test from './components/Test'
+//test()
+
 
 Tone.start()
 const synth = new Tone.Synth().toDestination()
