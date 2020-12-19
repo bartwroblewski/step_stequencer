@@ -23,7 +23,7 @@ const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultEvent}:
   
   const handleCellClick = (seqIndex: number, cellIndex: number) => {
     const newSequences = handlers.onCellClick(seqIndex, cellIndex, defaultEvent)
-    setSeqs(newSequences)
+    setSeqs([...newSequences])
   }
 
   const handleAddStep = () => {

@@ -56,18 +56,28 @@ const start = async(): Promise<any> => {
 }
 
 const toggleSequenceCell = (seqIndex: number, cellIndex: number, event: Event): Sequence[] => {
-  return setSequences(
+  const cell = sequences[seqIndex][cellIndex]
+  if (cell) {
+    sequences[seqIndex][cellIndex] = null
+  } else {
+    sequences[seqIndex][cellIndex] = event
+  }
+  return sequences
+}
+
+/* const toggleSequenceCell = (seqIndex: number, cellIndex: number, event: Event): Sequence[] => 
+  setSequences(
     sequences.map((seq, index) => seqIndex === index
       ? seq.map((cell, index) => index === cellIndex
           ? cell 
+            // toggle
             ? null
             : event
           : cell
         )
       : seq
     )
-  )
-} 
+  )  */
 const addSequence = (sequence: Sequence): Sequence[] => setSequences(sequences.concat([sequence]))
 const removeSequence = (sequenceIndex: number) => setSequences(sequences.filter((seq, index) => index !== sequenceIndex))
 
