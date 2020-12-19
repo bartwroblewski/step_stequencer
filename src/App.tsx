@@ -54,11 +54,16 @@ const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultEvent}:
     handlers.onPlay()
   }
 
+  const handleSoundSelectChange = (soundName: string, sequenceIndex: number) => {
+    const newSequences = handlers.onSoundSelectChange(soundName, sequenceIndex)
+    setSeqs([...newSequences])
+  }
+
   const inputs = 
     <div className="inputs">
       {seqs.map((seq, seqIndex) =>
         <div className="input-group">
-          <select className='sound-select'>
+          <select className='sound-select' onChange={e => handleSoundSelectChange(e.target.value, seqIndex)}>
             {soundNames.map(soundName =>
               <option className='sound-select-option'>{soundName}</option>
             )}
