@@ -1,6 +1,4 @@
-import { Sequence, makeSequence } from './Sequence'
-
-const sleep = async(ms: number) => new Promise(r => setTimeout(r, ms))
+/* import { Sequence } from './Sequence'
 
 class Sequencer {
     sequences: Sequence[]
@@ -37,5 +35,5 @@ class Sequencer {
         return newSequence
     }
 }
-
-export default Sequencer
+ */
+export default {}

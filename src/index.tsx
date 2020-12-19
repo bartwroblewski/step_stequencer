@@ -5,13 +5,12 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 import Backend from './app/App'
-import { Event, sleep } from './app/Event'
-import { Sequence, makeSequence, addSequence } from './app/Sequence'
+import { Event } from './app/Event'
+import { Sequence, makeSequence } from './app/Sequence'
 import * as Tone from 'tone'
 
 import test from './components/Test'
 //test()
-
 
 Tone.start()
 const synth = new Tone.Synth().toDestination()
@@ -37,12 +36,13 @@ sequences[1][7] = () => playSound('E3')
 sequences[2][11] = () => playSound('G3')
 sequences[3][15] = () => playSound('B3')
 
-sequencer.addSequence(sequences[0])
-sequencer.addSequence(sequences[1])
-sequencer.addSequence(sequences[2])
-sequencer.addSequence(sequences[3])
-
-//sequencer.startAllSequences()
+const startSequence = async(sequence: Sequence): Promise<any> => {
+  for(let i=0; i<sequence.length; i++) {
+      const event = sequence[i]
+      await event()
+  }
+}
+const startSequences = (sequences: Sequence[]): void => sequences.forEach(startSequence)
 
 interface UIHandlers {
   onAddSequence: () => Sequence[]
@@ -60,10 +60,13 @@ const UIHandlers: UIHandlers = {
   onAddSequence: () => setSequences(sequences.concat([makeSequence(16, 100)])),
   onCellClick: (seqIndex: number, cellIndex: number, event: Event) => setSequences(
     sequences.map((seq, index) => seqIndex === index
-    ? seq.map((cell, index) => index === cellIndex ? event : cell)
+    ? seq.map((cell, index) => index === cellIndex
+        ? event 
+        : cell
+      )
     : seq 
   )),
-  onPlay: sequencer.startAllSequences.bind(sequencer),
+  onPlay: () => startSequences(sequences),
 }
 
 const UIProps: UIProps = {

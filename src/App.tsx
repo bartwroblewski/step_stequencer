@@ -12,8 +12,7 @@ const App: React.FC<UIProps> = ({handlers, sequences, defaultEvent}: UIProps) =>
   React.useEffect(() => console.log(seqs), [seqs])
   
   const handleAddSequence = () => {
-    const newSequences = handlers.onAddSequence()
-    console.log(newSequences)
+    const newSequences = handlers.onAddSequence()  
     setSeqs([...newSequences])
   }
   
