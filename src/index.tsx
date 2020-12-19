@@ -27,7 +27,6 @@ const sequence4 = makeSequence(steps, 100)
 let sequences: Sequence[] = [sequence1, sequence2, sequence3, sequence4]
 const setSequences = (newSequences: Sequence[]): Sequence[] => {
   sequences = newSequences
-  console.log(sequences)
   return sequences
 }
 
@@ -57,7 +56,6 @@ const start = async(): Promise<any> => {
 }
 
 const replaceSequenceEvent = (seqIndex: number, cellIndex: number, event: Event): Sequence[] => {
-  console.log(seqIndex, cellIndex)
   return setSequences(
     sequences.map((seq, index) => seqIndex === index
       ? seq.map((cell, index) => index === cellIndex
@@ -92,10 +90,13 @@ const UIHandlers: UIHandlers = {
   onAddSequence: () => addSequence(makeSequence(16, 100)),
   onCellClick: (seqIndex: number, cellIndex: number, event: Event) => replaceSequenceEvent(seqIndex, cellIndex, event),
   onAddStep: () => {
-    steps = steps + 1
+    steps += 1
     return setSequences(sequences.map(seq => seq.concat(null)))
   },
-  onRemoveStep: () => setSequences(sequences.map(seq => seq.slice(0, -1))),
+  onRemoveStep: () => {
+    steps -= 1
+    return setSequences(sequences.map(seq => seq.slice(0, -1)))
+  },
   onPlay: () => start(),
 }
 
