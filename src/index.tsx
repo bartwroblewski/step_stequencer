@@ -43,7 +43,19 @@ const startSequence = async(sequence: Sequence): Promise<any> => {
     await event()
   }
 }
-const startSequences = (sequences: Sequence[]): void => sequences.forEach(startSequence)
+const startSequences = (sequences: Sequence[]): void => {
+  sequences.forEach(startSequence)
+ /*  for (let step=0;step<steps; step++) {
+    const stepEvents = []
+    for (let sequence of sequences) {
+      const stepEvent = sequence[step]
+      stepEvents.push(stepEvent)
+    }
+    for (const stepEvent of stepEvents) {
+      await stepEvent()
+    }
+  } */
+}
 
 const replaceSequenceEvent = (seqIndex: number, cellIndex: number, event: Event): Sequence[] => {
   console.log(seqIndex, cellIndex)
