@@ -126,14 +126,16 @@ const UIHandlers: UIHandlers = {
   },
   onRemoveStep: () => {
     steps -= 1
-    return setSequences(sequences.map(seq => seq.slice(0, -1)))
+    sequences = sequences.map(seq => seq.slice(0, -1))
+    return sequences
   },
   onPlay: () => start(),
-  onSoundSelectChange: (soundName: string, sequenceIndex: number) =>
-    setSequences(sequences.map((seq, seqIndex) => seqIndex === sequenceIndex
-      ? seq.map(cell => cell ? () => playSound([soundName + '4', '8N']) : cell)
-      : seq
-    ))
+  onSoundSelectChange: (soundName: string, sequenceIndex: number) => {
+    const sequence = sequences[sequenceIndex]
+    const event = () => playSound([soundName + '4', '8N'])
+    sequences[sequenceIndex] = sequence.map(cell => cell ? event : cell)
+    return sequences
+  }
 }
 
 const UIProps: UIProps = {
