@@ -43,9 +43,9 @@ const sleepTime = ((60 /bpm) / 4) * 1000 // works for 16th notes
 let steps = 16
 
 const synth = new Tone.Synth().toDestination()
+const soundNames: string[] = ['C', 'D', 'E', 'F', 'G', 'B']
 const defaultSound = {name: 'D', pitch: 4}
-const soundMap: {[key: number]: string} = {}
-const pickSound = (sequenceIndex: number) => soundMap[sequenceIndex] || 0
+const soundMap: {[key: number]: string} = {} // keeps track of sounds mapped to sequences. Updated on UI sound select change
 const playSound: Event = (sound: Sound) => synth.triggerAttackRelease(sound[0], sound[1])
 const playDefaultSound = () => playSound([defaultSound.name + defaultSound.pitch, '8N'])
 
@@ -59,10 +59,6 @@ const setSequences = (newSequences: Sequence[]): Sequence[] => {
   sequences = newSequences
   return sequences
 }
-
-const soundNames: string[] = ['C', 'D', 'E', 'F', 'G', 'B']
-
-const soundOnSequence = {}
 
 sequences[0][3] = () => playDefaultSound()
 sequences[1][7] = () => playDefaultSound()
@@ -102,16 +98,9 @@ const reducer = (sequences: Sequence[], action: Action) => {
       const cellIndex = action.payload?.cellIndex as number
       const cell = sequences[sequenceIndex][cellIndex]
       const sound = soundMap[sequenceIndex]
-      const event = () => sound
-        ? playSound([sound, '16N'])
-        : playDefaultSound()//playSound(soundMap[sequenceIndex] || [defaultSound.
-      if (cell) {
-        sequences[sequenceIndex][cellIndex] = null
-      } else {
-        sequences[sequenceIndex][cellIndex] = event
-      }
+      const event = () => sound ? playSound([sound, '16N']) : playDefaultSound()
+      sequences[sequenceIndex][cellIndex] = cell ? null : event
       return sequences
-
   }
   return sequences
 }
