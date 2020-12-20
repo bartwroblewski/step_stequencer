@@ -11,7 +11,7 @@ interface UIHandlers {
     onAddStep: () => Sequence[],
     onRemoveStep: () => Sequence[],
     onPlay: () => void,
-    onSoundSelectChange: (soundName: string, sequenceIndex: number) => Sequence[],
+    onSoundSelectChange: (soundName: string, pitch: number, sequenceIndex: number) => Sequence[],
   }
   
   export interface UIProps {
@@ -130,9 +130,9 @@ const UIHandlers: UIHandlers = {
     return sequences
   },
   onPlay: () => start(),
-  onSoundSelectChange: (soundName: string, sequenceIndex: number) => {
+  onSoundSelectChange: (soundName: string, pitch: number, sequenceIndex: number) => {
     const sequence = sequences[sequenceIndex]
-    const event = () => playSound([soundName + '4', '8N'])
+    const event = () => playSound([soundName + pitch, '8N'])
     sequences[sequenceIndex] = sequence.map(cell => cell ? event : cell)
     return sequences
   }
