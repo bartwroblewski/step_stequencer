@@ -5,6 +5,8 @@ import './components/Grid.css'
 import { UIProps } from './index'
 import { Sequence, makeSequence } from './app/Sequence'
 
+//import Test, { UIHandlers } from './components/Test'
+
 const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultEvent}: UIProps) => {
  
   const [seqs, setSeqs] = React.useState<Sequence[]>(sequences)

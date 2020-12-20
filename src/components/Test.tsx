@@ -1,9 +1,7 @@
+import React from 'react'
+
 interface Action {
     type: string,
-}
-
-interface GUIHandlers {
-    onAdd: () => number[]
 }
 
 const App = () => {
@@ -20,7 +18,7 @@ const App = () => {
     const add = (): number[] => arr = reducer(arr, {type: 'ADD'})
 
     return {
-        arr: arr,
+        arr: () => arr,
         handleAdd: add,
     }
 }
@@ -28,16 +26,36 @@ const App = () => {
 const app = App()
 
 // GUI
-const GUIHandlers = {onAdd: app.handleAdd} 
-const AppGUI = (handlers: GUIHandlers): any => {
+interface UIHandlers {
+    onAdd: any,
+}
+interface UIProps {
+    handlers: UIHandlers,
+}
+
+export const UIHandlers: UIHandlers = {onAdd: app.handleAdd} 
+const AppUI = (handlers: UIHandlers): any => {
     return {add: handlers.onAdd}
 }
-const gui = AppGUI(GUIHandlers)
+const gui = AppUI(UIHandlers)
 
 // simulate GUI action
-let newArr = gui.add()
-newArr = gui.add()
-newArr = gui.add()
-console.log(newArr)
+gui.add()
+gui.add()
+gui.add()
+console.log(app.arr())
 
-export {}
+const Test: React.FC<UIProps> = ({handlers}: UIProps) => {
+
+    const handleClick = () => {
+        const arr = handlers.onAdd()
+        console.log('arr', arr)
+    }
+    return (
+        <div>
+            <button onClick={handleClick}>Add</button>
+        </div>
+    )
+}
+
+export default Test

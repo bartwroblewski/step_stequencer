@@ -143,7 +143,7 @@ const addSequence = (): Sequence[] => sequences = reducer(sequences, {type: 'ADD
 
 const removeSequence = (sequenceIndex: number): Sequence[] =>
   sequences = reducer(sequences, {type: 'REMOVE SEQUENCE', payload: {sequenceIndex: sequenceIndex}})
-  
+
 const toggleCell = (seqIndex: number, cellIndex: number, event: Event): Sequence[] => 
   sequences = reducer(sequences, {type: 'TOGGLE CELL', payload: {sequenceIndex: seqIndex, cellIndex: cellIndex, event: event}})
 
