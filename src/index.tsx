@@ -78,8 +78,8 @@ const toggleSequenceCell = (seqIndex: number, cellIndex: number, event: Event): 
       : seq
     )
   )  */
-const addSequence = (sequence: Sequence): Sequence[] => setSequences(sequences.concat([sequence]))
-const removeSequence = (sequenceIndex: number) => setSequences(sequences.filter((seq, index) => index !== sequenceIndex))
+//const addSequence = (sequence: Sequence): Sequence[] => setSequences(sequences.concat([sequence]))
+//const removeSequence = (sequenceIndex: number) => setSequences(sequences.filter((seq, index) => index !== sequenceIndex))
 
 interface UIHandlers {
   onAddSequence: () => Sequence[]
@@ -122,10 +122,10 @@ const reducer = (sequences: Sequence[], action: Action) => {
       const seqIndex = action.payload?.sequenceIndex
       return sequences.filter((seq, index) => index !== seqIndex)
 
-    case 'TOGGLE SEQUENCE CELL':
+    case 'TOGGLE CELL':
       //const { sequenceIndex, cellIndex, event } = action.payload as ActionPayload
-      const sequenceIndex = action.payload?.sequenceIndex || 0
-      const cellIndex = action.payload?.cellIndex || 0
+      const sequenceIndex = action.payload?.sequenceIndex as number
+      const cellIndex = action.payload?.cellIndex as number
       const event = action.payload?.event  
       const cell = sequences[sequenceIndex][cellIndex]
       if (cell) {
@@ -139,19 +139,18 @@ const reducer = (sequences: Sequence[], action: Action) => {
   return sequences
 }
 
+const addSequence = (): Sequence[] => sequences = reducer(sequences, {type: 'ADD SEQUENCE'})
+
+const removeSequence = (sequenceIndex: number): Sequence[] =>
+  sequences = reducer(sequences, {type: 'REMOVE SEQUENCE', payload: {sequenceIndex: sequenceIndex}})
+  
+const toggleCell = (seqIndex: number, cellIndex: number, event: Event): Sequence[] => 
+  sequences = reducer(sequences, {type: 'TOGGLE CELL', payload: {sequenceIndex: seqIndex, cellIndex: cellIndex, event: event}})
+
 const UIHandlers: UIHandlers = {
-  onAddSequence: () => {
-    sequences = reducer(sequences, {type: 'ADD SEQUENCE'})
-    return sequences
-  },
-  onRemoveSequence: (sequenceIndex: number) => {
-    sequences = reducer(sequences, {type: 'REMOVE SEQUENCE', payload: {sequenceIndex: sequenceIndex}})
-    return sequences
-  },
-  onCellClick: (seqIndex: number, cellIndex: number, event: Event) => {
-    sequences = reducer(sequences, {type: 'TOGGLE SEQUENCE CELL', payload: {sequenceIndex: seqIndex, cellIndex: cellIndex, event: event}})
-    return sequences
-  },
+  onAddSequence: addSequence,
+  onRemoveSequence: removeSequence,
+  onCellClick: toggleCell,
   onAddStep: () => {
     steps += 1
     return setSequences(sequences.map(seq => seq.concat(null)))
