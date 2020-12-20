@@ -7,7 +7,7 @@ import * as Tone from 'tone'
 interface UIHandlers {
     onAddSequence: () => Sequence[]
     onRemoveSequence: (sequenceIndex: number) => Sequence[]
-    onCellClick: (seqIndex: number, cellIndex: number, event: Event) => Sequence[],
+    onCellClick: (seqIndex: number, cellIndex: number) => Sequence[],
     onAddStep: () => Sequence[],
     onRemoveStep: () => Sequence[],
     onPlay: () => void,
@@ -44,7 +44,10 @@ let steps = 16
 
 const synth = new Tone.Synth().toDestination()
 const defaultSound = {name: 'D', pitch: 4}
+const soundMap: {[key: number]: string} = {}
+const pickSound = (sequenceIndex: number) => soundMap[sequenceIndex] || 0
 const playSound: Event = (sound: Sound) => synth.triggerAttackRelease(sound[0], sound[1])
+const playDefaultSound = () => playSound([defaultSound.name + defaultSound.pitch, '8N'])
 
 const sequence1 = makeSequence(steps, 100)
 const sequence2 = makeSequence(steps, 100)
@@ -61,10 +64,10 @@ const soundNames: string[] = ['C', 'D', 'E', 'F', 'G', 'B']
 
 const soundOnSequence = {}
 
-sequences[0][3] = () => playSound([defaultSound.name + defaultSound.pitch, '8N'])
-sequences[1][7] = () => playSound([defaultSound.name + defaultSound.pitch, '8N'])
-sequences[2][11] = () => playSound([defaultSound.name + defaultSound.pitch, '8N'])
-sequences[3][15] = () => playSound([defaultSound.name + defaultSound.pitch, '8N'])
+sequences[0][3] = () => playDefaultSound()
+sequences[1][7] = () => playDefaultSound()
+sequences[2][11] = () => playDefaultSound()
+sequences[3][15] = () => playDefaultSound()
 
 const start = async(): Promise<any> => {
   for (let step=0;step<steps; step++) {
@@ -97,8 +100,11 @@ const reducer = (sequences: Sequence[], action: Action) => {
       //const { sequenceIndex, cellIndex, event } = action.payload as ActionPayload
       const sequenceIndex = action.payload?.sequenceIndex as number
       const cellIndex = action.payload?.cellIndex as number
-      const event = action.payload?.event  
       const cell = sequences[sequenceIndex][cellIndex]
+      const sound = soundMap[sequenceIndex]
+      const event = () => sound
+        ? playSound([sound, '16N'])
+        : playDefaultSound()//playSound(soundMap[sequenceIndex] || [defaultSound.
       if (cell) {
         sequences[sequenceIndex][cellIndex] = null
       } else {
@@ -115,7 +121,7 @@ const addSequenceReducer = () => reducer(sequences, {type: 'ADD SEQUENCE'})
 
 const addSequence = (): Sequence[] => sequences = addSequenceReducer()
 const removeSequence = (sequenceIndex: number): Sequence[] => sequences = reducer(sequences, {type: 'REMOVE SEQUENCE', payload: {sequenceIndex: sequenceIndex}})
-const toggleCell = (seqIndex: number, cellIndex: number, event: Event): Sequence[] => sequences = reducer(sequences, {type: 'TOGGLE CELL', payload: {sequenceIndex: seqIndex, cellIndex: cellIndex, event: event}})
+const toggleCell = (seqIndex: number, cellIndex: number): Sequence[] => sequences = reducer(sequences, {type: 'TOGGLE CELL', payload: {sequenceIndex: seqIndex, cellIndex: cellIndex}})
 
 const UIHandlers: UIHandlers = {
   onAddSequence: addSequence,
@@ -132,6 +138,7 @@ const UIHandlers: UIHandlers = {
   },
   onPlay: () => start(),
   onSoundSelectChange: (soundName: string, pitch: number, sequenceIndex: number) => {
+    soundMap[sequenceIndex] = soundName + pitch
     const sequence = sequences[sequenceIndex]
     const event = () => playSound([soundName + pitch, '8N'])
     sequences[sequenceIndex] = sequence.map(cell => cell ? event : cell)
