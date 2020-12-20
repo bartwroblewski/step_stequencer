@@ -2,7 +2,7 @@ import React from 'react'
 import './App.css'
 import './components/Grid.css'
 
-import { UIProps } from './index'
+import { UIProps } from './app/App'
 import { Sequence, makeSequence } from './app/Sequence'
 
 //import Test, { UIHandlers } from './components/Test'
