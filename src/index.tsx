@@ -100,10 +100,58 @@ export interface UIProps {
 
 const sleepEvent: Event = () => sleep(100) // better to keep it in Event module and import here
 
+interface ActionPayload {
+  sequenceIndex?: number
+  cellIndex?: number
+  event?: any
+}
+
+interface Action {
+  type: string,
+  payload?: ActionPayload,
+}
+
+const reducer = (sequences: Sequence[], action: Action) => {
+  switch (action.type) {
+
+    case 'ADD SEQUENCE':
+      const newSequence = makeSequence(steps, 100)
+      return sequences.concat([newSequence])
+
+    case 'REMOVE SEQUENCE':
+      const seqIndex = action.payload?.sequenceIndex
+      return sequences.filter((seq, index) => index !== seqIndex)
+
+    case 'TOGGLE SEQUENCE CELL':
+      //const { sequenceIndex, cellIndex, event } = action.payload as ActionPayload
+      const sequenceIndex = action.payload?.sequenceIndex || 0
+      const cellIndex = action.payload?.cellIndex || 0
+      const event = action.payload?.event  
+      const cell = sequences[sequenceIndex][cellIndex]
+      if (cell) {
+        sequences[sequenceIndex][cellIndex] = null
+      } else {
+        sequences[sequenceIndex][cellIndex] = event
+      }
+      return sequences
+
+  }
+  return sequences
+}
+
 const UIHandlers: UIHandlers = {
-  onAddSequence: () => addSequence(makeSequence(steps, 100)),
-  onRemoveSequence: (sequenceIndex: number) => removeSequence(sequenceIndex),
-  onCellClick: (seqIndex: number, cellIndex: number, event: Event) => toggleSequenceCell(seqIndex, cellIndex, event),
+  onAddSequence: () => {
+    sequences = reducer(sequences, {type: 'ADD SEQUENCE'})
+    return sequences
+  },
+  onRemoveSequence: (sequenceIndex: number) => {
+    sequences = reducer(sequences, {type: 'REMOVE SEQUENCE', payload: {sequenceIndex: sequenceIndex}})
+    return sequences
+  },
+  onCellClick: (seqIndex: number, cellIndex: number, event: Event) => {
+    sequences = reducer(sequences, {type: 'TOGGLE SEQUENCE CELL', payload: {sequenceIndex: seqIndex, cellIndex: cellIndex, event: event}})
+    return sequences
+  },
   onAddStep: () => {
     steps += 1
     return setSequences(sequences.map(seq => seq.concat(null)))

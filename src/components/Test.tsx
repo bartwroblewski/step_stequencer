@@ -1,34 +1,20 @@
-const test = () => {
-    type Sequence = number[]
-    const sequences: Sequence[] = [
-        [1, 2, 3],
-        [4, 5, 6],
-        [7, 8, 9],
-    ]
-
-    const getEmptySequence = (): Sequence => [0, 0, 0]
-
-    interface UIHandlers {
-        onAddSequence: () => Sequence[]
-    }
-    const UIHandlers = {
-        onAddSequence: () => sequences.concat(getEmptySequence())
-    }
-
-    const SequencerUI = (handlers: UIHandlers) => {
-        const addSequenceButton = {click: handlers.onAddSequence}
-
-        return {addSequenceButton: addSequenceButton}
-    }
-
-    // simulate UI actions
-    const UI = SequencerUI(UIHandlers)
-    let newSequences
-    newSequences = UI.addSequenceButton.click()
-    newSequences = UI.addSequenceButton.click()
-    newSequences = UI.addSequenceButton.click()
- 
-    console.log('sequences', newSequences)
+interface Action {
+    type: string,
 }
 
-export default test
+const arr = [1, 2, 3, 4]
+
+const reducer = (state: number[], action: Action): any => {
+    switch (action.type) {
+        case 'ADD':
+            return state.concat(state[state.length -1] + 1)
+    }
+}
+
+let newArr = reducer(arr, {type: 'ADD'})
+newArr = reducer(newArr, {type: 'ADD'})
+newArr = reducer(newArr, {type: 'ADD'})
+newArr = reducer(newArr, {type: 'ADD'})
+console.log(newArr)
+
+export {}
