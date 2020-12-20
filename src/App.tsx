@@ -43,13 +43,13 @@ const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultEvent}:
     setSeqs(newSequences)
   }
 
-  const handlePlay = () => {
-    handlers.onPlay()
-  }
-
   const handleSoundSelectChange = (soundName: string, pitch: number, sequenceIndex: number) => {
     const newSequences = handlers.onSoundSelectChange(soundName, pitch, sequenceIndex)
     setSeqs([...newSequences])
+  }
+
+  const handlePlay = () => {
+    handlers.onPlay()
   }
 
   const soundSelects = 
