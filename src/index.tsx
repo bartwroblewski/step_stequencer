@@ -10,7 +10,7 @@ ReactDOM.render(
       handlers={app.UIProps.handlers}
       sequences={app.UIProps.sequences}
       soundNames={app.UIProps.soundNames}
-      defaultEvent={app.UIProps.defaultEvent}
+      defaultSound={app.UIProps.defaultSound}
     />
   </React.StrictMode>,
   document.getElementById('root')

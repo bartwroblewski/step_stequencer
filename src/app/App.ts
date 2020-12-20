@@ -18,7 +18,7 @@ interface UIHandlers {
     handlers: UIHandlers,
     sequences: Sequence[],
     soundNames: string[],
-    defaultEvent: Event,
+    defaultSound: {name: string, pitch: number},
   }
 
   interface ActionPayload {
@@ -43,6 +43,7 @@ const sleepTime = ((60 /bpm) / 4) * 1000 // works for 16th notes
 let steps = 16
 
 const synth = new Tone.Synth().toDestination()
+const defaultSound = {name: 'D', pitch: 4}
 const playSound: Event = (sound: Sound) => synth.triggerAttackRelease(sound[0], sound[1])
 
 const sequence1 = makeSequence(steps, 100)
@@ -60,10 +61,10 @@ const soundNames: string[] = ['C', 'D', 'E', 'F', 'G', 'B']
 
 const soundOnSequence = {}
 
-sequences[0][3] = () => playSound(['C3', '8N'])
-sequences[1][7] = () => playSound(['E3', '8N'])
-sequences[2][11] = () => playSound(['G3', '8N'])
-sequences[3][15] = () => playSound(['B3', '8N'])
+sequences[0][3] = () => playSound([defaultSound.name + defaultSound.pitch, '8N'])
+sequences[1][7] = () => playSound([defaultSound.name + defaultSound.pitch, '8N'])
+sequences[2][11] = () => playSound([defaultSound.name + defaultSound.pitch, '8N'])
+sequences[3][15] = () => playSound([defaultSound.name + defaultSound.pitch, '8N'])
 
 const start = async(): Promise<any> => {
   for (let step=0;step<steps; step++) {
@@ -142,7 +143,7 @@ const UIProps: UIProps = {
   handlers: UIHandlers,
   sequences: sequences,
   soundNames: soundNames,
-  defaultEvent: () => playSound(['C3', '8N']),
+  defaultSound: defaultSound,
 }
 
 return {

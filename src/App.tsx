@@ -7,12 +7,13 @@ import { Sequence, makeSequence } from './app/Sequence'
 
 interface SoundSelectProps {
   soundNames: string[],
+  name: string,
   pitch: number,
   onChange: any,
   sequenceIndex: number
 }
 
-const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultEvent}: UIProps) => {
+const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultSound}: UIProps) => {
  
   const [seqs, setSeqs] = React.useState<Sequence[]>(sequences)
 
@@ -29,7 +30,7 @@ const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultEvent}:
   }
   
   const handleCellClick = (seqIndex: number, cellIndex: number) => {
-    const newSequences = handlers.onCellClick(seqIndex, cellIndex, defaultEvent)
+    const newSequences = handlers.onCellClick(seqIndex, cellIndex, () => {})
     setSeqs([...newSequences])
   }
 
@@ -58,7 +59,8 @@ const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultEvent}:
         <SoundSelect
           key={seqIndex}
           soundNames={soundNames}
-          pitch={3}
+          name={defaultSound.name}
+          pitch={defaultSound.pitch}
           onChange={handleSoundSelectChange}
           sequenceIndex={seqIndex}
         />
@@ -95,17 +97,18 @@ const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultEvent}:
   )
 }
 
-const SoundSelect = ({soundNames, pitch, onChange, sequenceIndex}: SoundSelectProps) => {
-  const [soundName, setSoundName] = React.useState<string>(soundNames[0])
-  const [soundPitch, setSoundPitch] = React.useState<number>(3)
+const SoundSelect = ({soundNames, name, pitch, onChange, sequenceIndex}: SoundSelectProps) => {
+  const [soundName, setSoundName] = React.useState<string>(name)
+  const [soundPitch, setSoundPitch] = React.useState<number>(pitch)
 
-  const soundOptions = soundNames.map(name =>
-    <option className='sound-select-option'>{name}</option>
+  const soundOptions = soundNames.map(n =>
+    <option className='sound-select-option'>{n}</option>
   )
 
   return (
     <div className="input-group">
       <select 
+        defaultValue={soundName}
         className='sound-select' 
         onChange={e => {
           const name = e.target.value
