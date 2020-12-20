@@ -5,7 +5,12 @@ import './components/Grid.css'
 import { UIProps } from './app/App'
 import { Sequence, makeSequence } from './app/Sequence'
 
-//import Test, { UIHandlers } from './components/Test'
+interface SoundSelectProps {
+  soundNames: string[],
+  pitch: number,
+  onChange: any,
+  sequenceIndex: number
+}
 
 const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultEvent}: UIProps) => {
  
@@ -47,7 +52,7 @@ const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultEvent}:
     setSeqs([...newSequences])
   }
 
-  const inputs = 
+  const soundSelects = 
     <div className="inputs">
       {seqs.map((seq, seqIndex) =>
         <SoundSelect
@@ -83,18 +88,11 @@ const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultEvent}:
       <button onClick={handleAddStep}>+</button>
       <button onClick={handleRemoveStep}>-</button>
       <div className="sequencer">
-        {inputs}
+        {soundSelects}
         {grid}
       </div>
     </div>
   )
-}
-
-interface SoundSelectProps {
-  soundNames: string[],
-  pitch: number,
-  onChange: any,
-  sequenceIndex: number
 }
 
 const SoundSelect = ({soundNames, pitch, onChange, sequenceIndex}: SoundSelectProps) => {
@@ -115,7 +113,7 @@ const SoundSelect = ({soundNames, pitch, onChange, sequenceIndex}: SoundSelectPr
           onChange(name, soundPitch, sequenceIndex)
         }}
       >
-      {soundOptions}
+        {soundOptions}
       </select>
       <input 
         className="pitch-input"
