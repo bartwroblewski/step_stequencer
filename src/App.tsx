@@ -50,20 +50,13 @@ const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultEvent}:
   const inputs = 
     <div className="inputs">
       {seqs.map((seq, seqIndex) =>
-        <div className="input-group">
-          <select className='sound-select' onChange={e => handleSoundSelectChange(e.target.value, 4, seqIndex)}>
-            {soundNames.map(soundName =>
-              <option className='sound-select-option'>{soundName}</option>
-            )}
-          </select>
-          <input 
-            className="pitch-input"
-            type="number"
-            min="0"
-            max="5"
-            defaultValue="3"
-          />
-        </div>
+        <SoundSelect
+          key={seqIndex}
+          soundNames={soundNames}
+          pitch={3}
+          onChange={handleSoundSelectChange}
+          sequenceIndex={seqIndex}
+        />
       )}
     </div>
 
@@ -93,6 +86,49 @@ const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultEvent}:
         {inputs}
         {grid}
       </div>
+    </div>
+  )
+}
+
+interface SoundSelectProps {
+  soundNames: string[],
+  pitch: number,
+  onChange: any,
+  sequenceIndex: number
+}
+
+const SoundSelect = ({soundNames, pitch, onChange, sequenceIndex}: SoundSelectProps) => {
+  const [soundName, setSoundName] = React.useState<string>(soundNames[0])
+  const [soundPitch, setSoundPitch] = React.useState<number>(3)
+
+  const soundOptions = soundNames.map(name =>
+    <option className='sound-select-option'>{name}</option>
+  )
+
+  return (
+    <div className="input-group">
+      <select 
+        className='sound-select' 
+        onChange={e => {
+          const name = e.target.value
+          setSoundName(name)
+          onChange(name, soundPitch, sequenceIndex)
+        }}
+      >
+      {soundOptions}
+      </select>
+      <input 
+        className="pitch-input"
+        type="number"
+        min="0"
+        max="5"
+        value={soundPitch}
+        onChange={e => {
+          const pitch = parseInt(e.target.value)
+          setSoundPitch(pitch)
+          onChange(soundName, pitch, sequenceIndex)
+        }}
+      />
     </div>
   )
 }
