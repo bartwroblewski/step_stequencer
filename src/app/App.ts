@@ -109,7 +109,10 @@ const reducer = (sequences: Sequence[], action: Action) => {
   return sequences
 }
 
-const addSequence = (): Sequence[] => sequences = reducer(sequences, {type: 'ADD SEQUENCE'})
+const addSequenceReducer = () => reducer(sequences, {type: 'ADD SEQUENCE'})
+// make reducer factory here ?
+
+const addSequence = (): Sequence[] => sequences = addSequenceReducer()
 const removeSequence = (sequenceIndex: number): Sequence[] => sequences = reducer(sequences, {type: 'REMOVE SEQUENCE', payload: {sequenceIndex: sequenceIndex}})
 const toggleCell = (seqIndex: number, cellIndex: number, event: Event): Sequence[] => sequences = reducer(sequences, {type: 'TOGGLE CELL', payload: {sequenceIndex: seqIndex, cellIndex: cellIndex, event: event}})
 

@@ -38,20 +38,6 @@ const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultEvent}:
     setSeqs(newSequences)
   }
 
-  const grid = 
-    <div>
-      {seqs.map((seq, seqIndex) => 
-        <div className='grid-row'>
-          {seq.map((cell, cellIndex) =>
-            <div 
-              className={cell ? 'grid-cell filled' : 'grid-cell'}
-              onClick={() => handleCellClick(seqIndex, cellIndex)}>
-            </div>
-          )}
-        </div>
-      )}
-    </div>
-
   const handlePlay = () => {
     handlers.onPlay()
   }
@@ -77,6 +63,20 @@ const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultEvent}:
             max="5"
             defaultValue="3"
           />
+        </div>
+      )}
+    </div>
+
+    const grid = 
+    <div>
+      {seqs.map((seq, seqIndex) => 
+        <div className='grid-row'>
+          {seq.map((cell, cellIndex) =>
+            <div 
+              className={cell ? 'grid-cell filled' : 'grid-cell'}
+              onClick={() => handleCellClick(seqIndex, cellIndex)}>
+            </div>
+          )}
         </div>
       )}
     </div>
