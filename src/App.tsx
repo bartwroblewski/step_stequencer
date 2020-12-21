@@ -1,9 +1,8 @@
 import React from 'react'
 import './App.css'
-import './components/Grid.css'
 
 import { UIProps } from './app/App'
-import { Sequence, makeSequence } from './app/Sequence'
+import { Sequence } from './app/Sequence'
 
 interface SoundSelectProps {
   soundNames: string[],
@@ -53,34 +52,6 @@ const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultSound}:
     handlers.onPlay()
   }
 
-  const soundSelects = 
-    <div className="inputs">
-      {seqs.map((seq, seqIndex) =>
-        <SoundSelect
-          key={seqIndex}
-          soundNames={soundNames}
-          name={defaultSound.name}
-          pitch={defaultSound.pitch}
-          onChange={handleSoundSelectChange}
-          sequenceIndex={seqIndex}
-        />
-      )}
-    </div>
-
-    const grid = 
-    <div>
-      {seqs.map((seq, seqIndex) => 
-        <div className='grid-row'>
-          {seq.map((cell, cellIndex) =>
-            <div 
-              className={cell ? 'grid-cell filled' : 'grid-cell'}
-              onClick={() => handleCellClick(seqIndex, cellIndex)}>
-            </div>
-          )}
-        </div>
-      )}
-    </div>
-
   return (
     <div className="sequencer">
       <div className="sequencer-controls">
@@ -96,7 +67,7 @@ const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultSound}:
       </div>
       <div className="sequencer-rows">
         {seqs.map((seq, seqIndex) => 
-          <div className="sequencer-row">
+          <div key={seqIndex} className="sequencer-row">
             <SoundSelect
               key={seqIndex}
               soundNames={soundNames}
@@ -108,6 +79,7 @@ const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultSound}:
             <div className='grid-row'>
               {seq.map((cell, cellIndex) =>
                 <div 
+                  key={cellIndex}
                   className={cell ? 'grid-cell filled' : 'grid-cell'}
                   onClick={() => handleCellClick(seqIndex, cellIndex)}>
                 </div>
@@ -124,8 +96,8 @@ const SoundSelect = ({soundNames, name, pitch, onChange, sequenceIndex}: SoundSe
   const [soundName, setSoundName] = React.useState<string>(name)
   const [soundPitch, setSoundPitch] = React.useState<number>(pitch)
 
-  const soundOptions = soundNames.map(n =>
-    <option>{n}</option>
+  const soundOptions = soundNames.map((n, index) =>
+    <option key={index}>{n}</option>
   )
 
   return (

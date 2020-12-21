@@ -28,3 +28,18 @@ body {
 .silver {
     color: silver;
 }
+
+.grid-row {
+    display: flex;
+}
+
+.grid-cell {
+    width: 25px;
+    height: 25px;
+    border: 1px solid silver;
+    margin: 2.5px;
+}
+
+.grid-cell.filled {
+    background: silver;
+}
