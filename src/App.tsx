@@ -15,8 +15,7 @@ interface SoundSelectProps {
 const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultSound, defaultBPM}: UIProps) => {
  
   const [seqs, setSeqs] = React.useState<Sequence[]>(sequences)
-
-  React.useEffect(() => console.log(seqs), [seqs])
+  const [currentStep, setCurrentStep] = React.useState<number>(handlers.getCurrentStep())
   
   const handleAddSequence = () => {
     const newSequences = handlers.onAddSequence()  
@@ -54,6 +53,7 @@ const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultSound, 
 
   const handlePlay = () => {
     handlers.onPlay()
+    setInterval(() => setCurrentStep(handlers.getCurrentStep()), 100)
   }
 
   return (
@@ -93,7 +93,9 @@ const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultSound, 
               {seq.map((cell, cellIndex) =>
                 <div 
                   key={cellIndex}
-                  className={cell ? 'grid-cell filled' : 'grid-cell'}
+                  className={cell 
+                    ? cellIndex === currentStep ? 'grid-cell filled current': 'grid-cell filled'
+                    : 'grid-cell'}
                   onClick={() => handleCellClick(seqIndex, cellIndex)}>
                 </div>
               )}

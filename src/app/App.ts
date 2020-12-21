@@ -13,6 +13,7 @@ interface UIHandlers {
     onPlay: () => void
     onSoundSelectChange: (soundName: string, pitch: number, sequenceIndex: number) => Sequence[]
     onBPMchange: (bpm: number) => void
+    getCurrentStep: () => number
 }
   
 export interface UIProps {
@@ -40,6 +41,7 @@ const App = () => {
 
     let bpm = 140
     let steps = 32
+    let currentStep = 0
     let defaultSequences = 4
     let sequences: Sequence[] = makeSequences(defaultSequences, steps)
     const defaultMelody = [0, 4, 8, 10, 12, 16, 18, 20, 22, 26, 28]
@@ -53,6 +55,7 @@ const App = () => {
 
     const playOnce = async(): Promise<any> => {
         for (let step=0;step<steps; step++) {
+            currentStep = step
             const stepEvents = []
             for (let sequence of sequences) {
                 const stepEvent = sequence[step]
@@ -179,6 +182,7 @@ const App = () => {
         onPlay: playOnce,
         onSoundSelectChange: changeSound,
         onBPMchange: changeBPM,
+        getCurrentStep: () => currentStep
     }
 
     const UIProps: UIProps = {
