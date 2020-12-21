@@ -2,7 +2,7 @@ import Event from './Event'
 
 export type Sequence = Event[]
 
-export const makeSequence = (sequenceLength: number, sleepMs: number): Sequence => {
+export const makeSequence = (sequenceLength: number): Sequence => {
     const sequence = []
     for (let i=0; i<sequenceLength; i++) {
         sequence.push(null)
@@ -10,10 +10,10 @@ export const makeSequence = (sequenceLength: number, sleepMs: number): Sequence 
     return sequence
 }
 
-export const makeSequences = (nSequences: number, sequenceLength: number, sleepMs: number) => {
+export const makeSequences = (nSequences: number, sequenceLength: number) => {
     const sequences: Sequence[] = []
     for (let i=0; i<nSequences; i++){
-        const sequence = makeSequence(sequenceLength, sleepMs)
+        const sequence = makeSequence(sequenceLength)
         sequences.push(sequence)
     }
     return sequences

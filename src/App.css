@@ -6,6 +6,10 @@ body {
     margin-bottom: 10px;
 }
 
+.sequencer-controls label {
+    margin-left: 30px;
+}
+
 .sequencer-controls > * {
     background: none;
     color: silver;

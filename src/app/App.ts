@@ -25,6 +25,8 @@ interface ActionPayload {
     sequenceIndex?: number
     cellIndex?: number
     event?: any
+    soundName?: string
+    pitch?: number
 }
 
 interface Action {
@@ -35,7 +37,8 @@ interface Action {
 const App = () => {
 
     let steps = 32
-    let sequences: Sequence[] = makeSequences(4, steps, 100)
+    let defaultSequences = 4
+    let sequences: Sequence[] = makeSequences(defaultSequences, steps)
     const defaultMelody = [0, 4, 8, 10, 12, 16, 18, 20, 22, 26, 28]
     defaultMelody.forEach(cellIndex => sequences[0][cellIndex] = playDefaultSound)
 
@@ -62,21 +65,23 @@ const App = () => {
     }
 
     const sequencesReducer = (sequences: Sequence[], action: Action) => {
+        let sequenceIndex: number
+        let event: any
         switch (action.type) {
             case 'ADD SEQUENCE':
-                const newSequence = makeSequence(steps, 100)
+                const newSequence = makeSequence(steps)
                 return sequences.concat([newSequence])
 
             case 'REMOVE SEQUENCE':
-                const seqIndex = action.payload?.sequenceIndex
-                return sequences.filter((seq, index) => index !== seqIndex)
+                sequenceIndex = action.payload?.sequenceIndex as number
+                return sequences.filter((seq, index) => index !== sequenceIndex)
 
             case 'TOGGLE CELL':
-                const sequenceIndex = action.payload?.sequenceIndex as number
+                sequenceIndex = action.payload?.sequenceIndex as number
                 const cellIndex = action.payload?.cellIndex as number
                 const cell = sequences[sequenceIndex][cellIndex]
                 const sound = soundMap[sequenceIndex]
-                const event = () => sound ? playSound([sound, '16N']) : playDefaultSound()
+                event = () => sound ? playSound([sound, '16N']) : playDefaultSound()
 
                 // do not allow more than 1 sound per step
                 sequences = sequences.map(seq => seq.map((cell, idx) => idx === cellIndex ? null : cell))
@@ -91,6 +96,16 @@ const App = () => {
             case 'REMOVE STEP':
                 steps -= 1
                 return sequences.map(seq => seq.slice(0, -1))
+
+            case 'CHANGE SOUND':
+                const soundName = action.payload?.soundName as string
+                const pitch = action.payload?.pitch
+                sequenceIndex = action.payload?.sequenceIndex as number
+                soundMap[sequenceIndex] = soundName + pitch
+                const sequence = sequences[sequenceIndex]
+                event = () => playSound([soundName + pitch, '16N'])
+                sequences[sequenceIndex] = sequence.map(cell => cell ? event : cell)
+                return sequences
         }
         return sequences
     }
@@ -116,6 +131,11 @@ const App = () => {
         return sequencesReducer(sequences, {type: 'REMOVE STEP'})
     }
 
+    const changeSoundReducer = (soundName: string, pitch: number, sequenceIndex: number) => {
+        const payload = {soundName: soundName, pitch: pitch, sequenceIndex: sequenceIndex}
+        return sequencesReducer(sequences, {type: 'CHANGE SOUND', payload: payload})
+    }
+
     // handlers
     const addSequence = (): Sequence[] => {
         return sequences = addSequenceReducer()
@@ -137,6 +157,10 @@ const App = () => {
         return sequences = removeStepReducer()
     }
 
+    const changeSound = (soundName: string, pitch: number, sequenceIndex: number) => {
+        return sequences = changeSoundReducer(soundName, pitch, sequenceIndex)
+    }
+
     const UIHandlers: UIHandlers = {
         onAddSequence: addSequence,
         onRemoveSequence: removeSequence,
@@ -144,13 +168,7 @@ const App = () => {
         onAddStep: addStep,
         onRemoveStep: removeStep,
         onPlay: playOnce,
-        onSoundSelectChange: (soundName: string, pitch: number, sequenceIndex: number) => {
-            soundMap[sequenceIndex] = soundName + pitch
-            const sequence = sequences[sequenceIndex]
-            const event = () => playSound([soundName + pitch, '16N'])
-            sequences[sequenceIndex] = sequence.map(cell => cell ? event : cell)
-            return sequences
-        }
+        onSoundSelectChange: changeSound,
     }
 
     const UIProps: UIProps = {
