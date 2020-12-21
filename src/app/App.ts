@@ -1,6 +1,6 @@
 import { Event } from './Event'
-import { Sequence, makeSequence } from './Sequence'
-import { Sound, soundNames } from './Sound'
+import { Sequence, makeSequence, makeSequences } from './Sequence'
+import { soundNames, defaultSound, playSound, playDefaultSound } from './Sound'
 import { sleep } from './Event'
 import * as Tone from 'tone'
 
@@ -34,26 +34,16 @@ interface UIHandlers {
 
 const App = () => {
 
-const sleepEvent: Event = () => sleep(100) // better to keep it in Event module and import here
-Tone.start()
 const bpm = 120
-Tone.Transport.bpm.value = bpm;
-
 const sleepTime = ((60 /bpm) / 4) * 1000 // works for 16th notes
 let steps = 32
 
-const synth = new Tone.Synth().toDestination()
-const defaultSound = {name: 'D', pitch: 4}
+Tone.start()
+Tone.Transport.bpm.value = bpm;
+
 const soundMap: {[key: number]: string} = {} // keeps track of sounds mapped to sequences. Updated on UI sound select change
-const playSound: Event = (sound: Sound) => synth.triggerAttackRelease(sound[0], sound[1])
-const playDefaultSound = () => playSound([defaultSound.name + defaultSound.pitch, '16N'])
+let sequences: Sequence[] = makeSequences(4, steps, 100)
 
-const sequence1 = makeSequence(steps, 100)
-const sequence2 = makeSequence(steps, 100)
-const sequence3 = makeSequence(steps, 100)
-const sequence4 = makeSequence(steps, 100)
-
-let sequences: Sequence[] = [sequence1, sequence2, sequence3, sequence4]
 const setSequences = (newSequences: Sequence[]): Sequence[] => {
   sequences = newSequences
   return sequences
@@ -61,10 +51,6 @@ const setSequences = (newSequences: Sequence[]): Sequence[] => {
 
 const defaultMelody = [0, 4, 8, 10, 12, 16, 18, 20, 22, 26, 28]
 defaultMelody.forEach(cellIndex => sequences[0][cellIndex] = playDefaultSound)
-/* sequences[0][3] = playDefaultSound
-sequences[1][7] = playDefaultSound
-sequences[2][11] = playDefaultSound
-sequences[3][15] = playDefaultSound */
 
 const start = async(): Promise<any> => {
   for (let step=0;step<steps; step++) {
@@ -110,12 +96,29 @@ const reducer = (sequences: Sequence[], action: Action) => {
   return sequences
 }
 
-const addSequenceReducer = () => reducer(sequences, {type: 'ADD SEQUENCE'})
-// make reducer factory here ?
+const addSequenceReducer = () => {
+    return reducer(sequences, {type: 'ADD SEQUENCE'})
+}
+const remvoveSequenceReducer = (sequenceIndex: number) => {
+    return reducer(sequences, {type: 'REMOVE SEQUENCE', payload: {sequenceIndex: sequenceIndex}})
+}
 
-const addSequence = (): Sequence[] => sequences = addSequenceReducer()
-const removeSequence = (sequenceIndex: number): Sequence[] => sequences = reducer(sequences, {type: 'REMOVE SEQUENCE', payload: {sequenceIndex: sequenceIndex}})
-const toggleCell = (seqIndex: number, cellIndex: number): Sequence[] => sequences = reducer(sequences, {type: 'TOGGLE CELL', payload: {sequenceIndex: seqIndex, cellIndex: cellIndex}})
+const toggleCellReducer = (sequenceIndex: number, cellIndex: number) => {
+    const payload = {sequenceIndex: sequenceIndex, cellIndex: cellIndex}
+    return reducer(sequences, {type: 'TOGGLE CELL', payload: payload})
+}
+
+const addSequence = (): Sequence[] => {
+    return sequences = addSequenceReducer()
+}
+
+const removeSequence = (sequenceIndex: number): Sequence[] => {
+    return sequences = remvoveSequenceReducer(sequenceIndex)
+}
+
+const toggleCell = (seqIndex: number, cellIndex: number): Sequence[] => {
+    return sequences = reducer(sequences, {type: 'TOGGLE CELL', payload: {sequenceIndex: seqIndex, cellIndex: cellIndex}})
+}
 
 const UIHandlers: UIHandlers = {
   onAddSequence: addSequence,
