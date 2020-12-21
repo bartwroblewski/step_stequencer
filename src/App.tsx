@@ -15,7 +15,7 @@ interface SoundSelectProps {
 const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultSound, defaultBPM}: UIProps) => {
  
   const [seqs, setSeqs] = React.useState<Sequence[]>(sequences)
-  const [currentStep, setCurrentStep] = React.useState<number>(handlers.getCurrentStep())
+  const [currentStep, setCurrentStep] = React.useState<number>(handlers.getCurrentState().step)
   
   const handleAddSequence = () => {
     const newSequences = handlers.onAddSequence()  
@@ -50,10 +50,12 @@ const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultSound, 
   const handleBPMchange = (e: any) => {
     handlers.onBPMchange(parseInt(e.target.value))
   }
-
+  
   const handlePlay = () => {
     handlers.onPlay()
-    setInterval(() => setCurrentStep(handlers.getCurrentStep()), 100)
+    const partialInterval = (f: any) => setInterval(f, handlers.getCurrentState().sleepTime)
+    partialInterval(() => setCurrentStep(handlers.getCurrentState().step))
+
   }
 
   return (

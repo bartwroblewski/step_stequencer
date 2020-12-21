@@ -4,6 +4,11 @@ import { soundNames, defaultSound, defaultNoteLength, playSound, playDefaultSoun
 import { sleep } from './Event'
 import * as Tone from 'tone'
 
+interface CurrentState {
+    step: number,
+    sleepTime: number,
+}
+
 interface UIHandlers {
     onAddSequence: () => Sequence[]
     onRemoveSequence: (sequenceIndex: number) => Sequence[]
@@ -13,7 +18,7 @@ interface UIHandlers {
     onPlay: () => void
     onSoundSelectChange: (soundName: string, pitch: number, sequenceIndex: number) => Sequence[]
     onBPMchange: (bpm: number) => void
-    getCurrentStep: () => number
+    getCurrentState: () => CurrentState
 }
   
 export interface UIProps {
@@ -41,7 +46,8 @@ const App = () => {
 
     let bpm = 140
     let steps = 32
-    let currentStep = 0
+    let currentStep: number = 0
+    let currentSleepTime: number = sleepTime(bpm)
     let defaultSequences = 4
     let sequences: Sequence[] = makeSequences(defaultSequences, steps)
     const defaultMelody = [0, 4, 8, 10, 12, 16, 18, 20, 22, 26, 28]
@@ -66,7 +72,8 @@ const App = () => {
             for (const stepEvent of stepEvents) {
                 stepEvent()
             }
-            await sleep(sleepTime(bpm))
+            currentSleepTime = sleepTime(bpm)
+            await sleep(currentSleepTime)
         }
     }
 
@@ -182,7 +189,9 @@ const App = () => {
         onPlay: playOnce,
         onSoundSelectChange: changeSound,
         onBPMchange: changeBPM,
-        getCurrentStep: () => currentStep
+        getCurrentState: (): CurrentState => {
+            return {step: currentStep, sleepTime: currentSleepTime}
+        }
     }
 
     const UIProps: UIProps = {
