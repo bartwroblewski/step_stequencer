@@ -1,36 +1,17 @@
 body {
     background: black;
-    color: silver;
 }
 
-.inputs {
-    display: inline;
+.sequencer-row {
+    display: flex;
+    align-items: center;
 }
 
-.input-group {
-    display: grid;
-    grid-template-columns: 0fr 5ch;
-    grid-gap: 5px;
-}
-
-.sequencer {
-    display: grid;
-    grid-template-columns: 0fr 0fr;
-    grid-gap: 5px;
-}
-
-.sound-select {
+.black {
     background: black;
-    color: silver;
 }
 
-.sound-select-option {
-    background: black;
-    color: silver;
-}
-
-.pitch-input {
-    background: black;
+.silver {
     color: silver;
 }
 

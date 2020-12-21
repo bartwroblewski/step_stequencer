@@ -90,8 +90,26 @@ const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultSound}:
       <button onClick={handleAddStep}>+</button>
       <button onClick={handleRemoveStep}>-</button>
       <div className="sequencer">
-        {soundSelects}
-        {grid}
+        {seqs.map((seq, seqIndex) => 
+          <div className="sequencer-row">
+            <SoundSelect
+              key={seqIndex}
+              soundNames={soundNames}
+              name={defaultSound.name}
+              pitch={defaultSound.pitch}
+              onChange={handleSoundSelectChange}
+              sequenceIndex={seqIndex}
+            />
+            <div className='grid-row'>
+              {seq.map((cell, cellIndex) =>
+                <div 
+                  className={cell ? 'grid-cell filled' : 'grid-cell'}
+                  onClick={() => handleCellClick(seqIndex, cellIndex)}>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )
@@ -102,14 +120,14 @@ const SoundSelect = ({soundNames, name, pitch, onChange, sequenceIndex}: SoundSe
   const [soundPitch, setSoundPitch] = React.useState<number>(pitch)
 
   const soundOptions = soundNames.map(n =>
-    <option className='sound-select-option'>{n}</option>
+    <option>{n}</option>
   )
 
   return (
-    <div className="input-group">
+    <div>
       <select 
         defaultValue={soundName}
-        className='sound-select' 
+        className='black silver' 
         onChange={e => {
           const name = e.target.value
           setSoundName(name)
@@ -119,7 +137,7 @@ const SoundSelect = ({soundNames, name, pitch, onChange, sequenceIndex}: SoundSe
         {soundOptions}
       </select>
       <input 
-        className="pitch-input"
+        className="black silver"
         type="number"
         min="0"
         max="5"
