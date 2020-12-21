@@ -1,6 +1,6 @@
-import { bpm, sleepTime } from './Clock'
+import { sleepTime } from './Clock'
 import { Sequence, makeSequence, makeSequences } from './Sequence'
-import { soundNames, defaultSound, playSound, playDefaultSound } from './Sound'
+import { soundNames, defaultSound, defaultNoteLength, playSound, playDefaultSound } from './Sound'
 import { sleep } from './Event'
 import * as Tone from 'tone'
 
@@ -38,6 +38,7 @@ interface Action {
 
 const App = () => {
 
+    let bpm = 140
     let steps = 32
     let defaultSequences = 4
     let sequences: Sequence[] = makeSequences(defaultSequences, steps)
@@ -69,6 +70,7 @@ const App = () => {
     const sequencesReducer = (sequences: Sequence[], action: Action) => {
         let sequenceIndex: number
         let event: any
+        let soundName: string
         switch (action.type) {
             case 'ADD SEQUENCE':
                 const newSequence = makeSequence(steps)
@@ -82,8 +84,8 @@ const App = () => {
                 sequenceIndex = action.payload?.sequenceIndex as number
                 const cellIndex = action.payload?.cellIndex as number
                 const cell = sequences[sequenceIndex][cellIndex]
-                const sound = soundMap[sequenceIndex]
-                event = () => sound ? playSound([sound, '16N']) : playDefaultSound()
+                soundName = soundMap[sequenceIndex]
+                event = () => soundName ? playSound([soundName, defaultNoteLength]) : playDefaultSound()
 
                 // do not allow more than 1 sound per step
                 sequences = sequences.map(seq => seq.map((cell, idx) => idx === cellIndex ? null : cell))
@@ -100,12 +102,12 @@ const App = () => {
                 return sequences.map(seq => seq.slice(0, -1))
 
             case 'CHANGE SOUND':
-                const soundName = action.payload?.soundName as string
+                soundName = action.payload?.soundName as string
                 const pitch = action.payload?.pitch
                 sequenceIndex = action.payload?.sequenceIndex as number
                 soundMap[sequenceIndex] = soundName + pitch
                 const sequence = sequences[sequenceIndex]
-                event = () => playSound([soundName + pitch, '16N'])
+                event = () => playSound([soundName + pitch, defaultNoteLength])
                 sequences[sequenceIndex] = sequence.map(cell => cell ? event : cell)
                 return sequences
         }
@@ -163,9 +165,9 @@ const App = () => {
         return sequences = changeSoundReducer(soundName, pitch, sequenceIndex)
     }
 
-    const changeBPM = (bpm: number) => {
-        console.log(bpm)
-        Tone.Transport.bpm.value = bpm
+    const changeBPM = (newBpm: number) => {
+        bpm = newBpm
+        //Tone.Transport.bpm.value = bpm
     }
 
     const UIHandlers: UIHandlers = {
