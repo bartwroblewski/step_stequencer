@@ -98,6 +98,10 @@ const reducer = (sequences: Sequence[], action: Action) => {
       const cell = sequences[sequenceIndex][cellIndex]
       const sound = soundMap[sequenceIndex]
       const event = () => sound ? playSound([sound, '16N']) : playDefaultSound()
+
+      // do not allow more than 1 sound per step
+      sequences = sequences.map(seq => seq.map((cell, idx) => idx === cellIndex ? null : cell))
+      
       sequences[sequenceIndex][cellIndex] = cell ? null : event
       return sequences
   }
