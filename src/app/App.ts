@@ -40,13 +40,13 @@ const bpm = 120
 Tone.Transport.bpm.value = bpm;
 
 const sleepTime = ((60 /bpm) / 4) * 1000 // works for 16th notes
-let steps = 16
+let steps = 32
 
 const synth = new Tone.Synth().toDestination()
 const defaultSound = {name: 'D', pitch: 4}
 const soundMap: {[key: number]: string} = {} // keeps track of sounds mapped to sequences. Updated on UI sound select change
 const playSound: Event = (sound: Sound) => synth.triggerAttackRelease(sound[0], sound[1])
-const playDefaultSound = () => playSound([defaultSound.name + defaultSound.pitch, '8N'])
+const playDefaultSound = () => playSound([defaultSound.name + defaultSound.pitch, '16N'])
 
 const sequence1 = makeSequence(steps, 100)
 const sequence2 = makeSequence(steps, 100)
@@ -59,10 +59,12 @@ const setSequences = (newSequences: Sequence[]): Sequence[] => {
   return sequences
 }
 
-sequences[0][3] = () => playDefaultSound()
+const defaultMelody = [0, 4, 8, 10, 12, 16, 18, 20, 22, 26, 28]
+defaultMelody.forEach(cellIndex => sequences[0][cellIndex] = playDefaultSound)
+/* sequences[0][3] = () => playDefaultSound()
 sequences[1][7] = () => playDefaultSound()
 sequences[2][11] = () => playDefaultSound()
-sequences[3][15] = () => playDefaultSound()
+sequences[3][15] = () => playDefaultSound() */
 
 const start = async(): Promise<any> => {
   for (let step=0;step<steps; step++) {
@@ -101,7 +103,7 @@ const reducer = (sequences: Sequence[], action: Action) => {
 
       // do not allow more than 1 sound per step
       sequences = sequences.map(seq => seq.map((cell, idx) => idx === cellIndex ? null : cell))
-      
+
       sequences[sequenceIndex][cellIndex] = cell ? null : event
       return sequences
   }
@@ -132,7 +134,7 @@ const UIHandlers: UIHandlers = {
   onSoundSelectChange: (soundName: string, pitch: number, sequenceIndex: number) => {
     soundMap[sequenceIndex] = soundName + pitch
     const sequence = sequences[sequenceIndex]
-    const event = () => playSound([soundName + pitch, '8N'])
+    const event = () => playSound([soundName + pitch, '16N'])
     sequences[sequenceIndex] = sequence.map(cell => cell ? event : cell)
     return sequences
   }
