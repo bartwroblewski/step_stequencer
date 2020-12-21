@@ -71,7 +71,7 @@ const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultSound, 
         <button onClick={handleAddStep}>+</button>
         <button onClick={handleRemoveStep}>-</button>
 
-        <label>BPM</label>
+        <label>Tempo</label>
         <input 
           type="range"
           min="50"
@@ -133,8 +133,8 @@ const SoundSelect = ({soundNames, name, pitch, onChange, sequenceIndex}: SoundSe
       <input 
         className="black silver"
         type="number"
-        min="0"
-        max="5"
+        min="1"
+        max="9"
         value={soundPitch}
         onChange={e => {
           const pitch = parseInt(e.target.value)
