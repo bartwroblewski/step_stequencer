@@ -70,7 +70,7 @@ const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultSound, 
         <button onClick={handleRemoveStep}>-</button>
 
         <label>BPM</label>
-        <input type="number" defaultValue={defaultBPM} onChange={handleBPMchange}/>
+        <input type="range" min="50" max="300" defaultValue={defaultBPM} onChange={handleBPMchange}/>
       </div>
       <div className="sequencer-rows">
         {seqs.map((seq, seqIndex) => 
