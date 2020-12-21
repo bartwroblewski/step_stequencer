@@ -61,10 +61,10 @@ const setSequences = (newSequences: Sequence[]): Sequence[] => {
 
 const defaultMelody = [0, 4, 8, 10, 12, 16, 18, 20, 22, 26, 28]
 defaultMelody.forEach(cellIndex => sequences[0][cellIndex] = playDefaultSound)
-/* sequences[0][3] = () => playDefaultSound()
-sequences[1][7] = () => playDefaultSound()
-sequences[2][11] = () => playDefaultSound()
-sequences[3][15] = () => playDefaultSound() */
+/* sequences[0][3] = playDefaultSound
+sequences[1][7] = playDefaultSound
+sequences[2][11] = playDefaultSound
+sequences[3][15] = playDefaultSound */
 
 const start = async(): Promise<any> => {
   for (let step=0;step<steps; step++) {
