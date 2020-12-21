@@ -94,7 +94,7 @@ const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultSound, 
                 <div 
                   key={cellIndex}
                   className={cell 
-                    ? cellIndex === currentStep ? 'grid-cell filled current': 'grid-cell filled'
+                    ? cellIndex === currentStep ? 'grid-cell filled active': 'grid-cell filled'
                     : 'grid-cell'}
                   onClick={() => handleCellClick(seqIndex, cellIndex)}>
                 </div>

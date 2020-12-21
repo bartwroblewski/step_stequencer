@@ -44,6 +44,6 @@ body {
     background: silver;
 }
 
-.grid-cell.filled.current {
-    background: red;
+.grid-cell.filled.active {
+    background: greenyellow;
 }
