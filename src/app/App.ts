@@ -45,7 +45,7 @@ const App = () => {
     // keeps track of sounds mapped to sequences. Updated on UI sound select change
     const soundMap: {[key: number]: string} = {} 
 
-    const start = async(): Promise<any> => {
+    const playOnce = async(): Promise<any> => {
         for (let step=0;step<steps; step++) {
             const stepEvents = []
             for (let sequence of sequences) {
@@ -61,7 +61,7 @@ const App = () => {
         }
     }
 
-    const reducer = (sequences: Sequence[], action: Action) => {
+    const sequencesReducer = (sequences: Sequence[], action: Action) => {
         switch (action.type) {
             case 'ADD SEQUENCE':
                 const newSequence = makeSequence(steps, 100)
@@ -88,15 +88,15 @@ const App = () => {
     }
 
     const addSequenceReducer = () => {
-        return reducer(sequences, {type: 'ADD SEQUENCE'})
+        return sequencesReducer(sequences, {type: 'ADD SEQUENCE'})
     }
     const remvoveSequenceReducer = (sequenceIndex: number) => {
-        return reducer(sequences, {type: 'REMOVE SEQUENCE', payload: {sequenceIndex: sequenceIndex}})
+        return sequencesReducer(sequences, {type: 'REMOVE SEQUENCE', payload: {sequenceIndex: sequenceIndex}})
     }
 
     const toggleCellReducer = (sequenceIndex: number, cellIndex: number) => {
         const payload = {sequenceIndex: sequenceIndex, cellIndex: cellIndex}
-        return reducer(sequences, {type: 'TOGGLE CELL', payload: payload})
+        return sequencesReducer(sequences, {type: 'TOGGLE CELL', payload: payload})
     }
 
     const addSequence = (): Sequence[] => {
@@ -123,7 +123,7 @@ const App = () => {
             steps -= 1
             return sequences = sequences.map(seq => seq.slice(0, -1))
         },
-        onPlay: () => start(),
+        onPlay: () => playOnce(),
         onSoundSelectChange: (soundName: string, pitch: number, sequenceIndex: number) => {
             soundMap[sequenceIndex] = soundName + pitch
             const sequence = sequences[sequenceIndex]
