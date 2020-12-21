@@ -12,6 +12,7 @@ interface UIHandlers {
     onRemoveStep: () => Sequence[]
     onPlay: () => void
     onSoundSelectChange: (soundName: string, pitch: number, sequenceIndex: number) => Sequence[]
+    onBPMchange: (bpm: number) => void
 }
   
 export interface UIProps {
@@ -19,6 +20,7 @@ export interface UIProps {
     sequences: Sequence[]
     soundNames: string[]
     defaultSound: {name: string, pitch: number}
+    defaultBPM: number
 }
 
 interface ActionPayload {
@@ -161,6 +163,11 @@ const App = () => {
         return sequences = changeSoundReducer(soundName, pitch, sequenceIndex)
     }
 
+    const changeBPM = (bpm: number) => {
+        console.log(bpm)
+        Tone.Transport.bpm.value = bpm
+    }
+
     const UIHandlers: UIHandlers = {
         onAddSequence: addSequence,
         onRemoveSequence: removeSequence,
@@ -169,6 +176,7 @@ const App = () => {
         onRemoveStep: removeStep,
         onPlay: playOnce,
         onSoundSelectChange: changeSound,
+        onBPMchange: changeBPM,
     }
 
     const UIProps: UIProps = {
@@ -176,6 +184,7 @@ const App = () => {
         sequences: sequences,
         soundNames: soundNames,
         defaultSound: defaultSound,
+        defaultBPM: bpm,
     }
 
     return {

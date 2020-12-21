@@ -12,7 +12,7 @@ interface SoundSelectProps {
   sequenceIndex: number
 }
 
-const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultSound}: UIProps) => {
+const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultSound, defaultBPM}: UIProps) => {
  
   const [seqs, setSeqs] = React.useState<Sequence[]>(sequences)
 
@@ -48,6 +48,10 @@ const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultSound}:
     setSeqs([...newSequences])
   }
 
+  const handleBPMchange = (e: any) => {
+    handlers.onBPMchange(parseInt(e.target.value))
+  }
+
   const handlePlay = () => {
     handlers.onPlay()
   }
@@ -64,6 +68,9 @@ const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultSound}:
         <label className="silver">Steps</label>
         <button onClick={handleAddStep}>+</button>
         <button onClick={handleRemoveStep}>-</button>
+
+        <label>BPM</label>
+        <input type="number" defaultValue={defaultBPM} onChange={handleBPMchange}/>
       </div>
       <div className="sequencer-rows">
         {seqs.map((seq, seqIndex) => 

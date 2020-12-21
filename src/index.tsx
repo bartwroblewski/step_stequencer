@@ -11,6 +11,7 @@ ReactDOM.render(
       sequences={app.UIProps.sequences}
       soundNames={app.UIProps.soundNames}
       defaultSound={app.UIProps.defaultSound}
+      defaultBPM={app.UIProps.defaultBPM}
     />
   </React.StrictMode>,
   document.getElementById('root')
