@@ -16,7 +16,8 @@ const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultSound, 
  
   const [seqs, setSeqs] = React.useState<Sequence[]>(sequences)
   const [currentStep, setCurrentStep] = React.useState<number>(handlers.getCurrentState().step)
-  
+  const [playing, setPlaying] = React.useState<boolean>(handlers.getCurrentState().isPlaying)
+
   const handleAddSequence = () => {
     const newSequences = handlers.onAddSequence()  
     setSeqs([...newSequences])
@@ -53,8 +54,18 @@ const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultSound, 
   
   const handlePlay = () => {
     handlers.onPlay()
-    const partialInterval = (f: any) => setInterval(f, handlers.getCurrentState().sleepTime)
-    partialInterval(() => setCurrentStep(handlers.getCurrentState().step))
+
+    // Fix sleep time either to backend state or - if first step - to 0.
+    const partialInterval = (f: () => void) =>
+      setInterval(f, playing 
+        ? handlers.getCurrentState().sleepTime 
+        : 0
+      )
+    partialInterval(() => {
+      const { step, isPlaying } = handlers.getCurrentState()
+      setPlaying(isPlaying)
+      setCurrentStep(handlers.getCurrentState().step)
+    })
 
   }
 
@@ -96,7 +107,7 @@ const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultSound, 
                 <div 
                   key={cellIndex}
                   className={cell 
-                    ? cellIndex === currentStep ? 'grid-cell filled active': 'grid-cell filled'
+                    ? cellIndex === currentStep && playing ? 'grid-cell filled active': 'grid-cell filled'
                     : 'grid-cell'}
                   onClick={() => handleCellClick(seqIndex, cellIndex)}>
                 </div>

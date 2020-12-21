@@ -5,8 +5,9 @@ import { sleep } from './Event'
 import * as Tone from 'tone'
 
 interface CurrentState {
-    step: number,
-    sleepTime: number,
+    step: number
+    sleepTime: number
+    isPlaying: boolean
 }
 
 interface UIHandlers {
@@ -46,6 +47,7 @@ const App = () => {
 
     let bpm = 140
     let steps = 32
+    let isPlaying: boolean = false
     let currentStep: number = 0
     let currentSleepTime: number = sleepTime(bpm)
     let defaultSequences = 4
@@ -60,6 +62,7 @@ const App = () => {
     const soundMap: {[key: number]: string} = {} 
 
     const playOnce = async(): Promise<any> => {
+        isPlaying = true
         for (let step=0;step<steps; step++) {
             currentStep = step
             const stepEvents = []
@@ -75,6 +78,7 @@ const App = () => {
             currentSleepTime = sleepTime(bpm)
             await sleep(currentSleepTime)
         }
+        isPlaying = false
     }
 
     const sequencesReducer = (sequences: Sequence[], action: Action) => {
@@ -190,7 +194,7 @@ const App = () => {
         onSoundSelectChange: changeSound,
         onBPMchange: changeBPM,
         getCurrentState: (): CurrentState => {
-            return {step: currentStep, sleepTime: currentSleepTime}
+            return {step: currentStep, sleepTime: currentSleepTime, isPlaying: isPlaying}
         }
     }
 
