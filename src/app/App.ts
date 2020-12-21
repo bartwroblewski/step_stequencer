@@ -83,10 +83,19 @@ const App = () => {
 
                 sequences[sequenceIndex][cellIndex] = cell ? null : event
                 return sequences
+
+            case 'ADD STEP':
+                steps += 1
+                return sequences.map(seq => seq.concat(null))
+
+            case 'REMOVE STEP':
+                steps -= 1
+                return sequences.map(seq => seq.slice(0, -1))
         }
         return sequences
     }
 
+    // reducers
     const addSequenceReducer = () => {
         return sequencesReducer(sequences, {type: 'ADD SEQUENCE'})
     }
@@ -99,6 +108,15 @@ const App = () => {
         return sequencesReducer(sequences, {type: 'TOGGLE CELL', payload: payload})
     }
 
+    const addStepReducer = () => {
+        return sequencesReducer(sequences, {type: 'ADD STEP'})
+    }
+
+    const removeStepReducer = () => {
+        return sequencesReducer(sequences, {type: 'REMOVE STEP'})
+    }
+
+    // handlers
     const addSequence = (): Sequence[] => {
         return sequences = addSequenceReducer()
     }
@@ -111,19 +129,21 @@ const App = () => {
         return sequences = toggleCellReducer(sequenceIndex, cellIndex)
     }
 
+    const addStep = () => {
+        return sequences = addStepReducer()
+    }
+
+    const removeStep = () => {
+        return sequences = removeStepReducer()
+    }
+
     const UIHandlers: UIHandlers = {
         onAddSequence: addSequence,
         onRemoveSequence: removeSequence,
         onCellClick: toggleCell,
-        onAddStep: () => {
-            steps += 1
-            return sequences = sequences.map(seq => seq.concat(null))
-        },
-        onRemoveStep: () => {
-            steps -= 1
-            return sequences = sequences.map(seq => seq.slice(0, -1))
-        },
-        onPlay: () => playOnce(),
+        onAddStep: addStep,
+        onRemoveStep: removeStep,
+        onPlay: playOnce,
         onSoundSelectChange: (soundName: string, pitch: number, sequenceIndex: number) => {
             soundMap[sequenceIndex] = soundName + pitch
             const sequence = sequences[sequenceIndex]
