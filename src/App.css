@@ -2,6 +2,16 @@ body {
     background: black;
 }
 
+.sequencer-controls {
+    margin-bottom: 10px;
+}
+
+.sequencer-controls > * {
+    background: none;
+    color: silver;
+    margin-right: 10px;
+}
+
 .sequencer-row {
     display: flex;
     align-items: center;
@@ -13,11 +23,4 @@ body {
 
 .silver {
     color: silver;
-}
-
-button {
-    background: none;
-    color: silver;
-    margin-right: 10px;
-    margin-bottom: 10px;
 }

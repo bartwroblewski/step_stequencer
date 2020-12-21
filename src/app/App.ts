@@ -1,6 +1,6 @@
 import { Event } from './Event'
 import { Sequence, makeSequence } from './Sequence'
-import { Sound } from './Sound'
+import { Sound, soundNames } from './Sound'
 import { sleep } from './Event'
 import * as Tone from 'tone'
 
@@ -43,7 +43,6 @@ const sleepTime = ((60 /bpm) / 4) * 1000 // works for 16th notes
 let steps = 16
 
 const synth = new Tone.Synth().toDestination()
-const soundNames: string[] = ['C', 'D', 'E', 'F', 'G', 'B']
 const defaultSound = {name: 'D', pitch: 4}
 const soundMap: {[key: number]: string} = {} // keeps track of sounds mapped to sequences. Updated on UI sound select change
 const playSound: Event = (sound: Sound) => synth.triggerAttackRelease(sound[0], sound[1])

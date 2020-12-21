@@ -82,14 +82,19 @@ const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultSound}:
     </div>
 
   return (
-    <div>
-      <button onClick={handlePlay}>Play</button>
-      <button onClick={handleAddSequence}>Add sequence</button>
-      <button onClick={() => handleRemoveSequence(seqs.length - 1)}>Remove sequence</button>
-      Steps
-      <button onClick={handleAddStep}>+</button>
-      <button onClick={handleRemoveStep}>-</button>
-      <div className="sequencer">
+    <div className="sequencer">
+      <div className="sequencer-controls">
+        <button onClick={handlePlay}>Play</button>
+    
+        <label className="silver">Sequences</label>
+        <button onClick={handleAddSequence}>+</button>
+        <button onClick={() => handleRemoveSequence(seqs.length - 1)}>-</button>
+
+        <label className="silver">Steps</label>
+        <button onClick={handleAddStep}>+</button>
+        <button onClick={handleRemoveStep}>-</button>
+      </div>
+      <div className="sequencer-rows">
         {seqs.map((seq, seqIndex) => 
           <div className="sequencer-row">
             <SoundSelect
