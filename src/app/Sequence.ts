@@ -1,4 +1,4 @@
-import Event, { sleep } from './Event'
+import Event from './Event'
 
 export type Sequence = Event[]
 
