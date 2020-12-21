@@ -44,7 +44,7 @@ const App = () => {
     const defaultMelody = [0, 4, 8, 10, 12, 16, 18, 20, 22, 26, 28]
     defaultMelody.forEach(cellIndex => sequences[0][cellIndex] = playDefaultSound)
 
-    Tone.Transport.bpm.value = bpm;
+    //Tone.Transport.bpm.value = bpm;
     Tone.start()
 
     // keeps track of sounds mapped to sequences. Updated on UI sound select change
@@ -62,7 +62,7 @@ const App = () => {
             for (const stepEvent of stepEvents) {
                 stepEvent()
             }
-            await sleep(sleepTime)
+            await sleep(sleepTime(bpm))
         }
     }
 
