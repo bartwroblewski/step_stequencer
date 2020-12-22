@@ -78,12 +78,12 @@ const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultSound, 
         <button onClick={handleStop}>Stop</button>
     
         <label className="silver">Sequences</label>
-        <button onClick={handleAddSequence}>+</button>
-        <button onClick={() => handleRemoveSequence(seqs.length - 1)}>-</button>
+        <button onClick={handleAddSequence} className='plusminus'>+</button>
+        <button onClick={() => handleRemoveSequence(seqs.length - 1)} className="plusminus">-</button>
 
         <label className="silver">Steps</label>
-        <button onClick={handleAddStep}>+</button>
-        <button onClick={handleRemoveStep}>-</button>
+        <button onClick={handleAddStep} className="plusminus">+</button>
+        <button onClick={handleRemoveStep} className="plusminus">-</button>
 
         <label>Tempo</label>
         <input 

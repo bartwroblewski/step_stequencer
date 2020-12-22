@@ -77,8 +77,11 @@ const App = () => {
             for (const stepEvent of stepEvents) {
                 stepEvent()
             }
+
             currentSleepTime = sleepTime(bpm)
-            await sleep(currentSleepTime)
+            if (!(step === steps)) {  // do not sleep after last step
+                await sleep(currentSleepTime)
+            }
         }
         isPlaying = false
     }

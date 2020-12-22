@@ -47,3 +47,7 @@ body {
 .grid-cell.filled.active {
     background: greenyellow;
 }
+
+.plusminus {
+    width: 35px;
+}
