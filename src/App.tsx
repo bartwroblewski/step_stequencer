@@ -54,7 +54,6 @@ const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultSound, 
   
   const handlePlay = () => {
     handlers.onPlay()
-
     // Fix sleep time either to backend state or - if first step - to 0.
     const partialInterval = (f: () => void) =>
       setInterval(f, playing 
@@ -66,13 +65,17 @@ const App: React.FC<UIProps> = ({handlers, sequences, soundNames, defaultSound, 
       setPlaying(isPlaying)
       setCurrentStep(handlers.getCurrentState().step)
     })
+  }
 
+  const handleStop = () => {
+    handlers.onStop()
   }
 
   return (
     <div className="sequencer">
       <div className="sequencer-controls">
         <button onClick={handlePlay}>Play</button>
+        <button onClick={handleStop}>Stop</button>
     
         <label className="silver">Sequences</label>
         <button onClick={handleAddSequence}>+</button>

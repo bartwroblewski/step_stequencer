@@ -17,6 +17,7 @@ interface UIHandlers {
     onAddStep: () => Sequence[]
     onRemoveStep: () => Sequence[]
     onPlay: () => void
+    onStop: () => void
     onSoundSelectChange: (soundName: string, pitch: number, sequenceIndex: number) => Sequence[]
     onBPMchange: (bpm: number) => void
     getCurrentState: () => CurrentState
@@ -48,6 +49,7 @@ const App = () => {
     let bpm = 140
     let steps = 32
     let isPlaying: boolean = false
+    let isLooping: boolean = false
     let currentStep: number = 0
     let currentSleepTime: number = sleepTime(bpm)
     let defaultSequences = 4
@@ -80,6 +82,22 @@ const App = () => {
         }
         isPlaying = false
     }
+
+    const loop = async() => {
+        if (isLooping) {
+            await playOnce()
+            loop()
+        }
+    }
+
+    const play = () =>  {
+        if (!isPlaying) {
+            isLooping = !isLooping
+            loop()
+        }   
+    }
+
+    const stop = () => isLooping = false
 
     const sequencesReducer = (sequences: Sequence[], action: Action) => {
         let sequenceIndex: number
@@ -190,7 +208,8 @@ const App = () => {
         onCellClick: toggleCell,
         onAddStep: addStep,
         onRemoveStep: removeStep,
-        onPlay: playOnce,
+        onPlay: play,
+        onStop: stop,
         onSoundSelectChange: changeSound,
         onBPMchange: changeBPM,
         getCurrentState: (): CurrentState => {
