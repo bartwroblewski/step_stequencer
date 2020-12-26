@@ -4,6 +4,23 @@ interface Action {
     type: string,
 }
 
+interface Database {
+    putValue():
+    getValue()
+}
+
+class AppState {
+    state1: string,
+    constructor
+}
+
+let foo = new AppState()
+
+class ImmutableApp {
+    const add (): ImmuatableApp();
+    
+}
+
 const App = () => {
 
     let arr = [1, 2, 3, 4]
