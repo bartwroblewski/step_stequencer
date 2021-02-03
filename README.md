@@ -10,7 +10,7 @@ Live version [here](https://reactstepsequencer.herokuapp.com).
 
 Place sounds on the grid to create a melody.
 
-Change sounds, pitches and tempo as desired.
+Change sounds, pitches, tempo and grid size as desired.
 
 ## Technology stack
 
