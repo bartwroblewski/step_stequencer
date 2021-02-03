@@ -14,7 +14,7 @@ Change sounds, pitches, tempo and grid size as desired.
 
 ## Technology stack
 
-TypeScript with React hooks for interface and looping.
+TypeScript with React hooks for interface and logic/looping.
 
 Tone.js for synthesizing the sounds.
 
