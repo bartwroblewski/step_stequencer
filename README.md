@@ -6,7 +6,7 @@ A musical step sequencer.
 
 # Usage
 
-Live version [here](https://reactstepsequencer.herokuapp.com).
+~~Live version [here](https://reactstepsequencer.herokuapp.com).~~
 
 Place sounds on the grid to create a melody.
 
